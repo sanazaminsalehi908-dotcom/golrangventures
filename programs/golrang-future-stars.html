@@ -1,0 +1,251 @@
+<title>ستارگان آینده گلرنگ</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: right-aligned RTL timeline. A glowing rail runs down the right edge, step badges sit on it, and every card hangs off it to the left. Single deep-space theme on purpose. */
+:root {
+  --space: #071433;
+  --space-deep: #040b22;
+  --card: rgba(10, 30, 70, 0.72);
+  --ink: #eaf6ff;
+  --muted: #9fb6d6;
+  --glow: #2ee6ff;
+  --glow-soft: rgba(46, 230, 255, 0.35);
+  --mint: #57f2c8;
+  --font-display: "Lalezar", "Vazirmatn", Tahoma, sans-serif;
+  --font-body: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 88% 6%, rgba(46, 140, 255, 0.28), transparent 22rem),
+    radial-gradient(circle at 6% 70%, rgba(46, 230, 255, 0.12), transparent 26rem),
+    linear-gradient(180deg, var(--space) 0%, var(--space-deep) 100%);
+  background-color: var(--space-deep);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.8;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 56px;
+  min-height: 100%;
+}
+.wrap { max-width: 760px; margin-inline: auto; display: grid; gap: 36px; text-align: right; }
+
+/* Header */
+header { display: grid; gap: 10px; }
+.eyebrow { font-family: var(--font-display); color: var(--glow); font-size: 1.5rem; line-height: 1.2; margin: 0; }
+h1 {
+  font-family: var(--font-display); font-weight: 400; margin: 0;
+  font-size: clamp(2.4rem, 8vw, 4rem); line-height: 1.15; text-wrap: balance;
+  text-shadow: 0 0 24px rgba(46, 230, 255, 0.25);
+}
+.tagline { margin: 0; color: var(--muted); font-size: 1.05rem; }
+.lookahead {
+  margin: 6px 0 0; font-weight: 800; font-size: 1.15rem; line-height: 1.6;
+  padding-bottom: 6px; border-bottom: 2px solid var(--glow); justify-self: start;
+}
+
+/* Facts row */
+.facts {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-block: 1px solid rgba(159, 182, 214, 0.25); padding-block: 16px;
+}
+.fact { display: flex; align-items: center; gap: 12px; padding-inline: 14px; min-width: 0; }
+.fact + .fact { border-inline-start: 1px solid rgba(159, 182, 214, 0.35); }
+.fact svg { flex: none; width: 34px; height: 34px; color: var(--glow); }
+.fact dl { margin: 0; min-width: 0; }
+.fact dt { color: var(--muted); font-size: 0.85rem; }
+.fact dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* Timeline */
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; position: relative; padding-inline-start: 58px; }
+.timeline::before {
+  content: ""; position: absolute; inset-block: 10px; inset-inline-start: 19px; width: 4px; border-radius: 4px;
+  background: linear-gradient(180deg, var(--glow), var(--mint));
+  box-shadow: 0 0 14px var(--glow-soft), 0 0 4px var(--glow);
+}
+.step { position: relative; }
+.badge {
+  position: absolute; inset-inline-start: -58px; top: 18px;
+  width: 42px; height: 42px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--space-deep); border: 2px solid var(--glow); color: var(--glow);
+  font-weight: 800; font-size: 1.05rem; box-shadow: 0 0 12px var(--glow-soft);
+}
+.card {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 16px;
+  background: var(--card); border: 1px solid rgba(46, 230, 255, 0.4); border-radius: 22px;
+  padding: 14px 18px; box-shadow: inset 0 0 18px rgba(46, 230, 255, 0.08);
+}
+.card h2 { margin: 0; font-size: 1.12rem; font-weight: 800; line-height: 1.5; }
+.card p { margin: 2px 0 0; color: var(--muted); font-size: 0.93rem; }
+.icon { width: 44px; height: 44px; color: var(--glow); }
+.time {
+  display: grid; justify-items: center; gap: 0; min-width: 92px;
+  border: 1.5px solid rgba(46, 230, 255, 0.55); border-radius: 18px; padding: 6px 10px;
+  font-variant-numeric: tabular-nums; line-height: 1.45;
+}
+.time b { font-weight: 800; font-size: 1.02rem; }
+.time small { color: var(--muted); font-size: 0.78rem; }
+.step.final .card { border-color: var(--mint); box-shadow: 0 0 18px rgba(87, 242, 200, 0.25); }
+.step.final .badge { border-color: var(--mint); color: var(--mint); }
+.step.final h2, .step.final .icon { color: var(--mint); }
+
+/* Footer */
+footer { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
+.brand { display: grid; gap: 4px; }
+.brand .stars { color: var(--ink); font-size: 2.4rem; letter-spacing: 0.2em; line-height: 1; }
+.brand span { font-weight: 700; }
+.brand small { color: var(--muted); direction: ltr; text-align: right; letter-spacing: 0.04em; }
+.closing { margin: 0; font-weight: 800; font-size: 1.25rem; line-height: 1.6; border-bottom: 2px solid var(--glow); padding-bottom: 6px; }
+
+@media (max-width: 560px) {
+  .facts { grid-template-columns: 1fr; gap: 12px; }
+  .fact + .fact { border-inline-start: 0; }
+  .fact { padding-inline: 0; }
+  .timeline { padding-inline-start: 48px; }
+  .timeline::before { inset-inline-start: 15px; }
+  .badge { inset-inline-start: -48px; width: 36px; height: 36px; font-size: 0.95rem; }
+  .card { grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 12px 14px; }
+  .card .icon { display: none; }
+  .time { min-width: 0; justify-self: start; display: flex; align-items: baseline; gap: 10px; padding: 3px 12px; border-radius: 12px; }
+}
+</style>
+
+<div class="wrap" dir="rtl" lang="fa">
+  <header>
+    <p class="eyebrow">برنامه کلی</p>
+    <h1>ستارگان آینده گلرنگ</h1>
+    <p class="tagline">مسیر امروز، ستاره‌های فردا را می‌سازد.</p>
+    <p class="lookahead">از همین‌جا به آینده نگاه کنیم…</p>
+  </header>
+
+  <section class="facts" aria-label="مشخصات برنامه">
+    <div class="fact">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <dl><dt>زمان برگزاری</dt><dd>۱۱:۰۰ تا ۱۳:۴۰</dd></dl>
+    </div>
+    <div class="fact">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.6 0 4.5 1.8 4.5 4.5"/></svg>
+      <dl><dt>مخاطب</dt><dd>دانشجویان</dd></dl>
+    </div>
+    <div class="fact">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.8 6.6 19.7l1.1-6.1-4.5-4.2 6.1-.8z"/></svg>
+      <dl><dt>مدت کل برنامه</dt><dd>۲ ساعت و ۴۰ دقیقه</dd></dl>
+    </div>
+  </section>
+
+  <ol class="timeline">
+    <li class="step">
+      <span class="badge">۱</span>
+      <div class="card">
+        <div><h2>معارفه و خوشامدگویی</h2><p>معرفی برنامه، اهداف و نحوه مشارکت در فعالیت‌ها</p></div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.6 0 4.5 1.8 4.5 4.5"/></svg>
+        <div class="time"><b>۱۱:۰۰ – ۱۱:۰۵</b><small>۵ دقیقه</small></div>
+      </div>
+    </li>
+    <li class="step">
+      <span class="badge">۲</span>
+      <div class="card">
+        <div><h2>نمایش فیلم اول</h2><p>تماشای یک فیلم ۱۰ دقیقه‌ای برای شروع مسیر</p></div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M10 9.5v5l4.5-2.5z"/></svg>
+        <div class="time"><b>۱۱:۰۵ – ۱۱:۱۵</b><small>۱۰ دقیقه</small></div>
+      </div>
+    </li>
+    <li class="step">
+      <span class="badge">۳</span>
+      <div class="card">
+        <div><h2>طرح سؤال و جمع‌آوری پاسخ‌ها</h2><p>طرح چند سؤال و دریافت پاسخ‌های دانشجویان</p></div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a8.5 8.5 0 0 0-7.4 12.7L3.5 20.5l4.8-1.1A8.5 8.5 0 1 0 12 3z"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5v.3"/><path d="M12 16.2v.1"/></svg>
+        <div class="time"><b>۱۱:۱۵ – ۱۱:۲۰</b><small>۵ دقیقه</small></div>
+      </div>
+    </li>
+    <li class="step">
+      <span class="badge">۴</span>
+      <div class="card">
+        <div><h2>نمایش پاسخ‌ها و تدریس</h2><p>نمایش نظرات دانشجویان و گفت‌وگو و تدریس بر پایه پاسخ‌ها</p></div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="12" height="9" rx="1"/><circle cx="5" cy="7" r="2"/><path d="M3 15v-3a2 2 0 0 1 2-2h1l4 2"/><circle cx="6" cy="18" r="1.5"/><circle cx="12" cy="18" r="1.5"/><circle cx="18" cy="18" r="1.5"/><path d="M3.5 22c.4-1.2 1.4-2 2.5-2s2.1.8 2.5 2M9.5 22c.4-1.2 1.4-2 2.5-2s2.1.8 2.5 2M15.5 22c.4-1.2 1.4-2 2.5-2s2.1.8 2.5 2"/></svg>
+        <div class="time"><b>۱۱:۲۰ – ۱۱:۴۰</b><small>۲۰ دقیقه</small></div>
+      </div>
+    </li>
+    <li class="step">
+      <span class="badge">۵</span>
+      <div class="card">
+        <div><h2>نمایش فیلم دوم</h2><p>تماشای یک فیلم ۱۵ دقیقه‌ای دیگر</p></div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M10 9.5v5l4.5-2.5z"/></svg>
+        <div class="time"><b>۱۱:۴۰ – ۱۱:۵۵</b><small>۱۵ دقیقه</small></div>
+      </div>
+    </li>
+    <li class="step">
+      <span class="badge">۶</span>
+      <div class="card">
+        <div><h2>طرح و حل گروهی معما</h2><p>حل یک معما به صورت گروهی توسط دانشجویان</p></div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 6.5a2 2 0 1 1 4 0c0 .8-.6 1.2-1.2 1.6-.5.3-.8.7-.8 1.2"/><path d="M12 11.2v.1"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/><circle cx="12" cy="15" r="2"/><path d="M2.5 20c.4-2 1.8-3.5 3.5-3.5S9.1 18 9.5 20M14.5 20c.4-2 1.8-3.5 3.5-3.5s3.1 1.5 3.5 3.5M8.5 22c.4-2 1.8-3.5 3.5-3.5s3.1 1.5 3.5 3.5"/></svg>
+        <div class="time"><b>۱۱:۵۵ – ۱۲:۰۵</b><small>۱۰ دقیقه</small></div>
+      </div>
+    </li>
+    <li class="step">
+      <span class="badge">۷</span>
+      <div class="card">
+        <div><h2>تدریس و توضیحات معما</h2><p>ارائه توضیحات و جمع‌بندی مفاهیم مرتبط</p></div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="10" y="3" width="11" height="8" rx="1"/><circle cx="6" cy="6" r="2"/><path d="M6 9v12M3.5 21V12a2.5 2.5 0 0 1 2.5-2.5h1.5L11 12"/><path d="M8.5 21v-7"/></svg>
+        <div class="time"><b>۱۲:۰۵ – ۱۲:۲۰</b><small>۱۵ دقیقه</small></div>
+      </div>
+    </li>
+    <li class="step">
+      <span class="badge">۸</span>
+      <div class="card">
+        <div><h2>آنتراک</h2><p>استراحت و تجدید انرژی</p></div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h13v4a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H16.5"/><path d="M8 3c-.7.8-.7 1.7 0 2.5M11 3c-.7.8-.7 1.7 0 2.5M14 3c-.7.8-.7 1.7 0 2.5"/></svg>
+        <div class="time"><b>۱۲:۲۰ – ۱۲:۳۵</b><small>۱۵ دقیقه</small></div>
+      </div>
+    </li>
+    <li class="step">
+      <span class="badge">۹</span>
+      <div class="card">
+        <div><h2>بازی گروهی</h2><p>اجرای بازی گروهی و رقابتی</p></div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10a5 5 0 0 1 4.8 6.3l-.9 3.4a2.4 2.4 0 0 1-4.1 1L14.5 15h-5l-2.3 2.7a2.4 2.4 0 0 1-4.1-1l-.9-3.4A5 5 0 0 1 7 7z"/><path d="M7.5 10v3M6 11.5h3"/><path d="M15.5 11h.01M17.5 12.5h.01"/></svg>
+        <div class="time"><b>۱۲:۳۵ – ۱۳:۰۵</b><small>۳۰ دقیقه</small></div>
+      </div>
+    </li>
+    <li class="step">
+      <span class="badge">۱۰</span>
+      <div class="card">
+        <div><h2>بررسی نتایج بازی و تدریس</h2><p>ارائه نتایج، گفت‌وگو و تدریس براساس تجربه بازی</p></div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4.5a2.5 2.5 0 0 0 2.6 4M17 6h2.5a2.5 2.5 0 0 1-2.6 4"/><path d="M12 14v4M8.5 21h7M9.5 18h5"/></svg>
+        <div class="time"><b>۱۳:۰۵ – ۱۳:۲۵</b><small>۲۰ دقیقه</small></div>
+      </div>
+    </li>
+    <li class="step">
+      <span class="badge">۱۱</span>
+      <div class="card">
+        <div><h2>توضیح مسیر ادامه</h2><p>ارائه مسیر پیش رو و فرصت‌های ادامه راه</p></div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a4.5 4.5 0 0 0-4.5 4.5c0 3.2 4.5 7.5 4.5 7.5s4.5-4.3 4.5-7.5A4.5 4.5 0 0 0 12 3z"/><circle cx="12" cy="7.5" r="1.5"/><path d="M7 13l-4 1.5v6.5l6-2 6 2 6-2v-6.5L17 13"/><path d="M9 19v-4M15 21v-4"/></svg>
+        <div class="time"><b>۱۳:۲۵ – ۱۳:۴۰</b><small>۱۵ دقیقه</small></div>
+      </div>
+    </li>
+    <li class="step final">
+      <span class="badge">۱۲</span>
+      <div class="card">
+        <div><h2>ناهار</h2><p>زمان استراحت و صرف ناهار</p></div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v7a2 2 0 0 0 2 2v9M10 3v7a2 2 0 0 1-2 2M8 3v5"/><path d="M17 21V3c-2 1-3.5 3.5-3.5 7v3H17"/></svg>
+        <div class="time"><b>از ۱۳:۴۰</b><small>پایان برنامه</small></div>
+      </div>
+    </li>
+  </ol>
+
+  <footer>
+    <p class="closing">با هم برای ساختن فردای بهتر</p>
+    <div class="brand">
+      <div class="stars" aria-hidden="true">✱✱✱</div>
+      <span>ستارگان آینده گلرنگ</span>
+      <small>GolrangFutureStars</small>
+    </div>
+  </footer>
+</div>

@@ -1,0 +1,468 @@
+<title>قواعد همکاری با GFS</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;500;700&display=swap">
+<style>
+/* Layout: one reading column; scope in/out/conditional, a fit-check tool, two-sided commitments, intake steps, decision table and escalation ladder. RTL throughout. Tokens shared with journeys/golrang-innovation-award.html. */
+:root {
+  --bg: #f5f6f2;
+  --surface: #ffffff;
+  --ink: #1c2420;
+  --muted: #5d6862;
+  --line: #dde2dc;
+  --accent: #b3263a;      /* pomegranate */
+  --accent-soft: #f6e3e5;
+  --teal: #1d6a64;
+  --teal-soft: #dfeeec;
+  --blank: #8a5a00;
+  --blank-soft: #fbf1dc;
+  --pos: #2f7d4f;
+  --pos-soft: #e3f1e8;
+  --font-display: "Lalezar", "Vazirmatn", Tahoma, sans-serif;
+  --font-body: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131815; --surface: #1b211e; --ink: #e7ece8; --muted: #a2ada6; --line: #2d3531;
+    --accent: #ec6a7b; --accent-soft: #3a2026; --teal: #6cc2b9; --teal-soft: #1b3330;
+    --blank: #e8b85c; --blank-soft: #33291a; --pos: #6fcf96; --pos-soft: #1a3324; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #131815; --surface: #1b211e; --ink: #e7ece8; --muted: #a2ada6; --line: #2d3531;
+  --accent: #ec6a7b; --accent-soft: #3a2026; --teal: #6cc2b9; --teal-soft: #1b3330;
+  --blank: #e8b85c; --blank-soft: #33291a; --pos: #6fcf96; --pos-soft: #1a3324; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.8;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 72px;
+}
+.wrap { max-width: 960px; margin-inline: auto; display: grid; gap: 52px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; font-weight: 400; }
+h1 { font-family: var(--font-display); font-size: clamp(2rem, 5.4vw, 3.1rem); line-height: 1.3; }
+h1 em { font-style: normal; color: var(--accent); }
+h2 { font-family: var(--font-display); font-size: 1.7rem; line-height: 1.35; }
+h3 { font-size: 1.02rem; font-weight: 700; }
+p { margin: 0; }
+ul { margin: 0; padding-inline-start: 1.2em; display: grid; gap: 4px; }
+section { display: grid; gap: 18px; min-width: 0; }
+.lede { max-width: 66ch; color: var(--muted); font-size: 1.05rem; }
+.sub { max-width: 68ch; color: var(--muted); }
+header { display: grid; gap: 14px; }
+.eyebrow { font-size: .82rem; color: var(--teal); font-weight: 700; letter-spacing: .02em; }
+.note {
+  border: 1px dashed var(--line); border-radius: 10px; padding: 12px 16px;
+  color: var(--muted); font-size: .9rem; max-width: 82ch;
+}
+.note b { color: var(--ink); }
+
+/* proposed values to confirm or replace */
+.blank {
+  background: var(--blank-soft); color: var(--blank);
+  border-bottom: 1.5px dashed var(--blank); border-radius: 3px;
+  padding-inline: 3px; font-weight: 500;
+}
+
+nav.toc { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .9rem; }
+nav.toc a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); }
+nav.toc a:hover, nav.toc a:focus-visible { color: var(--teal); border-color: var(--teal); outline: none; }
+
+/* what GFS is */
+.whatis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 32px; }
+.whatis div { display: grid; gap: 4px; align-content: start; border-top: 2px solid var(--ink); padding-top: 10px; }
+.whatis p { color: var(--muted); }
+
+/* scope */
+.scope { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.col { border-radius: 14px; padding: 20px; display: grid; gap: 14px; align-content: start; }
+.col.in { background: var(--pos-soft); }
+.col.out { background: var(--accent-soft); }
+.col > h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; }
+.col.in > h3 { color: var(--pos); }
+.col.out > h3 { color: var(--accent); }
+.items { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.items li { display: grid; gap: 2px; }
+.items b { font-weight: 700; }
+.items span { color: var(--muted); font-size: .93rem; }
+.items .eg { font-size: .88rem; color: var(--muted); }
+.items .eg::before { content: "مثال: "; font-weight: 700; color: var(--ink); }
+.cond { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 14px; }
+.cond > h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; color: var(--blank); }
+.cond .items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 28px; }
+
+/* fit check */
+.fit { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 16px; }
+.qs { list-style: none; margin: 0; padding: 0; display: grid; }
+.q { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 16px; align-items: center; padding-block: 10px; border-top: 1px solid var(--line); }
+.q:first-child { border-top: 0; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label { padding: 4px 14px; cursor: pointer; font-size: .9rem; color: var(--muted); }
+.seg input:checked + label { background: var(--ink); color: var(--bg); }
+.seg input:focus-visible + label { outline: 2px solid var(--teal); outline-offset: -2px; }
+.verdict { border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; background: var(--bg); }
+.verdict h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; }
+.verdict[data-v="yes"] { background: var(--pos-soft); } .verdict[data-v="yes"] h3 { color: var(--pos); }
+.verdict[data-v="cond"] { background: var(--blank-soft); } .verdict[data-v="cond"] h3 { color: var(--blank); }
+.verdict[data-v="no"] { background: var(--accent-soft); } .verdict[data-v="no"] h3 { color: var(--accent); }
+.fit-actions { display: flex; justify-content: flex-end; }
+.linkbtn { font: inherit; font-size: .88rem; background: none; border: 0; color: var(--teal); cursor: pointer; text-decoration: underline; padding: 0; }
+.linkbtn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+/* steps */
+.cycle { list-style: none; padding: 0; margin: 0; display: grid; counter-reset: step; }
+.cycle li {
+  counter-increment: step; display: grid; grid-template-columns: 44px minmax(0, 1fr);
+  gap: 4px 16px; padding-block: 14px; border-top: 1px solid var(--line);
+}
+.cycle li::before {
+  content: counter(step, persian); grid-row: span 3;
+  font-family: var(--font-display); font-size: 1.6rem; line-height: 1.2; color: var(--accent);
+}
+.cycle .meta { font-size: .88rem; color: var(--teal); font-weight: 500; }
+.cycle .rule { color: var(--muted); }
+.cycle .rule b { color: var(--ink); font-weight: 500; }
+
+/* tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: .93rem; }
+th, td { text-align: start; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+thead th { font-size: .82rem; color: var(--muted); font-weight: 700; letter-spacing: .02em; background: var(--bg); }
+td:first-child { font-weight: 500; }
+td.num { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* escalation ladder */
+.ladder { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.ladder li {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 16px; display: grid; gap: 4px; align-content: start;
+}
+.ladder .lvl { font-size: .8rem; font-weight: 700; color: var(--teal); letter-spacing: .02em; }
+.ladder .deadline { font-size: .88rem; color: var(--muted); }
+.side-path {
+  border-inline-start: 3px solid var(--accent); background: var(--accent-soft);
+  border-radius: 10px 0 0 10px; padding: 12px 16px;
+}
+
+/* checklist */
+.checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.checklist label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+.checklist input { margin-top: .45em; accent-color: var(--teal); width: 1.05rem; height: 1.05rem; flex: none; }
+.checklist input:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.checklist input:checked + span { color: var(--muted); text-decoration: line-through; }
+.progress { font-size: .88rem; color: var(--teal); font-weight: 700; }
+
+footer { color: var(--muted); font-size: .88rem; border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 8px; }
+
+@media (max-width: 720px) {
+  .whatis, .scope, .cond .items, .ladder { grid-template-columns: minmax(0, 1fr); }
+  .q { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  nav.toc a, .seg label { transition: background-color .15s, color .15s, border-color .15s; }
+}
+</style>
+
+<div class="wrap" dir="rtl" lang="fa">
+
+<header>
+  <div class="eyebrow">گلرنگ ونچرز · قواعد همکاری · پیش‌نویس ۰٫۲ · ۲۷ مهر ۱۴۰۵</div>
+  <h1>قواعد همکاری با <em>ستارگان آیندهٔ گلرنگ</em></h1>
+  <p class="lede">این سند برای هلدینگ‌ها، شرکت‌ها و سازمان‌هایی است که می‌خواهند با برنامهٔ GFS گلرنگ ونچرز همکاری کنند. در آن آمده است که GFS وارد چه پروژه‌هایی می‌شود و وارد چه پروژه‌هایی نمی‌شود، هر طرف چه چیزی می‌گذارد و همکاری از درخواست تا تحویل چطور پیش می‌رود.</p>
+  <p class="note"><b>این یک پیش‌نویس است.</b> عددها و نام‌هایی که <span class="blank">این‌طور</span> مشخص شده‌اند پیشنهادی‌اند و گلرنگ ونچرز باید آن‌ها را تأیید یا جایگزین کند. <span id="blank-count"></span></p>
+  <nav class="toc" aria-label="فهرست">
+    <a href="#whatis">GFS چیست</a>
+    <a href="#scope">وارد می‌شویم / نمی‌شویم</a>
+    <a href="#fit">سنجش تناسب پروژه</a>
+    <a href="#commitments">سهم هر طرف</a>
+    <a href="#intake">مسیر همکاری</a>
+    <a href="#decisions">حق تصمیم</a>
+    <a href="#escalation">وقتی کار گیر می‌کند</a>
+    <a href="#comms">ارتباطات</a>
+    <a href="#checklist">پیش از شروع</a>
+  </nav>
+</header>
+
+<section id="whatis" aria-labelledby="h-whatis">
+  <h2 id="h-whatis">GFS در یک نگاه</h2>
+  <div class="whatis">
+    <div><h3>چه کسانی</h3><p>استعدادهای جوانی که گلرنگ ونچرز انتخاب کرده است. معمولاً فارغ‌التحصیلان تازه یا نیروهایی با <span class="blank">۰ تا ۳ سال</span> سابقه‌اند که با منتور و آموزش همراهی می‌شوند.</p></div>
+    <div><h3>چه می‌کنند</h3><p>روی پروژه‌های واقعی طرف‌های همکاری کار می‌کنند. هر پروژه در یک دورهٔ <span class="blank">۳ تا ۴ ماهه</span> انجام می‌شود و خروجی مشخصی دارد.</p></div>
+    <div><h3>چرا</h3><p>طرف همکاری مسئله‌اش را با نیروی تازه‌نفس و پشتیبانی GFS جلو می‌برد. ستاره هم تجربهٔ واقعی کسب‌وکار به دست می‌آورد.</p></div>
+  </div>
+</section>
+
+<section id="scope" aria-labelledby="h-scope">
+  <h2 id="h-scope">GFS وارد چه پروژه‌هایی می‌شود؟</h2>
+  <p class="sub">این مرزها برای این است که هم وقت طرف همکاری هدر نرود و هم ستاره‌ها کار واقعی یاد بگیرند، نه این‌که جای خالی نیروی انسانی را پر کنند.</p>
+  <div class="scope">
+    <div class="col in">
+      <h3>وارد می‌شویم</h3>
+      <ul class="items">
+        <li><b>کشف و آزمون فرصت تازه</b><span>بازار، محصول، کانال فروش یا مدل کسب‌وکار جدید که هنوز کسی وقت بررسی‌اش را نداشته است.</span><span class="eg">بررسی امکان ورود یک برند به یک کانال فروش آنلاین.</span></li>
+        <li><b>بهبود فرایند و کاهش هزینه</b><span>مسئلهٔ عملیاتی که با تحلیل و آزمون، قابل اندازه‌گیری بهتر شود.</span><span class="eg">کاهش ضایعات یک خط بسته‌بندی.</span></li>
+        <li><b>داده و تحلیل</b><span>جمع‌کردن و تحلیل داده برای یک تصمیم مشخص.</span><span class="eg">مدل سادهٔ پیش‌بینی تقاضا برای چند کالای پرفروش.</span></li>
+        <li><b>طراحی و اجرای پایلوت</b><span>آزمون کوچک و کنترل‌شدهٔ یک ایده پیش از سرمایه‌گذاری بزرگ.</span><span class="eg">پایلوت یک خدمت جدید در یک شهر یا یک فروشگاه.</span></li>
+        <li><b>همکاری با استارتاپ‌ها</b><span>ارزیابی و همراهی پایلوت استارتاپی که می‌خواهد با یک شرکت گروه کار کند.</span><span class="eg">آماده‌سازی و پیگیری پایلوت یکی از تیم‌های جایزهٔ نوآوری.</span></li>
+        <li><b>تحقیق بازار و رقبا</b><span>پاسخ به یک سؤال مشخص دربارهٔ مشتری، رقیب یا روند بازار.</span><span class="eg">چرا مشتریان یک دسته‌کالا به برند رقیب رفته‌اند؟</span></li>
+      </ul>
+    </div>
+    <div class="col out">
+      <h3>وارد نمی‌شویم</h3>
+      <ul class="items">
+        <li><b>جایگزین نیروی ثابت یا کار روزمره</b><span>پرکردن جای خالی یک پست، کار اداری تکراری یا پشتیبانی عملیات جاری.</span></li>
+        <li><b>توجیه تصمیمی که گرفته شده</b><span>پروژه‌ای که نتیجه‌اش از قبل معلوم است و فقط گزارش یا مستند تأیید می‌خواهد.</span></li>
+        <li><b>کار نیازمند امضا یا مسئولیت رسمی</b><span>امضای اسناد مالی، حقوقی، فنی یا کیفیت (مثل اسناد GMP در صنعت دارو) و هر کاری که مسئولیت قانونی دارد.</span></li>
+        <li><b>موضوعات حساس منابع انسانی</b><span>ارزیابی عملکرد همکاران، طراحی تعدیل نیرو، بازرسی یا تحقیق دربارهٔ افراد.</span></li>
+        <li><b>پروژهٔ بی‌صاحب</b><span>پروژه‌ای که در طرف همکاری مدیری ندارد که وقت بگذارد و نتیجه را بپذیرد.</span></li>
+        <li><b>کار نمایشی</b><span>حضور برای عکس، رویداد یا گزارش بدون کار واقعی پشت آن.</span></li>
+        <li><b>تخصص دارای پروانه</b><span>نظر حقوقی، پزشکی، حسابرسی یا مهندسی رسمی که فقط از متخصص دارای صلاحیت پذیرفته است.</span></li>
+        <li><b>تعهد سرمایه‌گذاری</b><span>ورود GFS به یک پروژه به معنای تعهد مالی یا سرمایه‌گذاری گلرنگ ونچرز نیست.</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="cond">
+    <h3>با شرط وارد می‌شویم</h3>
+    <ul class="items">
+      <li><b>پروژهٔ بلندتر از یک دوره</b><span>اگر به فازهای ۳ تا ۴ ماهه شکسته شود و هر فاز خروجی مستقل داشته باشد.</span></li>
+      <li><b>محیط یا دادهٔ حساس</b><span>مثل سالن تولید، دادهٔ مالی یا دادهٔ مشتریان. شرطش آموزش پیش از ورود، تعهدنامهٔ محرمانگی و دسترسی در حد نیاز پروژه است.</span></li>
+      <li><b>پروژهٔ اجرایی</b><span>اگر ستاره عضو تیم اجرایی طرف همکاری باشد، نه تنها مجری کار.</span></li>
+      <li><b>پروژه با ذی‌نفعان بیرونی</b><span>مثل تأمین‌کننده، مشتری عمده یا نهاد نظارتی. ستاره فقط همراه نمایندهٔ رسمی طرف همکاری در این ارتباط‌ها حضور دارد.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="fit" aria-labelledby="h-fit">
+  <h2 id="h-fit">آیا پروژهٔ شما مناسب GFS است؟</h2>
+  <p class="sub">پیش از ثبت درخواست، به این هشت سؤال جواب دهید. نتیجه فقط یک برآورد اولیه است و تصمیم نهایی پس از بررسی تیم GFS گرفته می‌شود.</p>
+  <div class="fit">
+    <ol class="qs" id="qs"></ol>
+    <div class="verdict" id="verdict" aria-live="polite"></div>
+    <div class="fit-actions"><button class="linkbtn" type="button" id="fit-reset">پاک‌کردن پاسخ‌ها</button></div>
+  </div>
+</section>
+
+<section id="commitments" aria-labelledby="h-commitments">
+  <h2 id="h-commitments">سهم هر طرف</h2>
+  <p class="sub">این تعهدها پیش از شروع هر پروژه در یک توافق‌نامهٔ یک‌صفحه‌ای امضا می‌شود.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>موضوع</th><th>گلرنگ ونچرز (GFS)</th><th>طرف همکاری</th></tr></thead>
+      <tbody>
+        <tr><td>نیرو</td><td>انتخاب و معرفی ستاره‌ای متناسب با پروژه</td><td>پذیرش ستاره به‌عنوان عضو تیم، نه مهمان</td></tr>
+        <tr><td>صاحب پروژه</td><td>مدیر برنامه به‌عنوان نقطهٔ تماس</td><td>یک مدیر به‌عنوان صاحب پروژه، با حدود <span class="blank">۱ ساعت</span> وقت در هفته</td></tr>
+        <tr><td>تعریف پروژه</td><td>کمک به نوشتن پروژه با قالب استاندارد</td><td>مسئله، هدف قابل اندازه‌گیری و خروجی پایان دوره</td></tr>
+        <tr><td>دسترسی</td><td>آموزش ستاره دربارهٔ محرمانگی و قواعد رفتاری</td><td>داده، سامانه‌ها، فضای کار و آموزش‌های لازم محیط (ایمنی، کیفیت و مانند آن‌ها)</td></tr>
+        <tr><td>رشد ستاره</td><td>منتور، آموزش‌ها و پایش پیشرفت</td><td>بازخورد ماهانه و ارزیابی پایان پروژه</td></tr>
+        <tr><td>هزینه</td><td><span class="blank">جذب، آموزش، منتورینگ و هماهنگی برنامه</span></td><td><span class="blank">حقوق و مزایای ستاره در دورهٔ پروژه و هزینه‌های مستقیم اجرای پروژه</span></td></tr>
+        <tr><td>جایگزینی</td><td>جایگزینی ستاره ظرف <span class="blank">۳ هفته</span> اگر هم‌خوانی نداشت</td><td>اطلاع‌دادن مشکل در اولین فرصت، نه در پایان دوره</td></tr>
+        <tr><td>نتیجه</td><td>گزارش پایانی و درس‌آموخته‌ها</td><td>تصمیم دربارهٔ ادامه، توقف یا اجرای نتیجه</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note"><b>قواعد صنعت شما مقدم است.</b> اگر در صنعتی مثل دارو، غذا یا خدمات مالی کار می‌کنید، دستورالعمل‌های کیفیت، ایمنی و محرمانگی شما برای ستاره هم لازم‌الاجراست. GFS پیش از ورود ستاره این قواعد را با او مرور می‌کند.</p>
+</section>
+
+<section id="intake" aria-labelledby="h-intake">
+  <h2 id="h-intake">مسیر همکاری، از درخواست تا تحویل</h2>
+  <ol class="cycle">
+    <li>
+      <h3>ثبت درخواست</h3>
+      <div class="meta">مسئول: طرف همکاری</div>
+      <p class="rule">فرم یک‌صفحه‌ای پروژه را پر کنید: مسئله، چرا الان مهم است، خروجی مورد انتظار، صاحب پروژه و داده‌های در دسترس. <b>ثبت درخواست تا <span class="blank">۶ هفته</span> پیش از شروع دورهٔ بعد باز است.</b></p>
+    </li>
+    <li>
+      <h3>بررسی تناسب</h3>
+      <div class="meta">ظرف <span class="blank">۱۰ روز کاری</span> · مسئول: تیم GFS</div>
+      <p class="rule">تیم GFS پروژه را با مرزهای همین سند می‌سنجد و یکی از سه پاسخ را می‌دهد: پذیرفته، پذیرفته با اصلاح یا ردشده. <b>پاسخ رد همیشه دلیل مکتوب دارد.</b></p>
+    </li>
+    <li>
+      <h3>جلسهٔ تعریف دقیق</h3>
+      <div class="meta">۶۰ دقیقه · صاحب پروژه و تیم GFS</div>
+      <p class="rule">هدف، معیار موفقیت، دسترسی‌ها و نقطه‌های بازبینی نهایی می‌شود و توافق‌نامهٔ یک‌صفحه‌ای امضا می‌شود.</p>
+    </li>
+    <li>
+      <h3>معرفی ستاره</h3>
+      <div class="meta">مسئول: تیم GFS</div>
+      <p class="rule">GFS یک یا دو ستاره را معرفی می‌کند و صاحب پروژه پیش از شروع با آن‌ها گفتگو می‌کند. <b>صاحب پروژه می‌تواند یک بار معرفی را با ذکر دلیل نپذیرد.</b></p>
+    </li>
+    <li>
+      <h3>اجرا</h3>
+      <div class="meta"><span class="blank">۳ تا ۴ ماه</span> · مسئول: صاحب پروژه</div>
+      <p class="rule">جلسهٔ هفتگی صاحب پروژه و ستاره، گزارش پیشرفت دوهفته‌ای و بازبینی میانه با حضور تیم GFS.</p>
+    </li>
+    <li>
+      <h3>تحویل و جمع‌بندی</h3>
+      <div class="meta">۲ هفتهٔ پایانی · هر سه طرف</div>
+      <p class="rule">ارائهٔ نتیجه به صاحب پروژه، تحویل اسناد و داده‌ها، ارزیابی ستاره و ارزیابی همکاری. <b>هیچ پروژه‌ای بدون جلسهٔ تحویل بسته نمی‌شود.</b></p>
+    </li>
+  </ol>
+</section>
+
+<section id="decisions" aria-labelledby="h-decisions">
+  <h2 id="h-decisions">حق تصمیم</h2>
+  <p class="sub">برای هر تصمیم یک تصمیم‌گیرنده وجود دارد. دیگران نظر می‌دهند یا مطلع می‌شوند، ولی حق وتو ندارند.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>تصمیم</th><th>تصمیم‌گیرنده</th><th>مشورت با</th><th>مهلت</th></tr></thead>
+      <tbody>
+        <tr><td>پذیرش یا رد پروژه</td><td>تیم GFS</td><td>صاحب پروژه</td><td class="num">۱۰ روز کاری</td></tr>
+        <tr><td>انتخاب ستاره برای پروژه</td><td>تیم GFS</td><td>صاحب پروژه (یک بار حق رد)</td><td class="num">پیش از شروع</td></tr>
+        <tr><td>تغییر دامنهٔ پروژه</td><td>صاحب پروژه</td><td>تیم GFS، اگر پروژه از مرزهای این سند بیرون برود</td><td class="num">ثبت ظرف ۳ روز کاری</td></tr>
+        <tr><td>دسترسی به داده یا محیط حساس</td><td>مسئول همان داده یا محیط در طرف همکاری</td><td>صاحب پروژه</td><td class="num">پیش از شروع کار</td></tr>
+        <tr><td>جایگزینی یا خروج ستاره</td><td>تیم GFS</td><td>صاحب پروژه و ستاره</td><td class="num">۱۰ روز کاری</td></tr>
+        <tr><td>توقف زودهنگام پروژه</td><td>صاحب پروژه</td><td>تیم GFS</td><td class="num">اطلاع <span class="blank">۲ هفته</span> قبل</td></tr>
+        <tr><td>اجرای نتیجهٔ پروژه</td><td>طرف همکاری</td><td>تیم GFS</td><td class="num">پس از تحویل</td></tr>
+        <tr><td>انتشار بیرونی نام یا نتیجهٔ پروژه</td><td>هر دو طرف، کتبی</td><td>ستاره (دربارهٔ نام و عکس او)</td><td class="num">۵ روز کاری</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="escalation" aria-labelledby="h-escalation">
+  <h2 id="h-escalation">وقتی کار گیر می‌کند</h2>
+  <p class="sub">مشکل از پایین‌ترین پله شروع می‌شود و فقط وقتی مهلت هر پله بگذرد و مشکل حل نشده باشد، به پلهٔ بعد می‌رود.</p>
+  <ol class="ladder">
+    <li><span class="lvl">پلهٔ ۱</span><h3>گفتگوی مستقیم</h3><p>صاحب پروژه و ستاره در جلسهٔ هفتگی موضوع را صریح مطرح می‌کنند.</p><span class="deadline">مهلت: ۱ هفته</span></li>
+    <li><span class="lvl">پلهٔ ۲</span><h3>تیم GFS</h3><p>مدیر برنامهٔ GFS با صاحب پروژه و ستاره جلسهٔ سه‌جانبه می‌گذارد و راه‌حل را مکتوب می‌کند.</p><span class="deadline">مهلت: ۵ روز کاری برای تشکیل جلسه</span></li>
+    <li><span class="lvl">پلهٔ ۳</span><h3>مدیران ارشد</h3><p><span class="blank">مدیرعامل گلرنگ ونچرز</span> و مدیر ارشد طرف همکاری تصمیم نهایی را می‌گیرند. این تصمیم ممکن است توقف پروژه را هم شامل شود.</p><span class="deadline">مهلت: ۱۰ روز کاری</span></li>
+  </ol>
+  <p class="side-path"><b>مسیر مستقیم:</b> خطرهای ایمنی و کیفیت بی‌درنگ به مسئول همان حوزه در طرف همکاری گزارش می‌شوند. موارد رفتاری و اخلاقی هم مستقیم به <span class="blank">مسئول منابع انسانی گلرنگ ونچرز</span> می‌رسد. گزارش‌دهنده نباید به‌خاطر گزارش ضرری ببیند.</p>
+</section>
+
+<section id="comms" aria-labelledby="h-comms">
+  <h2 id="h-comms">ارتباطات</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>موضوع</th><th>کانال</th><th>زمان پاسخ</th></tr></thead>
+      <tbody>
+        <tr><td>ثبت درخواست پروژه</td><td><span class="blank">فرم درخواست GFS</span></td><td class="num">۱۰ روز کاری</td></tr>
+        <tr><td>هماهنگی روزمرهٔ پروژه</td><td><span class="blank">گروه پیام‌رسان پروژه</span></td><td class="num">تا پایان همان روز کاری</td></tr>
+        <tr><td>درخواست تصمیم یا تأیید</td><td>ایمیل با پیشوند «[GFS]» در عنوان</td><td class="num">۳ روز کاری</td></tr>
+        <tr><td>موضوع فوری (ایمنی، سلامت، اخلاق)</td><td>تماس تلفنی با مدیر برنامهٔ GFS و سپس ثبت در ایمیل</td><td class="num">همان روز</td></tr>
+        <tr><td>اسناد و گزارش‌ها</td><td><span class="blank">پوشهٔ مشترک پروژه</span></td><td class="num">صورت‌جلسه ظرف ۲۴ ساعت</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="checklist" aria-labelledby="h-checklist">
+  <h2 id="h-checklist">پیش از شروع پروژه</h2>
+  <p class="sub">صاحب پروژه این فهرست را دست‌کم یک هفته پیش از ورود ستاره کامل می‌کند. تیک‌ها فقط در مرورگر خودتان ذخیره می‌شوند. <span class="progress" id="check-progress"></span></p>
+  <ul class="checklist" id="checklist">
+    <li><label><input type="checkbox" id="c1"><span>توافق‌نامهٔ یک‌صفحه‌ای پروژه امضا شده است.</span></label></li>
+    <li><label><input type="checkbox" id="c2"><span>داده‌ها و دسترسی‌های لازم آماده است و مسئول هر کدام آن را تأیید کرده است.</span></label></li>
+    <li><label><input type="checkbox" id="c3"><span>آموزش‌های لازم محیط (ایمنی، کیفیت، محرمانگی) زمان‌بندی شده است.</span></label></li>
+    <li><label><input type="checkbox" id="c4"><span>میز کار، لپ‌تاپ و ایمیل آماده است.</span></label></li>
+    <li><label><input type="checkbox" id="c5"><span>جلسهٔ آشنایی روز اول و جلسه‌های هفتگی در تقویم ثبت شده‌اند.</span></label></li>
+    <li><label><input type="checkbox" id="c6"><span>تیم طرف همکاری از حضور ستاره و نقش او خبر دارد.</span></label></li>
+  </ul>
+</section>
+
+<footer>
+  <p>گلرنگ ونچرز این قواعد را هر <span class="blank">شش ماه</span> بازنگری می‌کند. پیشنهادهای طرف‌های همکاری برای تغییر آن از طریق تیم GFS ثبت می‌شود.</p>
+  <p>اگر این سند با قرارداد همکاری، آیین‌نامه‌های منابع انسانی یا دستورالعمل‌های داخلی طرف همکاری تعارض داشته باشد، قرارداد و دستورالعمل‌ها مقدم‌اند.</p>
+</footer>
+
+</div>
+
+<script>
+// fit check: each question has a "bad" answer and what that answer means
+const QUESTIONS = [
+  { id: "q1", text: "پروژه در سازمان شما صاحبی در سطح مدیر دارد که هر هفته وقت می‌گذارد؟", bad: "no", sev: "no", why: "پروژهٔ بی‌صاحب پذیرفته نمی‌شود. اول یک صاحب پروژه تعیین کنید." },
+  { id: "q2", text: "خروجی پروژه در ۳ تا ۴ ماه قابل تحویل و اندازه‌گیری است؟", bad: "no", sev: "cond", why: "پروژه را به فازهای ۳ تا ۴ ماهه با خروجی مستقل بشکنید." },
+  { id: "q3", text: "پروژه جای یک نیروی ثابت یا کار روزمره را پر می‌کند؟", bad: "yes", sev: "no", why: "GFS جایگزین نیروی ثابت یا کار روزمره نمی‌شود." },
+  { id: "q4", text: "نتیجه از قبل معلوم است و فقط گزارش یا مستند تأیید لازم است؟", bad: "yes", sev: "no", why: "GFS برای توجیه تصمیمی که گرفته شده وارد نمی‌شود." },
+  { id: "q5", text: "کار نیازمند امضا یا مسئولیت رسمی مالی، حقوقی، فنی یا کیفیت است؟", bad: "yes", sev: "no", why: "ستاره امضاکننده یا مسئول رسمی نمی‌شود. این بخش را از پروژه جدا کنید." },
+  { id: "q6", text: "پروژه دربارهٔ ارزیابی، تعدیل یا بازرسی کارکنان است؟", bad: "yes", sev: "no", why: "موضوعات حساس منابع انسانی بیرون از دامنهٔ GFS است." },
+  { id: "q7", text: "پروژه به محیط یا دادهٔ حساس نیاز دارد؟", bad: "yes", sev: "cond", why: "آموزش پیش از ورود، تعهدنامهٔ محرمانگی و دسترسی در حد نیاز لازم است." },
+  { id: "q8", text: "می‌توانید داده، دسترسی و فضای کار لازم را از روز اول فراهم کنید؟", bad: "no", sev: "no", why: "بدون داده و دسترسی، ستاره نمی‌تواند پروژه را جلو ببرد." }
+];
+
+const fa = n => String(n).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
+const qsEl = document.getElementById("qs");
+const verdictEl = document.getElementById("verdict");
+let answers = {};
+try { answers = JSON.parse(localStorage.getItem("gfs-fit") || "{}") || {}; } catch (e) {}
+
+QUESTIONS.forEach(q => {
+  const li = document.createElement("li");
+  li.className = "q";
+  li.innerHTML =
+    '<span id="' + q.id + '-t">' + q.text + '</span>' +
+    '<span class="seg" role="radiogroup" aria-labelledby="' + q.id + '-t">' +
+      '<input type="radio" name="' + q.id + '" id="' + q.id + '-yes" value="yes"><label for="' + q.id + '-yes">بله</label>' +
+      '<input type="radio" name="' + q.id + '" id="' + q.id + '-no" value="no"><label for="' + q.id + '-no">خیر</label>' +
+    '</span>';
+  qsEl.appendChild(li);
+  li.querySelectorAll("input").forEach(inp => {
+    if (answers[q.id] === inp.value) inp.checked = true;
+    inp.addEventListener("change", () => { answers[q.id] = inp.value; save(); render(); });
+  });
+});
+
+function save() { try { localStorage.setItem("gfs-fit", JSON.stringify(answers)); } catch (e) {} }
+
+function render() {
+  const answered = QUESTIONS.filter(q => answers[q.id]).length;
+  const hits = QUESTIONS.filter(q => answers[q.id] === q.bad);
+  const blockers = hits.filter(q => q.sev === "no");
+  const conds = hits.filter(q => q.sev === "cond");
+  let v, title, body;
+  if (blockers.length) {
+    v = "no"; title = "در شکل فعلی مناسب GFS نیست";
+    body = blockers.concat(conds);
+  } else if (answered < QUESTIONS.length) {
+    v = ""; title = fa(QUESTIONS.length - answered) + " سؤال مانده";
+    body = conds;
+  } else if (conds.length) {
+    v = "cond"; title = "با شرط مناسب است";
+    body = conds;
+  } else {
+    v = "yes"; title = "به نظر مناسب GFS است";
+    body = [];
+  }
+  verdictEl.dataset.v = v;
+  let html = "<h3>" + title + "</h3>";
+  if (body.length) html += "<ul>" + body.map(q => "<li>" + q.why + "</li>").join("") + "</ul>";
+  else if (v === "yes") html += "<p>فرم درخواست پروژه را پر کنید. تیم GFS ظرف ۱۰ روز کاری پاسخ می‌دهد.</p>";
+  else if (!v) html += "<p>با جواب‌دادن به همهٔ سؤال‌ها، برآورد اولیه را اینجا می‌بینید.</p>";
+  verdictEl.innerHTML = html;
+}
+
+document.getElementById("fit-reset").addEventListener("click", () => {
+  answers = {}; save();
+  qsEl.querySelectorAll("input").forEach(i => { i.checked = false; });
+  render();
+});
+render();
+
+// proposed values still to confirm
+const blanks = document.querySelectorAll(".wrap .blank").length - 1; // minus the legend sample in the note
+document.getElementById("blank-count").textContent = "در این نسخه " + fa(blanks) + " مقدار پیشنهادی هنوز تأیید نشده است.";
+
+// per-viewer checklist
+const boxes = [...document.querySelectorAll("#checklist input")];
+const progressEl = document.getElementById("check-progress");
+function updateProgress() {
+  const done = boxes.filter(b => b.checked).length;
+  progressEl.textContent = fa(done) + " از " + fa(boxes.length) + " انجام شده.";
+}
+let saved = {};
+try { saved = JSON.parse(localStorage.getItem("gfs-checklist") || "{}") || {}; } catch (e) {}
+boxes.forEach(b => {
+  b.checked = !!saved[b.id];
+  b.addEventListener("change", () => {
+    saved[b.id] = b.checked;
+    try { localStorage.setItem("gfs-checklist", JSON.stringify(saved)); } catch (e) {}
+    updateProgress();
+  });
+});
+updateProgress();
+</script>

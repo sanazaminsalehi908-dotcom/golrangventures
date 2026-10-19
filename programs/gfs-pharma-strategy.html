@@ -1,0 +1,377 @@
+<title>استراتژی GFS دارو</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: one RTL reading column; tables and diagrams carry the plan, prose stays short. Vazirmatn throughout. */
+:root {
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --ink: #18203a;
+  --muted: #5b6480;
+  --line: #dde1ec;
+  --line-strong: #9aa2b8;
+  --accent: #1e6fd9;        /* career path / main */
+  --accent-soft: rgba(30, 111, 217, 0.10);
+  --venture: #e2622b;       /* venture path */
+  --venture-soft: rgba(226, 98, 43, 0.10);
+  --font: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1424; --surface: #161d31; --ink: #e8ecf6; --muted: #a3acc4; --line: #2a3350; --line-strong: #6d7794;
+    --accent: #6aa8ff; --accent-soft: rgba(106, 168, 255, 0.14); --venture: #ff9a6b; --venture-soft: rgba(255, 154, 107, 0.14);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1424; --surface: #161d31; --ink: #e8ecf6; --muted: #a3acc4; --line: #2a3350; --line-strong: #6d7794;
+  --accent: #6aa8ff; --accent-soft: rgba(106, 168, 255, 0.14); --venture: #ff9a6b; --venture-soft: rgba(255, 154, 107, 0.14);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font); font-size: 16px; line-height: 1.95;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 72px;
+}
+main { max-width: 780px; margin-inline: auto; display: grid; gap: 44px; text-align: right; }
+header { display: grid; gap: 6px; border-bottom: 1px solid var(--line); padding-bottom: 24px; }
+.eyebrow { margin: 0; color: var(--accent); font-weight: 700; font-size: 0.95rem; }
+h1 { margin: 0; font-size: clamp(1.8rem, 5vw, 2.4rem); font-weight: 800; line-height: 1.4; text-wrap: balance; }
+.byline { margin: 0; color: var(--muted); font-size: 0.9rem; }
+section { display: grid; gap: 14px; min-width: 0; }
+h2 { margin: 0; font-size: 1.35rem; font-weight: 800; line-height: 1.5; text-wrap: balance; }
+p { margin: 0; }
+.lead { font-size: 1.05rem; }
+strong { font-weight: 700; }
+ol, ul { margin: 0; padding-inline-start: 1.4em; display: grid; gap: 6px; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 0.93rem; line-height: 1.8; }
+th, td { text-align: right; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 700; color: var(--muted); font-size: 0.85rem; background: color-mix(in srgb, var(--surface) 92%, var(--line)); }
+tr:last-child td { border-bottom: 0; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.quote { margin: 0; padding: 14px 18px; border-radius: 12px; background: var(--accent-soft); font-weight: 700; }
+figure { margin: 0; display: grid; gap: 8px; }
+.fig-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
+.fig-wrap svg { display: block; width: 100%; min-width: 620px; height: auto; font-family: var(--font); }
+figcaption { color: var(--muted); font-size: 0.85rem; }
+.checklist { list-style: none; padding: 0; }
+.checklist li { display: flex; gap: 10px; align-items: baseline; }
+.checklist li::before { content: ""; flex: none; width: 14px; height: 14px; border: 1.5px solid var(--line-strong); border-radius: 4px; transform: translateY(2px); }
+.sources { font-size: 0.9rem; }
+.sources a { color: var(--accent); }
+.note { color: var(--muted); font-size: 0.9rem; }
+</style>
+
+<main dir="rtl" lang="fa">
+  <header>
+    <p class="eyebrow">ستارگان آینده گلرنگ · نسخهٔ دارویی</p>
+    <h1>استراتژی برگزاری GFS دارو</h1>
+    <p class="byline">۲۷ مهر ۱۴۰۵ · پیش‌نویس برای گفت‌وگو با گلرنگ ونچرز و سرمایه‌گذاری دارویی گلرنگ</p>
+  </header>
+
+  <section>
+    <h2>خلاصه</h2>
+    <p class="lead">GFS دارو نسخهٔ دارویی «ستارگان آینده گلرنگ» است: برنامه‌ای مشترک بین <strong>گلرنگ ونچرز</strong> و <strong>سرمایه‌گذاری دارویی گلرنگ</strong> که دانشجویان داروسازی و رشته‌های مرتبط را پیدا می‌کند و به یکی از دو مسیر می‌رساند: کار در شرکت‌های هلدینگ، یا ساختن استارتاپ در شتاب‌دهندهٔ دارویی.</p>
+    <p>سه تصمیم اصلی این استراتژی:</p>
+    <ol>
+      <li><strong>یک برنامه، دو مسیر خروج:</strong> مسیر شغلی (بورسیه یا استخدام در ۱۴ شرکت هلدینگ) و مسیر کارآفرینی (شتاب‌دهندهٔ دارویی ونچرز).</li>
+      <li><strong>چرخش در زنجیرهٔ دارو</strong> به‌جای کار در یک شرکت: مادهٔ اولیه، فرمولاسیون، کنترل کیفیت، پخش.</li>
+      <li><strong>ساختن روی ارتباط فعلی با سمینار دانشجویان داروسازی (IPSS)</strong> به‌جای شروع از صفر؛ دوره در تابستان برگزار می‌شود تا با تقویم دانشگاه بخواند.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>چرا این برنامه</h2>
+    <p>این برنامه به پنج هدفی خدمت می‌کند که گلرنگ ونچرز و هلدینگ دارویی مشترکاً دارند. این دو از قبل هم همکاری دارند: شتاب‌دهی داروهای آهسته‌رهش و پپتیدی با واریان فارمد، و دو شرکت مشترک در سبد هر دو (ابیان فارمد و سروش مانا فارمد).</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>هدف مشترک</th><th>در GFS دارو چطور پیاده می‌شود</th></tr></thead>
+      <tbody>
+        <tr><td>هم‌افزایی با زنجیرهٔ ارزش گروه</td><td>مسئله‌های دوره از شرکت‌های هلدینگ می‌آیند، نه از کتاب درسی</td></tr>
+        <tr><td>تبدیل پژوهش به کسب‌وکار</td><td>مسیر نوآوری داخل دوره، با ورودی مستقیم به مرکز نوآوری و شتاب‌دهنده</td></tr>
+        <tr><td>تأمین نیروی متخصص</td><td>مسیر شغلی: بورسیه و پیشنهاد کار در شرکت‌های هلدینگ</td></tr>
+        <tr><td>تغییر تصویر گلرنگ از «کالای مصرفی» به «دارو و فناوری»</td><td>رویدادهای دانشگاهی و روایت فارغ‌التحصیلان</td></tr>
+        <tr><td>حضور بین‌المللی</td><td>آموزش ثبت دارو و استانداردهای بین‌المللی در دوره، برای هدف ۶۰ درصد فروش خارجی گروه</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>مخاطب</h2>
+    <p>دورهٔ اول با ۲۰ تا ۳۰ دانشجو از دانشکده‌های داروسازی تهران شروع می‌شود؛ این عدد پیشنهاد است و به ظرفیت شرکت‌های میزبان بستگی دارد.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>اولویت</th><th>رشته و مقطع</th><th>مسیر مناسب</th></tr></thead>
+      <tbody>
+        <tr><td class="num">۱</td><td>دکترای عمومی داروسازی، نیمهٔ دوم تحصیل</td><td>شغلی و کارآفرینی</td></tr>
+        <tr><td class="num">۱</td><td>فارماسیوتیکس و شیمی دارویی، ارشد و دکتری تخصصی</td><td>کارآفرینی و تحقیق و توسعه</td></tr>
+        <tr><td class="num">۲</td><td>شیمی، مهندسی شیمی، بیوتکنولوژی</td><td>شغلی: تولید و کنترل کیفیت</td></tr>
+        <tr><td class="num">۳</td><td>مدیریت، اقتصاد، مهندسی صنایع</td><td>فقط در تیم‌های میان‌رشته‌ای مسیر کارآفرینی</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li><strong>جغرافیا:</strong> دوره حضوری است، پس دورهٔ اول به دانشجویان نزدیک به سایت‌های شرکت‌ها محدود است. رویداد معرفی و مرحلهٔ انتخاب به کل کشور باز است.</li>
+      <li><strong>شرط ورود:</strong> انگیزه و توان حل مسئله مهم‌تر از معدل است؛ حداقل معدل تعیین نمی‌شود.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>ارزش پیشنهادی برای دانشجو</h2>
+    <p class="quote">«مسیر یک دارو را، از مولکول تا قفسهٔ داروخانه، کنار متخصصان گلرنگ تجربه کن.»</p>
+    <p>دانشجو چهار چیز می‌گیرد:</p>
+    <ol>
+      <li><strong>دید کل زنجیره:</strong> مادهٔ اولیه، فرمولاسیون، کنترل کیفیت، ثبت دارو و پخش؛ نه فقط یک خط تولید.</li>
+      <li><strong>منتور شخصی</strong> از شرکت‌های هلدینگ.</li>
+      <li><strong>مسیر روشن بعد از دوره:</strong> بورسیه، پیشنهاد کار، یا ورود به شتاب‌دهنده. این همان چیزی است که در نسخهٔ برنامه‌نویسی GFS از بیرون دیده نمی‌شد.</li>
+      <li><strong>کمک‌هزینه در طول دوره</strong>، مثل Google STEP و MLH (مبلغ باید تصمیم گرفته شود).</li>
+    </ol>
+    <p><strong>تمایز با گزینه‌های دیگر دانشجو:</strong></p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>گزینه</th><th>چیزی که کم دارد</th><th>چیزی که GFS دارو اضافه می‌کند</th></tr></thead>
+      <tbody>
+        <tr><td>کارآموزی معمول در یک کارخانه</td><td>دید محدود به یک بخش، بدون منتور</td><td>چرخش در زنجیره و منتور</td></tr>
+        <tr><td>بورسیهٔ فعلی گلرنگ در IPSS</td><td>فقط برای برترهای مقاله و پوستر، بدون تجربهٔ کاری</td><td>دورهٔ تجربه‌محور قبل از بورسیه</td></tr>
+        <tr><td>فکورژن (فکور صنعت)</td><td>فقط مسیر شغلی</td><td>مسیر کارآفرینی و سرمایه</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>مدل برنامه</h2>
+    <p>برنامه یک قیف چهارمرحله‌ای است که به دو مسیر خروج می‌رسد؛ فارغ‌التحصیلان هر دوره دورهٔ بعد را جذب می‌کنند.</p>
+    <figure>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 760 312" role="img" aria-label="یک قیف، دو مسیر خروج" direction="rtl" font-size="13">
+          <defs><marker id="gfs-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--line-strong)"/></marker></defs>
+          <text x="732" y="34" font-size="15" font-weight="700" style="fill:var(--ink)">یک قیف، دو مسیر خروج: از رویداد دانشگاهی تا شغل یا استارتاپ</text>
+          <g fill="none" stroke-width="1.25" style="stroke:var(--line-strong)">
+            <path d="M580 108H548" marker-end="url(#gfs-arrow)"/>
+            <path d="M396 108H364" marker-end="url(#gfs-arrow)"/>
+            <path d="M212 108H180" marker-end="url(#gfs-arrow)"/>
+            <path d="M104 152V200" marker-end="url(#gfs-arrow)"/>
+            <path d="M104 152V176H408V200" marker-end="url(#gfs-arrow)"/>
+            <path d="M524 244H700V152" marker-end="url(#gfs-arrow)"/>
+          </g>
+          <g text-anchor="middle">
+            <rect x="580" y="64" width="152" height="88" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)"/>
+            <text x="656" y="88" font-weight="700" style="fill:var(--ink)">رویداد معرفی</text>
+            <text x="656" y="108" font-size="11.5" style="fill:var(--muted)">۳ ساعت در دانشکده‌ها</text>
+            <text x="656" y="124" font-size="11.5" style="fill:var(--muted)">و غرفه در IPSS</text>
+
+            <rect x="396" y="64" width="152" height="88" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)"/>
+            <text x="472" y="88" font-weight="700" style="fill:var(--ink)">انتخاب</text>
+            <text x="472" y="108" font-size="11.5" style="fill:var(--muted)">انگیزه‌نامه</text>
+            <text x="472" y="124" font-size="11.5" style="fill:var(--muted)">حل یک مسئلهٔ دارویی</text>
+            <text x="472" y="140" font-size="11.5" style="fill:var(--muted)">مصاحبه</text>
+
+            <rect x="212" y="64" width="152" height="88" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)"/>
+            <text x="288" y="88" font-weight="700" style="fill:var(--ink)">دورهٔ تجربه‌محور</text>
+            <text x="288" y="108" font-size="11.5" style="fill:var(--muted)">۸ هفته در تابستان</text>
+            <text x="288" y="124" font-size="11.5" style="fill:var(--muted)">۲ هفته آموزش پایه</text>
+            <text x="288" y="140" font-size="11.5" style="fill:var(--muted)">۶ هفته چرخش یا پروژه</text>
+
+            <rect x="28" y="64" width="152" height="88" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)"/>
+            <text x="104" y="88" font-weight="700" style="fill:var(--ink)">روز نمایش</text>
+            <text x="104" y="108" font-size="11.5" style="fill:var(--muted)">ارائه به هلدینگ</text>
+            <text x="104" y="124" font-size="11.5" style="fill:var(--muted)">و مرکز نوآوری</text>
+
+            <rect x="292" y="200" width="232" height="88" rx="8" stroke-width="2" style="fill:var(--accent-soft);stroke:var(--accent)"/>
+            <text x="408" y="224" font-weight="700" style="fill:var(--ink)">مسیر شغلی</text>
+            <text x="408" y="244" font-size="11.5" style="fill:var(--ink)">بورسیه یا پیشنهاد کار</text>
+            <text x="408" y="260" font-size="11.5" style="fill:var(--ink)">در شرکت‌های زیرمجموعه</text>
+            <text x="408" y="276" font-size="11.5" style="fill:var(--muted)">مالک: هلدینگ دارویی</text>
+
+            <rect x="28" y="200" width="232" height="88" rx="8" stroke-width="2" style="fill:var(--venture-soft);stroke:var(--venture)"/>
+            <text x="144" y="224" font-weight="700" style="fill:var(--ink)">مسیر کارآفرینی</text>
+            <text x="144" y="244" font-size="11.5" style="fill:var(--ink)">شتاب‌دهندهٔ دارویی</text>
+            <text x="144" y="260" font-size="11.5" style="fill:var(--ink)">و مرکز نوآوری</text>
+            <text x="144" y="276" font-size="11.5" style="fill:var(--muted)">مالک: گلرنگ ونچرز</text>
+
+            <text x="612" y="268" font-size="11.5" style="fill:var(--muted)">فارغ‌التحصیلان</text>
+            <text x="612" y="284" font-size="11.5" style="fill:var(--muted)">سفیر و منتور دورهٔ بعد</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption>مدل GFS دارو · ۴ مرحله، ۲ مسیر خروج</figcaption>
+    </figure>
+    <p>دورهٔ تجربه‌محور دو مسیر داخلی دارد و هر دانشجو یکی را انتخاب می‌کند:</p>
+    <ul>
+      <li><strong>مسیر صنعت:</strong> چرخش در ایستگاه‌های زنجیره (مادهٔ اولیه، فرمولاسیون، کنترل کیفیت و ثبت دارو، پخش)، هر ایستگاه حدود دو هفته، مشابه چرخش نقش در Microsoft Explore.</li>
+      <li><strong>مسیر نوآوری:</strong> تیم‌های ۳ تا ۴ نفرهٔ میان‌رشته‌ای روی یک مسئلهٔ واقعی هلدینگ، مثلاً در حوزهٔ رهایش کنترل‌شده یا پپتید، که اولویت‌های فعلی بورسیه و شتاب‌دهی‌اند.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>نقش‌ها و حاکمیت</h2>
+    <p>یک کمیتهٔ راهبری دونفره (یک نفر از هر طرف) تصمیم‌های اصلی را می‌گیرد؛ اجرای روزانه با تیم GFS در گلرنگ ونچرز است.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>بازیگر</th><th>مسئولیت</th></tr></thead>
+      <tbody>
+        <tr><td>گلرنگ ونچرز (تیم GFS)</td><td>طراحی و اجرای برنامه، جذب و انتخاب، آموزش کارآفرینی، مسیر شتاب‌دهی و سرمایه</td></tr>
+        <tr><td>سرمایه‌گذاری دارویی گلرنگ</td><td>تعریف مسئله‌ها، هماهنگی شرکت‌های زیرمجموعه، بورسیه و تعهد استخدام</td></tr>
+        <tr><td>شرکت‌های میزبان (مثل فاران شیمی، واریان فارمد، سلامت پخش هستی)</td><td>پذیرش دانشجو در هر ایستگاه چرخش، هماهنگی دسترسی و ایمنی</td></tr>
+        <tr><td>منتورها</td><td>یک منتور برای هر ۳ تا ۴ دانشجو، جلسهٔ هفتگی، ارزیابی پایانی</td></tr>
+        <tr><td>مرکز نوآوری دارو و سلامت</td><td>داوری طرح‌های مسیر نوآوری در روز نمایش</td></tr>
+        <tr><td>دانشکده‌ها و انجمن‌های علمی</td><td>میزبانی رویدادهای معرفی و اطلاع‌رسانی</td></tr>
+      </tbody>
+    </table></div>
+    <p>تصمیم مهم این بخش: مالکیت طرح‌های دانشجویی (مالکیت فکری) باید قبل از شروع دوره مکتوب شود.</p>
+  </section>
+
+  <section>
+    <h2>جذب و ارتباطات</h2>
+    <p>مهم‌ترین کانال سمینار دانشجویان داروسازی (IPSS) است؛ گلرنگ از قبل آنجا بورسیه می‌دهد. دورهٔ ۲۵ام ۷ تا ۱۰ اسفند ۱۴۰۳ در اهواز بود.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>کانال</th><th>نقش در قیف</th></tr></thead>
+      <tbody>
+        <tr><td>IPSS</td><td>اعلام رسمی فراخوان، غرفه و یک کارگاه، اتصال بورسیهٔ فعلی به GFS دارو</td></tr>
+        <tr><td>رویداد ۳ ساعتهٔ دانشگاهی</td><td>همان برنامهٔ طراحی‌شده، با فیلم و معمای دارویی، در دانشکده‌های داروسازی</td></tr>
+        <tr><td>انجمن‌های علمی دانشجویی</td><td>سفیر دانشجویی در هر دانشکده، کانال‌های تلگرام</td></tr>
+        <tr><td>شبکه‌های اجتماعی گلرنگ و لینکدین</td><td>روایت منتورها و فارغ‌التحصیلان</td></tr>
+        <tr><td>رسانه‌های دارویی و اقتصادی</td><td>خبر شروع و اختتامیه، با اعداد قیف (مثل فکورژن)</td></tr>
+      </tbody>
+    </table></div>
+    <p>برای پیام‌ها: هر متنی باید بگوید بعد از دوره چه اتفاقی می‌افتد (بورسیه، کار، شتاب‌دهنده)؛ این مهم‌ترین انگیزهٔ ثبت‌نام است.</p>
+  </section>
+
+  <section>
+    <h2>معیارهای موفقیت</h2>
+    <p>معیار اصلی این است که چند درصد شرکت‌کنندگان به یکی از دو مسیر برسند. عددها پیشنهاد برای دورهٔ اول است و باید در کمیتهٔ راهبری تأیید شود.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>معیار</th><th>هدف دورهٔ اول (پیشنهادی)</th><th>هدف مشترکی که می‌سنجد</th></tr></thead>
+      <tbody>
+        <tr><td>ثبت‌نام</td><td class="num">۳۰۰ نفر</td><td>تغییر تصویر گلرنگ</td></tr>
+        <tr><td>دانشکده‌های تحت پوشش</td><td class="num">۵ دانشکده</td><td>تغییر تصویر گلرنگ</td></tr>
+        <tr><td>پذیرفته‌شدگان</td><td class="num">۲۰ تا ۳۰ نفر</td><td>—</td></tr>
+        <tr><td>تکمیل دوره</td><td class="num">۸۵ درصد</td><td>—</td></tr>
+        <tr><td>بورسیه یا پیشنهاد کار</td><td class="num">۳۰ درصد فارغ‌التحصیلان</td><td>تأمین نیرو</td></tr>
+        <tr><td>طرح راه‌یافته به مرکز نوآوری یا شتاب‌دهنده</td><td class="num">۳ طرح</td><td>تبدیل پژوهش به کسب‌وکار</td></tr>
+        <tr><td>مسئله‌های واقعی از شرکت‌های هلدینگ</td><td class="num">۵ مسئله</td><td>هم‌افزایی با زنجیرهٔ ارزش</td></tr>
+        <tr><td>رضایت شرکت‌کنندگان</td><td class="num">۴ از ۵</td><td>—</td></tr>
+        <tr><td>تمایل به کار در گلرنگ (نظرسنجی قبل و بعد)</td><td>افزایش معنادار</td><td>تغییر تصویر گلرنگ</td></tr>
+      </tbody>
+    </table></div>
+    <p>معیار بلندمدت: چند نفر از فارغ‌التحصیلان تا دو سال بعد هنوز در گروه کار می‌کنند یا استارتاپشان سرمایه گرفته است.</p>
+  </section>
+
+  <section>
+    <h2>نقشهٔ راه دورهٔ اول</h2>
+    <p>دورهٔ اول یک سال تحصیلی طول می‌کشد: آماده‌سازی از مهر، جذب در اسفند، دوره در تیر و مرداد، و تصمیم دربارهٔ دورهٔ دوم در شهریور.</p>
+    <figure>
+      <div class="fig-wrap">
+        <svg viewBox="0 0 760 264" role="img" aria-label="دورهٔ اول در یک سال تحصیلی" direction="rtl" font-size="13">
+          <defs><marker id="rm-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--line-strong)"/></marker></defs>
+          <text x="736" y="34" font-size="15" font-weight="700" style="fill:var(--ink)">دورهٔ اول در یک سال تحصیلی: جذب در اسفند، دوره در تابستان</text>
+          <g text-anchor="middle">
+            <rect x="600" y="64" width="136" height="112" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)"/>
+            <text x="668" y="88" font-weight="700" style="fill:var(--ink)">آماده‌سازی</text>
+            <text x="668" y="106" font-size="11.5" style="fill:var(--muted)">مهر تا بهمن</text>
+            <text x="668" y="128" font-size="11.5" style="fill:var(--ink)">توافق دو طرف</text>
+            <text x="668" y="144" font-size="11.5" style="fill:var(--ink)">انتخاب میزبان‌ها</text>
+            <text x="668" y="160" font-size="11.5" style="fill:var(--ink)">طراحی مسئله‌ها</text>
+
+            <rect x="456" y="64" width="136" height="112" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)"/>
+            <text x="524" y="88" font-weight="700" style="fill:var(--ink)">جذب</text>
+            <text x="524" y="106" font-size="11.5" style="fill:var(--muted)">اسفند</text>
+            <text x="524" y="128" font-size="11.5" style="fill:var(--ink)">فراخوان در IPSS</text>
+            <text x="524" y="144" font-size="11.5" style="fill:var(--ink)">رویداد در دانشکده‌ها</text>
+
+            <rect x="312" y="64" width="136" height="112" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)"/>
+            <text x="380" y="88" font-weight="700" style="fill:var(--ink)">انتخاب</text>
+            <text x="380" y="106" font-size="11.5" style="fill:var(--muted)">فروردین تا خرداد</text>
+            <text x="380" y="128" font-size="11.5" style="fill:var(--ink)">انگیزه‌نامه</text>
+            <text x="380" y="144" font-size="11.5" style="fill:var(--ink)">مسئلهٔ دارویی</text>
+            <text x="380" y="160" font-size="11.5" style="fill:var(--ink)">مصاحبه</text>
+
+            <rect x="168" y="64" width="136" height="112" rx="8" stroke-width="2" style="fill:var(--accent-soft);stroke:var(--accent)"/>
+            <text x="236" y="88" font-weight="700" style="fill:var(--ink)">دورهٔ تجربه‌محور</text>
+            <text x="236" y="106" font-size="11.5" style="fill:var(--muted)">تیر و مرداد</text>
+            <text x="236" y="128" font-size="11.5" style="fill:var(--ink)">۸ هفته</text>
+            <text x="236" y="144" font-size="11.5" style="fill:var(--ink)">مسیر صنعت یا نوآوری</text>
+
+            <rect x="24" y="64" width="136" height="112" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)"/>
+            <text x="92" y="88" font-weight="700" style="fill:var(--ink)">خروج و ارزیابی</text>
+            <text x="92" y="106" font-size="11.5" style="fill:var(--muted)">شهریور</text>
+            <text x="92" y="128" font-size="11.5" style="fill:var(--ink)">روز نمایش</text>
+            <text x="92" y="144" font-size="11.5" style="fill:var(--ink)">بورسیه و پیشنهاد کار</text>
+            <text x="92" y="160" font-size="11.5" style="fill:var(--ink)">گزارش و درس‌ها</text>
+          </g>
+          <path d="M736 192H40" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)" marker-end="url(#rm-arrow)"/>
+          <g style="fill:var(--line-strong)">
+            <path d="M596 184l8 8l-8 8l-8 -8z"/>
+            <path d="M308 184l8 8l-8 8l-8 -8z"/>
+            <path d="M92 184l8 8l-8 8l-8 -8z"/>
+          </g>
+          <g text-anchor="middle" font-size="11.5">
+            <text x="596" y="220" font-weight="700" style="fill:var(--ink)">دروازهٔ ۱</text>
+            <text x="596" y="236" style="fill:var(--muted)">تعهد بورسیه و میزبان‌ها</text>
+            <text x="308" y="220" font-weight="700" style="fill:var(--ink)">دروازهٔ ۲</text>
+            <text x="308" y="236" style="fill:var(--muted)">۲۰ تا ۳۰ نفر پذیرفته شدند</text>
+            <text x="92" y="220" font-weight="700" style="fill:var(--ink)">دروازهٔ ۳</text>
+            <text x="92" y="236" style="fill:var(--muted)">تصمیم دورهٔ دوم</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption>نقشهٔ راه دورهٔ اول · ۵ فاز، ۳ دروازه</figcaption>
+    </figure>
+    <p>بدون عبور از دروازهٔ ۱ هیچ فراخوانی منتشر نمی‌شود. زمان‌بندی پیشنهادی است و تاریخ IPSS سال بعد باید تأیید شود.</p>
+  </section>
+
+  <section>
+    <h2>ریسک‌ها و راهکارها</h2>
+    <p>بزرگ‌ترین ریسک این است که بعد از دوره هیچ بورسیه یا استخدامی اتفاق نیفتد؛ اعتبار دوره‌های بعد به همین بستگی دارد.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>ریسک</th><th>راهکار</th></tr></thead>
+      <tbody>
+        <tr><td>بعد از دوره تعهد استخدام یا بورسیه نباشد</td><td>تعداد حداقلی بورسیه و موقعیت شغلی قبل از فراخوان از هلدینگ گرفته شود</td></tr>
+        <tr><td>محیط‌های GMP اجازهٔ کار عملی به دانشجو ندهند</td><td>نقش ناظر در خط تولید، کار عملی در آزمایشگاه کنترل کیفیت و تحقیق و توسعه</td></tr>
+        <tr><td>چرخهٔ آزمایشگاهی از ۸ هفته طولانی‌تر است</td><td>مسئله‌هایی که در ۸ هفته به یک خروجی می‌رسند؛ ادامه در قالب پایان‌نامه یا شتاب‌دهنده</td></tr>
+        <tr><td>دو سازمان، دو اولویت</td><td>کمیتهٔ راهبری دونفره و یک مالک اجرایی</td></tr>
+        <tr><td>اختلاف بر سر مالکیت فکری طرح‌ها</td><td>قرارداد مالکیت فکری امضاشده قبل از شروع</td></tr>
+        <tr><td>اطلاعات محرمانهٔ شرکت‌ها</td><td>تعهدنامهٔ عدم افشا، مسئله‌های با دادهٔ غیرحساس</td></tr>
+        <tr><td>گلرنگ بین دانشجوهای داروسازی شناخته نیست</td><td>استفاده از IPSS و نام شرکت‌های دارویی شناخته‌شده در پیام‌ها</td></tr>
+        <tr><td>دانشجوهای شهرهای دیگر نتوانند بیایند</td><td>کمک به هزینهٔ اسکان، یا گسترش به شهرهای محل شرکت‌ها در دورهٔ دوم</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>تصمیم‌های باز و گام‌های بعدی</h2>
+    <p>پنج تصمیم باید قبل از هر اعلام عمومی گرفته شود:</p>
+    <ul class="checklist">
+      <li>هلدینگ دارویی چند بورسیه و موقعیت شغلی برای فارغ‌التحصیلان تعهد می‌کند؟</li>
+      <li>کدام شرکت‌های زیرمجموعه میزبان می‌شوند و سایت‌هایشان کجاست؟</li>
+      <li>کمبود نیروی هلدینگ بیشتر در تحقیق و توسعه است یا در تولید و کیفیت؟ (وزن دو مسیر را تعیین می‌کند)</li>
+      <li>مبلغ کمک‌هزینهٔ دانشجو و بودجهٔ کل برنامه چقدر است و سهم هر طرف چیست؟</li>
+      <li>شرایط مالکیت فکری طرح‌های مسیر نوآوری چیست؟</li>
+    </ul>
+    <p>گام‌های بعدی:</p>
+    <ol>
+      <li>جلسهٔ مشترک گلرنگ ونچرز و هلدینگ دارویی برای تأیید اهداف و این پنج تصمیم.</li>
+      <li>تشکیل کمیتهٔ راهبری و معرفی مالک اجرایی.</li>
+      <li>مذاکره با برگزارکنندگان IPSS برای اعلام فراخوان در سمینار بعدی.</li>
+      <li>بازطراحی رویداد ۳ ساعته با فیلم، معما و بازی دارویی.</li>
+    </ol>
+  </section>
+
+  <section class="sources">
+    <h2>منابع</h2>
+    <p class="note">از نتایج جست‌وجو گردآوری شده؛ صفحه‌ها مستقیم باز نشدند و باید پیش از استناد تأیید شوند.</p>
+    <ul>
+      <li><a href="https://golrangcvc.com/mission-and-vision/">ماموریت و چشم‌انداز صندوق گلرنگ</a></li>
+      <li><a href="https://golrangpi.com/">سرمایه‌گذاری دارویی گلرنگ</a></li>
+      <li><a href="https://golrangpi.com/innovations/">مرکز نوآوری هلدینگ دارویی</a></li>
+      <li><a href="https://golrang.com/amp/news-detail/ventures-varianpharmed-1405">شتاب‌دهی گلرنگ ونچرز و واریان فارمد</a></li>
+      <li><a href="https://t.me/s/golrangfamily/12472">بورسیهٔ گلرنگ برای برگزیدگان IPSS</a></li>
+      <li><a href="https://golrangpi.com/wp-content/uploads/2025/10/Parsiavoshan-135.pdf">ماهنامهٔ گزیدهٔ اخبار دارویی، مهر ۱۴۰۴</a></li>
+      <li><a href="https://pitchbook.com/profiles/investor/624221-83">پرتفوی گلرنگ ونچرز – PitchBook</a></li>
+      <li><a href="https://quera.org/events/golrang-0309">مسابقهٔ ستارگان آینده گلرنگ – کوئرا</a></li>
+      <li><a href="https://www.asriran.com/fa/news/1195123/">فکورژن – عصر ایران</a></li>
+      <li><a href="https://blogs.microsoft.com/jobs/explore-microsoft-program/">Microsoft Explore</a></li>
+    </ul>
+  </section>
+</main>

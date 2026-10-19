@@ -179,7 +179,6 @@ footer a { color: var(--accent); }
 <div class="wrap">
 
   <div style="display:grid;gap:14px">
-    <p class="note"><b>این یک پیش‌نویس است.</b> مقدارهایی که <span class="blank">این‌طور</span> مشخص شده‌اند پیشنهادی‌اند و گلرنگ ونچرز باید تأییدشان کند. آنچه <span class="fact">این‌طور</span> آمده از دورهٔ اجراشدهٔ ۱۴۰۳ است. <span id="blank-count"></span></p>
     <nav class="toc" aria-label="فهرست">
       <a href="#whatis">GFS چیست</a>
       <a href="#tracks">مسیرها</a>
@@ -521,9 +520,6 @@ document.getElementById("fit-reset").addEventListener("click", () => {
 });
 build();
 
-// proposed values still to confirm (minus the legend sample in the note)
-const blanks = document.querySelectorAll("main .blank").length - 1;
-document.getElementById("blank-count").textContent = "در این نسخه " + fa(blanks) + " مقدار پیشنهادی هنوز تأیید نشده است.";
 
 // per-viewer checklist
 const boxes = [...document.querySelectorAll("#checklist input")];

@@ -56,16 +56,20 @@ h2 .star { width: 22px; height: 22px; flex: none; }
 .age small { font-weight: 500; font-size: 8.5pt; margin-inline-start: 4px; }
 
 /* ---------- models ---------- */
-.models { margin-top: 8mm; display: grid; gap: 0; }
-.model { display: grid; grid-template-columns: 44mm 22mm minmax(0, 1fr) minmax(0, 1fr); gap: 0 6mm; align-items: start; padding: 4.8mm 0; border-top: 1px solid var(--line); }
+.tenets { margin-top: 6mm; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 5mm; }
+.tenet { background: var(--navy); color: #fff; border-radius: 3mm; padding: 4.5mm 5mm; display: grid; gap: 1mm; align-content: start; }
+.tenet b { color: var(--lime); font-size: 12pt; }
+.tenet p { font-size: 9.6pt; line-height: 1.7; color: #dfe4f5; }
+.models { margin-top: 6mm; display: grid; gap: 0; }
+.model { display: grid; grid-template-columns: 44mm 22mm minmax(0, 1fr) minmax(0, 1fr); gap: 0 6mm; align-items: start; padding: 3.6mm 0; border-top: 1px solid var(--line); }
 .model:last-child { border-bottom: 1px solid var(--line); }
 .model.head { border-top: 0; padding: 0 0 2mm; font-size: 8.5pt; color: var(--muted); font-weight: 700; }
 .model h3 { font-size: 12.5pt; }
 .chip { display: inline-block; background: var(--lime); color: var(--navy); border-radius: 999px; padding: 0 3mm; font-weight: 700; font-size: 9pt; white-space: nowrap; }
-.model p { font-size: 10.5pt; line-height: 1.75; }
-.bench { margin-top: 7mm; background: var(--mist); border-radius: 3mm; padding: 5mm 6mm; font-size: 10.5pt; color: var(--muted); }
+.model p { font-size: 10pt; line-height: 1.65; }
+.bench { margin-top: 5mm; background: var(--mist); border-radius: 3mm; padding: 5mm 6mm; font-size: 10.5pt; color: var(--muted); }
 .bench b { color: var(--navy); }
-.gains { margin-top: 8mm; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7mm 10mm; }
+.gains { margin-top: 6mm; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5mm 10mm; }
 .gain { display: grid; grid-template-columns: 9mm minmax(0, 1fr); gap: 3mm; align-items: start; }
 .gain .ico { width: 9mm; height: 9mm; border-radius: 50%; background: var(--navy); color: var(--lime); display: grid; place-items: center; }
 .gain .ico svg { width: 5mm; height: 5mm; }
@@ -92,10 +96,10 @@ h2 .star { width: 22px; height: 22px; flex: none; }
 .step b { font-size: 11.5pt; }
 .step p { font-size: 10pt; color: var(--muted); line-height: 1.6; }
 .foot { position: absolute; left: 0; right: 0; bottom: 0; background: var(--navy); color: #fff; padding: 6mm 18mm; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3mm 8mm; align-items: center; }
-.foot svg { width: 14mm; height: 14mm; color: var(--lime); grid-row: span 2; }
+.foot svg { width: 12mm; height: 12mm; color: var(--lime); }
 .foot .contact { font-size: 11pt; font-weight: 700; }
 .foot .contact span { color: var(--lime); }
-.foot p { font-size: 8.5pt; color: #b9c1e0; }
+.foot p { font-size: 9pt; color: #c7cee9; }
 .pageno { position: absolute; bottom: 9mm; left: 18mm; font-size: 8pt; color: var(--muted); }
 </style>
 </head>
@@ -127,7 +131,7 @@ h2 .star { width: 22px; height: 22px; flex: none; }
       <div><b>ستارگان آیندهٔ گلرنگ</b><span>GOLRANG FUTURE STARS</span></div>
     </div>
     <h1>راهنمای همکاری<em>با GFS</em></h1>
-    <p class="lede">GFS بستری است برای جوانان و نوجوانان ۱۲ تا ۲۴ ساله که استعدادهای خود را بشناسند، توسعه پیدا کنند، دیده شوند و تأثیر بگذارند. ما این تجربه را با کمک سازمان‌های همکار و در کنار منتورهای باتجربه می‌سازیم. این راهنما می‌گوید GFS با سازمان شما در چه قالبی همکاری می‌کند، وارد چه کارهایی نمی‌شود و همکاری چطور شروع می‌شود.</p>
+    <p class="lede">GFS بستری است برای جوانان و نوجوانان ۱۲ تا ۲۴ ساله که استعدادهای خود را بشناسند، توسعه پیدا کنند، دیده شوند و تأثیر بگذارند. ما این تجربه را با کمک سازمان‌های همکار، در کنار منتورهای باتجربه و در مسیری بلندمدت می‌سازیم. این راهنما می‌گوید GFS با سازمان شما در چه قالبی همکاری می‌کند، وارد چه کارهایی نمی‌شود و همکاری چطور شروع می‌شود.</p>
     <p class="quote">آموزش آکادمیک امروز روی همه باز است. چیزی که هنوز دست‌نیافتنی مانده، تجربه است.<small>نقطهٔ شروع GFS</small></p>
   </div>
 
@@ -149,9 +153,13 @@ h2 .star { width: 22px; height: 22px; flex: none; }
 
 <!-- ========== Page 2: models and gains ========== -->
 <section class="page">
-  <div class="pad">
+  <div class="pad" style="padding-top:15mm">
     <h2><svg class="star"><use href="#gfs-star"/></svg>مدل‌های همکاری</h2>
     <p class="sub">هر گروه سنی مسیر متفاوتی دارد. سازمان شما می‌تواند در یک یا چند مدل شریک شود.</p>
+    <div class="tenets">
+      <div class="tenet"><b>رویکرد نو به موضوع</b><p>هر پروژهٔ GFS با نگاه نسل جدید، از زاویه‌ای تازه به مسئلهٔ سازمان می‌پردازد؛ نه تکرار برنامه‌های آموزشی رایج.</p></div>
+      <div class="tenet"><b>بلندمدت، نه یک‌باره</b><p>همکاری با GFS رویداد تک‌مرحله‌ای نیست؛ مسیری چندساله است که ستاره‌ها را تا ورود به کار همراهی می‌کند.</p></div>
+    </div>
 
     <div class="models">
       <div class="model head"><div>مدل</div><div>سن</div><div>نقش سازمان همکار</div><div>خروجی برای ستاره</div></div>
@@ -176,7 +184,7 @@ h2 .star { width: 22px; height: 22px; flex: none; }
         <p>ادامهٔ مسیر تحصیل یا کار در همان حوزه</p>
       </div>
       <div class="model">
-        <h3>منتورگری</h3><div><span class="chip">همهٔ سنین</span></div>
+        <h3>منتورشیپ</h3><div><span class="chip">همهٔ سنین</span></div>
         <p>معرفی متخصصان سازمان به‌عنوان منتور</p>
         <p>راهنمایی حرفه‌ای و شبکهٔ ارتباطی</p>
       </div>
@@ -184,15 +192,14 @@ h2 .star { width: 22px; height: 22px; flex: none; }
 
     <p class="bench">برنامه‌های مشابه در بزرگ‌ترین شرکت‌های دنیا هم اجرا می‌شود؛ در صنعت دارو از جمله <b>Pfizer</b>، <b>Roche</b>، <b>Novartis</b> و <b>Johnson &amp; Johnson</b>.</p>
 
-    <h2 style="margin-top:12mm"><svg class="star"><use href="#gfs-star"/></svg>سازمان شما چه به دست می‌آورد</h2>
+    <h2 style="margin-top:9mm"><svg class="star"><use href="#gfs-star"/></svg>سازمان شما چه به دست می‌آورد</h2>
     <div class="gains">
       <div class="gain"><div class="ico"><svg><use href="#gfs-star"/></svg></div><div><b>دسترسی زودهنگام به استعدادها</b><p>پیش از آنکه جوانان وارد بازار کار شوند یا مهاجرت کنند.</p></div></div>
       <div class="gain"><div class="ico"><svg><use href="#gfs-star"/></svg></div><div><b>نگاه تازه به مسئله‌های واقعی</b><p>تیم‌های جوان با ذهن باز روی چالش‌های سازمان کار می‌کنند.</p></div></div>
       <div class="gain"><div class="ico"><svg><use href="#gfs-star"/></svg></div><div><b>برند کارفرمایی نزد نسل Z</b><p>شناخته‌شدن به‌عنوان سازمانی که به جوانان فرصت می‌دهد.</p></div></div>
-      <div class="gain"><div class="ico"><svg><use href="#gfs-star"/></svg></div><div><b>رشد متخصصان خودتان</b><p>منتورگری مهارت رهبری و انتقال دانش را در تیم شما تقویت می‌کند.</p></div></div>
+      <div class="gain"><div class="ico"><svg><use href="#gfs-star"/></svg></div><div><b>رشد متخصصان خودتان</b><p>منتورشیپ مهارت رهبری و انتقال دانش را در تیم شما تقویت می‌کند.</p></div></div>
     </div>
   </div>
-  <div class="pageno num">۲</div>
 </section>
 
 <!-- ========== Page 3: boundaries, expectations, steps ========== -->
@@ -203,6 +210,7 @@ h2 .star { width: 22px; height: 22px; flex: none; }
         <h2><svg class="star"><use href="#gfs-star"/></svg>وارد این کارها نمی‌شویم</h2>
         <ul class="nots">
           <li>آموزش کلاسی صرف، بدون تجربهٔ عملی</li>
+          <li>برنامهٔ یک‌بارهٔ کوتاه که ادامه و مسیری بعد از آن ندارد</li>
           <li>کار روزمره یا جایگزین نیروی ثابت سازمان</li>
           <li>رویداد نمایشی یا تبلیغاتی که تجربهٔ واقعی برای جوانان ندارد</li>
           <li>نقش واسطهٔ صرف جذب نیرو؛ جذب یکی از خروجی‌های ممکن است، نه هدف همکاری</li>
@@ -238,7 +246,6 @@ h2 .star { width: 22px; height: 22px; flex: none; }
 
   <div class="foot">
     <svg><use href="#gfs-star"/></svg>
-    <div class="contact">تماس با GFS: <span class="ph">[نام مسئول]</span> · <span class="ph">[ایمیل]</span> · <span class="ph num">[تلفن]</span></div>
     <p>اگر این راهنما با قرارداد همکاری یا دستورالعمل‌های داخلی سازمان همکار تعارض داشته باشد، قرارداد و دستورالعمل‌ها مقدم‌اند.</p>
   </div>
 </section>

@@ -126,6 +126,67 @@ body[data-track] h1 .mark::after { background: var(--theme); opacity: .55; }
 .pfill { position: absolute; inset-block: 0; right: 0; width: 0; background: repeating-linear-gradient(-45deg, var(--theme) 0 8px, color-mix(in srgb, var(--theme) 75%, var(--surface)) 8px 16px); transition: width .45s cubic-bezier(.3, 1.4, .5, 1); }
 .ptext { font-weight: 800; font-size: .85rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .ptext small { font-weight: 500; color: var(--muted); }
+.progress { flex-wrap: wrap; row-gap: 6px; }
+.lvl { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.lvl .mini { width: 38px; height: 44px; flex: none; overflow: visible; }
+.lvl b { display: block; font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; line-height: 1.2; color: var(--theme); }
+.lvl small { display: block; font-size: .74rem; color: var(--muted); line-height: 1.4; white-space: nowrap; }
+.stars { display: inline-flex; align-items: center; gap: 4px; font-weight: 800; font-size: .95rem; font-variant-numeric: tabular-nums; background: var(--yellow-soft); border: 2px solid var(--ink); border-radius: 999px; padding: 0 10px; }
+.stars svg { width: 1.05em; height: 1.05em; fill: var(--yellow); stroke: var(--ink); stroke-width: 1.6; }
+.stars.bump { animation: bump .5s cubic-bezier(.3, 1.8, .5, 1); }
+@keyframes bump { 40% { transform: scale(1.3) rotate(-6deg); } }
+
+/* mascot grows with the idea: dim spark, lit bulb, glasses, crown */
+.m-glasses, .m-crown { display: none; }
+body[data-level="1"] .m-bulb { fill: color-mix(in srgb, var(--yellow) 30%, var(--surface)); }
+body[data-level="1"] .m-rays { display: none; }
+body[data-level="3"] .m-glasses, body[data-level="4"] .m-glasses, body[data-level="4"] .m-crown { display: inline; }
+body[data-level="4"] .mascot svg, body[data-level="4"] .lvl .mini { filter: drop-shadow(0 0 14px color-mix(in srgb, var(--yellow) 70%, transparent)); }
+.m-glass { fill: color-mix(in srgb, #fff 25%, transparent); stroke: var(--ink); stroke-width: 4; }
+.m-crown-p { fill: var(--orange); stroke: var(--ink); stroke-width: 4; stroke-linejoin: round; }
+.m-gem { fill: var(--red); stroke: var(--ink); stroke-width: 2.5; }
+
+/* badges */
+.badges { padding: 18px clamp(14px, 4vw, 24px) 20px; display: grid; gap: 14px; }
+.badges .bh { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+.badges h2 { font-family: var(--font-display); font-size: 1.6rem; }
+.badges .bh p { color: var(--muted); font-size: .9rem; flex: 1 1 260px; }
+.badges .count { font-weight: 800; font-variant-numeric: tabular-nums; }
+.shelf { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.badge { display: grid; justify-items: center; text-align: center; gap: 4px; padding: 10px 6px; border-radius: 16px; border: 2px dashed var(--line); min-width: 0; }
+.badge .bi { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; border: 2.5px dashed var(--line); color: var(--line); background: var(--bg); }
+.badge .bi svg { width: 28px; height: 28px; stroke-width: 2.1; }
+.badge b { font-size: .88rem; line-height: 1.5; color: var(--muted); }
+.badge small { font-size: .74rem; color: var(--muted); line-height: 1.5; }
+.badge.on { border: 2px solid var(--ink); background: color-mix(in srgb, var(--bc) 12%, var(--surface)); box-shadow: -3px 3px 0 var(--shadow); }
+.badge.on .bi { border: 2.5px solid var(--ink); background: var(--bc); color: var(--on-accent); animation: pop .6s cubic-bezier(.3, 1.8, .5, 1); }
+.badge.on b { color: var(--ink); }
+@keyframes pop { 0% { transform: scale(.3) rotate(-30deg); } 70% { transform: scale(1.15) rotate(6deg); } }
+.done-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+.done-badges span { display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: .85rem; border: 2px solid var(--ink); border-radius: 999px; padding: 2px 12px 2px 4px; background: var(--surface); }
+.done-badges span i { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--bc); color: var(--on-accent); }
+.done-badges span i svg { width: 14px; height: 14px; stroke-width: 2.6; }
+.done-level { font-family: var(--font-display); font-size: 1.3rem; color: var(--theme); }
+.done-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* toasts */
+.toasts {
+  position: fixed; z-index: 30; left: 50%; translate: -50% 0; bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  display: grid; gap: 8px; width: min(420px, calc(100% - 32px)); pointer-events: none;
+}
+.toast {
+  display: flex; align-items: center; gap: 12px; background: var(--surface); border: 2.5px solid var(--ink); border-radius: 16px;
+  box-shadow: -4px 4px 0 var(--shadow); padding: 10px 14px; animation: tin .45s cubic-bezier(.3, 1.6, .5, 1);
+}
+.toast.out { animation: tout .3s ease forwards; }
+.toast .ti { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--bc, var(--theme)); color: var(--on-accent); border: 2px solid var(--ink); }
+.toast .ti svg { width: 24px; height: 24px; stroke-width: 2.2; }
+.toast .ti.m { background: var(--yellow-soft); }
+.toast .ti.m svg { width: 34px; height: 40px; }
+.toast b { display: block; font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; line-height: 1.3; }
+.toast small { color: var(--muted); font-size: .82rem; }
+@keyframes tin { from { transform: translateY(30px) scale(.9); opacity: 0; } }
+@keyframes tout { to { transform: translateY(20px); opacity: 0; } }
 
 /* ---------- age picker ---------- */
 .ages-box { padding: 20px clamp(14px, 4vw, 26px) 22px; display: grid; gap: 14px; }
@@ -447,6 +508,9 @@ input:focus, textarea:focus { outline: none; box-shadow: -3px 3px 0 var(--c, var
   .paths { grid-template-columns: minmax(0, 1fr); }
   .path ol, .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .path li::after { display: none; }
+  .shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lvl small { display: none; }
+  .ptrack { order: 5; flex-basis: 100%; }
   .ages { grid-template-columns: 1fr; }
   .row summary { grid-template-columns: 2.8rem minmax(0, 1fr) auto; }
   .row summary .meta { display: none; }
@@ -493,6 +557,8 @@ input:focus, textarea:focus { outline: none; box-shadow: -3px 3px 0 var(--c, var
       <circle class="m-cheek" cx="70" cy="112" r="8"/>
       <circle class="m-cheek" cx="130" cy="112" r="8"/>
       <path class="m-line" d="M86 114 q14 14 28 0"/>
+      <g class="m-glasses"><circle class="m-glass" cx="82" cy="94" r="15"/><circle class="m-glass" cx="118" cy="94" r="15"/><path class="m-line" d="M97 93 q3-3 6 0"/></g>
+      <g class="m-crown"><path class="m-crown-p" d="M70 40 L74 10 L88 26 L100 4 L112 26 L126 10 L130 40 Z"/><circle class="m-gem" cx="100" cy="30" r="5"/></g>
     </g>
   </symbol>
 </svg>
@@ -537,7 +603,9 @@ input:focus, textarea:focus { outline: none; box-shadow: -3px 3px 0 var(--c, var
       </section>
 
       <div class="progress" id="progress" hidden>
-        <div class="ptrack" role="progressbar" aria-label="پیشرفت فرم" aria-valuemin="0" aria-valuemax="100" id="ptrack"><span class="pfill" id="pfill"></span></div>
+        <div class="lvl"><svg class="mini" viewBox="0 0 200 230" aria-hidden="true"><use href="#mascot"/></svg><span><b id="lvl-name"></b><small id="lvl-next"></small></span></div>
+        <div class="ptrack" role="progressbar" aria-label="نور لامپ ایده" aria-valuemin="0" aria-valuemax="100" id="ptrack"><span class="pfill" id="pfill"></span></div>
+        <span class="stars" id="stars"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.8 6 6.5.7-4.9 4.4 1.4 6.4L12 16.8 6.2 20l1.4-6.4-4.9-4.4 6.5-.7z"/></svg><span id="stars-n">۰</span></span>
         <span class="ptext" id="ptext"></span>
       </div>
 
@@ -586,6 +654,11 @@ input:focus, textarea:focus { outline: none; box-shadow: -3px 3px 0 var(--c, var
           <p class="err" id="ok-err" hidden></p>
         </section>
 
+        <section class="badges sticker" id="badge-shelf">
+          <div class="bh"><h2>نشان‌های تو</h2><p>هر جواب به لامپ ایده‌ات نور می‌دهد و ستاره می‌گیرد. با کامل‌تر کردن ایده‌ات، نشان‌ها را جمع کن!</p><span class="count" id="badge-count"></span></div>
+          <ul class="shelf" id="shelf"></ul>
+        </section>
+
         <div class="remember">
           <svg class="star" viewBox="0 0 24 24"><path d="M12 2.5l2.8 6 6.5.7-4.9 4.4 1.4 6.4L12 16.8 6.2 20l1.4-6.4-4.9-4.4 6.5-.7z"/></svg>
           <p><b>یادت باشد:</b> <span id="remember-text"></span></p>
@@ -604,8 +677,14 @@ input:focus, textarea:focus { outline: none; box-shadow: -3px 3px 0 var(--c, var
       <div class="done-text-box">
         <h2>هورا! <span>ایده‌ات ثبت شد</span></h2>
         <p id="done-text"></p>
+        <p class="done-level" id="done-level"></p>
+        <div class="done-badges" id="done-badges"></div>
         <p>نتیجهٔ مرحلهٔ اول را تیم نوآوری از طریق شمارهٔ تماسی که وارد کردید خبر می‌دهد. همهٔ بچه‌ها، چه انتخاب شوند چه نه، چند خط بازخورد دربارهٔ ایده‌شان می‌گیرند.</p>
-        <button class="btn ghost" type="button" id="again">ثبت یک ایدهٔ دیگر</button>
+        <div class="done-actions">
+          <button class="btn ghost" type="button" id="card-btn" hidden>دریافت کارت ایده‌پرداز</button>
+          <button class="btn ghost" type="button" id="again">ثبت یک ایدهٔ دیگر</button>
+        </div>
+        <p class="status" id="card-status" role="status"></p>
       </div>
     </section>
   </main>
@@ -641,6 +720,7 @@ input:focus, textarea:focus { outline: none; box-shadow: -3px 3px 0 var(--c, var
   </section>
 </div>
 <canvas id="confetti" hidden></canvas>
+<div class="toasts" id="toasts" aria-live="polite"></div>
 
 <script>
 document.documentElement.dir = "rtl"; document.documentElement.lang = "fa";
@@ -853,7 +933,7 @@ function setTrack(k) {
   $("num-q").textContent = nums[1]; $("num-p").textContent = nums[2];
   $("form-body").hidden = false; $("progress").hidden = false;
   $("path-err").hidden = true;
-  updateProgress();
+  updateProgress(true);
 }
 
 /* ---------- progress: required parts filled ---------- */
@@ -867,11 +947,86 @@ function progressParts() {
   parts.push($("p_ok").checked);
   return [parts.filter(Boolean).length, parts.length];
 }
-function updateProgress() {
-  const [d, n] = progressParts(), pct = Math.round(d / n * 100);
-  $("pfill").style.width = pct + "%";
-  $("ptrack").setAttribute("aria-valuenow", pct);
-  $("ptext").innerHTML = pct === 100 ? "آماده برای ثبت!" : `${fa(pct)}٪ <small>کامل شده</small>`;
+function updateProgress(quiet) {
+  const [d, n] = progressParts(), left = n - d;
+  $("ptext").innerHTML = left ? `${fa(left)} <small>بخش لازم مانده</small>` : "آماده برای ثبت!";
+  updateGame(quiet === true);
+}
+
+/* ---------- game: stars light the bulb, levels grow the mascot, badges reward depth ---------- */
+// Stars come only from the idea itself (answers and files), never from the admin fields, and there is no ranking between kids.
+const LEVELS = {
+  a: ["جرقه", "ایده‌پرداز", "مخترع", "نابغهٔ ایده"],
+  b: ["جرقه", "ایده‌پرداز", "طراح راه‌حل", "آینده‌ساز"]
+};
+const LEVEL_AT = [0, .2, .5, .8];
+// Which question in each section stands for "the problem", "the dream" and "digging deeper".
+const ROLE = {
+  problem: { aSchool: "now", aFree: "problem", bJob: "change", bFree: "problem" },
+  dream: { aSchool: "day", aFree: "idea", bJob: "day", bFree: "solution" },
+  dig: { aSchool: "why", aFree: "why", bJob: "human", bFree: "evidence" }
+};
+const BADGES = [
+  { id: "first", name: "اولین قدم", desc: "اولین جوابت را نوشتی", c: "var(--blue)", d: "M5 21V4 M5 4h11l-2 4 2 4H5" },
+  { id: "problem", name: "کاشف مسئله", desc: "مسئله را پیدا کردی", c: "var(--orange)", d: "M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14z M20 20l-4-4" },
+  { id: "dig", name: "کارآگاه", desc: "عمیق‌تر فکر کردی", c: "var(--purple)", d: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14 M12 17h.01" },
+  { id: "dream", name: "رؤیاپرداز", desc: "آیندهٔ ایده‌ات را دیدی", c: "var(--red)", d: "M12 2c4 3 5 8 3 13H9C7 10 8 5 12 2z M9 15l-3 3 1 3 3-2 M15 15l3 3-1 3-3-2 M12 8h.01" },
+  { id: "artist", name: "هنرمند", desc: "ایده‌ات را نشان دادی", c: "var(--green)", d: "M12 3a9 9 0 0 0 0 18c1.5 0 2-1 2-2 0-1.5-1-2 0-3s2.5 0 4 0a3 3 0 0 0 3-3 9 9 0 0 0-9-10z M7.5 11h.01 M10 7h.01 M15 7.5h.01" },
+  { id: "voice", name: "قصه‌گو", desc: "با صدا یا ویدیو تعریف کردی", c: "var(--blue)", d: "M12 3a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z M6 11a6 6 0 0 0 12 0 M12 17v4" },
+  { id: "team", name: "کار تیمی", desc: "با دوستانت ایده دادی", c: "var(--orange)", d: "M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M3 20a6 6 0 0 1 12 0 M17 11a2.5 2.5 0 1 0 0-5 M21 20a5 5 0 0 0-4-4.9" },
+  { id: "complete", name: "کامل‌کار", desc: "به همهٔ سؤال‌ها جواب دادی", c: "var(--yellow)", d: "M8 4h8v5a4 4 0 0 1-8 0z M8 6H5a3 3 0 0 0 3 4 M16 6h3a3 3 0 0 1-3 4 M12 13v4 M8 21h8 M10 17h4v4" }
+];
+const STAR_PATH = "M12 2.5l2.8 6 6.5.7-4.9 4.4 1.4 6.4L12 16.8 6.2 20l1.4-6.4-4.9-4.4 6.5-.7z";
+let seenBadges = new Set(), lastLevel = 0, lastStars = 0;
+
+function gameState() {
+  if (!track) return null;
+  const t = TRACKS[track], said = id => (fieldVal(track, t.items.find(i => i.id === id) || {}) || "").length >= 3;
+  const slotDone = it => files.some(f => f.slot === `${track}_${it.slot}` && f.state === "done") || (it.link && !!$(`q_${track}_videoLink`).value.trim());
+  let stars = 0, max = 0, answered = 0, texts = 0;
+  for (const it of t.items) {
+    if (it.id) { const w = it.req ? 10 : 15; max += w; texts++; if (fieldVal(track, it).length >= (it.choice ? 1 : 3)) { stars += w; answered++; } }
+    else { max += 20; if (slotDone(it)) stars += 20; }
+  }
+  if (t.interests) { max += 5; if (document.querySelector("#interests input:checked")) stars += 5; }
+  const pct = max ? stars / max : 0;
+  const level = LEVEL_AT.filter(x => pct >= x).length;
+  const visual = t.items.find(i => i.slot === "visual"), talk = t.items.find(i => i.slot === "audio" || i.slot === "video");
+  const has = {
+    first: answered >= 1, problem: said(ROLE.problem[track]), dig: said(ROLE.dig[track]), dream: said(ROLE.dream[track]),
+    artist: !!visual && slotDone(visual), voice: !!talk && slotDone(talk), team: $("mode_team").checked, complete: answered === texts
+  };
+  const next = level < 4 ? Math.max(1, Math.ceil(LEVEL_AT[level] * max - stars)) : 0;
+  return { stars, max, pct, level, next, badges: BADGES.filter(b => has[b.id]).map(b => b.id) };
+}
+function renderShelf(got) {
+  $("shelf").innerHTML = BADGES.map(b => `<li class="badge${got.includes(b.id) ? " on" : ""}" style="--bc:${b.c}"><span class="bi">${svg(b.d)}</span><b>${esc(b.name)}</b><small>${esc(b.desc)}</small></li>`).join("");
+  $("badge-count").textContent = `${fa(got.length)} از ${fa(BADGES.length)}`;
+}
+function toast(icon, title, sub, color) {
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.innerHTML = `<span class="ti${icon === "mascot" ? " m" : ""}" style="${color ? "--bc:" + color : ""}">${icon === "mascot" ? '<svg viewBox="0 0 200 230"><use href="#mascot"/></svg>' : svg(icon)}</span><span><b>${esc(title)}</b><small>${esc(sub)}</small></span>`;
+  $("toasts").append(el);
+  while ($("toasts").children.length > 3) $("toasts").firstElementChild.remove();
+  setTimeout(() => { el.classList.add("out"); setTimeout(() => el.remove(), 320); }, 3200);
+}
+function updateGame(quiet) {
+  const g = gameState(); if (!g) return;
+  const names = LEVELS[TRACKS[track].group];
+  document.body.dataset.level = g.level;
+  $("pfill").style.width = Math.round(g.pct * 100) + "%";
+  $("ptrack").setAttribute("aria-valuenow", Math.round(g.pct * 100));
+  $("lvl-name").textContent = names[g.level - 1];
+  $("lvl-next").textContent = g.level < 4 ? `${fa(g.next)} ستاره تا «${names[g.level]}»` : "لامپت کاملاً روشن است!";
+  $("stars-n").textContent = fa(g.stars);
+  if (g.stars > lastStars && !quiet) { $("stars").classList.remove("bump"); void $("stars").offsetWidth; $("stars").classList.add("bump"); }
+  renderShelf(g.badges);
+  if (!quiet) {
+    if (g.level > lastLevel && lastLevel) toast("mascot", `سطح تازه: ${names[g.level - 1]}!`, g.level === 4 ? "لامپ ایده‌ات کاملاً روشن شد." : "لامپ ایده‌ات روشن‌تر شد.");
+    for (const id of g.badges) if (!seenBadges.has(id)) { const b = BADGES.find(x => x.id === id); toast(b.d, `نشان «${b.name}»`, b.desc, b.c); }
+  }
+  seenBadges = new Set(g.badges); lastLevel = g.level; lastStars = g.stars;
 }
 const hasDrawing = () => files.some(f => f.slot === track + "_visual" && f.state === "done");
 document.querySelectorAll('input[name="age"]').forEach(r => r.addEventListener("change", () => { setAge(+r.value); saveDraft(); }));
@@ -906,7 +1061,7 @@ function loadDraft() {
   if (d.mode && $("mode_" + d.mode)) { $("mode_" + d.mode).checked = true; $("team-box").hidden = d.mode !== "team"; }
   for (const id of d.interests || []) if ($(id)) $(id).checked = true;
   files = (d.files || []).filter(f => f.slot).map(f => ({ ...f, key: f.id, state: "done", url: "/_blob/" + f.id }));
-  renderAllFiles();  updateProgress();
+  renderAllFiles(); updateProgress(true);
 }
 $("idea-form").addEventListener("input", () => { saveDraft(); updateProgress(); });
 $("idea-form").addEventListener("change", e => { if (!e.target.matches('input[type="file"]')) saveDraft(); updateProgress(); });
@@ -1076,6 +1231,7 @@ $("idea-form").addEventListener("submit", async e => {
     interests: TRACKS[track].interests ? [...document.querySelectorAll("#interests input:checked")].map(x => x.value) : [],
     parent: { name: v("p_name"), phone: toEn(v("p_phone")).replace(/\D/g, ""), company: v("p_company"), code: toEn(v("p_code")) },
     consent: true,
+    game: (({ stars, level, badges }) => ({ stars, level, badges }))(gameState()),
     files: files.filter(f => f.state === "done" && f.slot.startsWith(track + "_")).map(({ slot, id, name, type, size, kind, enc }) => ({ slot: slot.split("_")[1], id, name, type, size, kind, ...(enc ? { enc } : {}) }))
   };
 
@@ -1124,6 +1280,11 @@ function showDone(en) {
   $("idea-form").hidden = true; $("done").hidden = false;
   confetti();
   const t = ideaTitle(en);
+  const names = LEVELS[en.group];
+  $("done-level").textContent = `سطح تو: ${names[en.game.level - 1]} · ${fa(en.game.stars)} ستاره`;
+  $("done-badges").innerHTML = en.game.badges.map(id => BADGES.find(b => b.id === id)).map(b => `<span style="--bc:${b.c}"><i>${svg(b.d)}</i>${esc(b.name)}</span>`).join("");
+  $("card-btn").hidden = !downloads; $("card-status").textContent = "";
+  lastEntry = en;
   $("done-text").textContent = `${en.child.name} عزیز، ایده‌ات${t ? " «" + (t.length > 70 ? t.slice(0, 70) + "…" : t) + "»" : ""}${en.files.length ? " با " + fa(en.files.length) + " فایل" : ""} به دست تیم نوآوری گلرنگ رسید.`;
   $("done").scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -1134,12 +1295,73 @@ $("again").addEventListener("click", () => {
   keep.forEach(([id, val]) => $(id).value = val);
   files = []; renderAllFiles(); track = age = group = null;
   $("form-body").hidden = true; $("progress").hidden = true; $("team-box").hidden = true; $("group-line").hidden = true;
-  delete document.body.dataset.track;
+  delete document.body.dataset.track; delete document.body.dataset.level;
+  seenBadges = new Set(); lastLevel = 0; lastStars = 0;
   $("paths-box").hidden = true;
   for (const k of Object.keys(TRACKS)) $("track-" + k).hidden = true;
   clearMarks(); setStatus("");
   $("done").hidden = true; $("idea-form").hidden = false;
   $("step-age").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+/* ---------- the idea card: a keepsake PNG with name, level and badges ---------- */
+let lastEntry = null;
+function wrapLines(x, text, maxW, maxLines) {
+  const words = text.split(/\s+/), lines = [];
+  let cur = "";
+  for (const w of words) { const t = cur ? cur + " " + w : w; if (x.measureText(t).width > maxW && cur) { lines.push(cur); cur = w; } else cur = t; }
+  if (cur) lines.push(cur);
+  if (lines.length > maxLines) { lines.length = maxLines; lines[maxLines - 1] += "…"; }
+  return lines;
+}
+async function makeCard(en) {
+  const P = { bg: "#f3f6ff", dot: "#d3dbf2", ink: "#1f2240", muted: "#5b6080", yellow: "#ffc23d", theme: en.group === "a" ? "#ff8838" : "#8656ec", soft: en.group === "a" ? "#ffe8d6" : "#eee6ff",
+    badge: { "var(--blue)": "#3a78ee", "var(--orange)": "#ff8838", "var(--purple)": "#8656ec", "var(--red)": "#e8414f", "var(--green)": "#22a866", "var(--yellow)": "#ffc23d" } };
+  try { await Promise.all([document.fonts.load("80px Lalezar"), document.fonts.load("700 40px Vazirmatn")]); } catch (e) {}
+  const W = 1080, H = 1350, c = document.createElement("canvas"); c.width = W; c.height = H;
+  const x = c.getContext("2d"); x.direction = "rtl"; x.textAlign = "center";
+  x.fillStyle = P.bg; x.fillRect(0, 0, W, H);
+  x.fillStyle = P.dot; for (let i = 11; i < W; i += 30) for (let j = 11; j < H; j += 30) { x.beginPath(); x.arc(i, j, 2, 0, 7); x.fill(); }
+  const box = (X, Y, w, h, r, fill) => { x.fillStyle = P.ink; x.beginPath(); x.roundRect(X - 12, Y + 12, w, h, r); x.fill(); x.fillStyle = fill; x.beginPath(); x.roundRect(X, Y, w, h, r); x.fill(); x.lineWidth = 6; x.strokeStyle = P.ink; x.stroke(); };
+  box(70, 70, 940, 1190, 44, "#ffffff");
+  x.fillStyle = P.muted; x.font = "700 30px Vazirmatn, Tahoma"; x.fillText("مسابقهٔ خلاقیت و نوآوری فرزندان گلرنگ", W / 2, 150);
+  x.fillStyle = P.ink; x.font = "96px Lalezar, Tahoma"; x.fillText("کارت ایده‌پرداز", W / 2, 265);
+  // the bulb
+  const bx = W / 2, by = 400;
+  x.strokeStyle = P.theme; x.lineWidth = 10; x.lineCap = "round";
+  for (const a of [-40, -140, 0, 180]) { const r = a * Math.PI / 180; x.beginPath(); x.moveTo(bx + Math.cos(r) * 112, by + Math.sin(r) * 112); x.lineTo(bx + Math.cos(r) * 136, by + Math.sin(r) * 136); x.stroke(); }
+  x.fillStyle = P.yellow; x.strokeStyle = P.ink; x.lineWidth = 6; x.beginPath(); x.arc(bx, by, 88, 0, 7); x.fill(); x.stroke();
+  x.fillStyle = "#d6dcef"; x.beginPath(); x.roundRect(bx - 44, by + 84, 88, 22, 11); x.fill(); x.stroke(); x.beginPath(); x.roundRect(bx - 38, by + 108, 76, 22, 11); x.fill(); x.stroke();
+  x.fillStyle = P.ink; x.beginPath(); x.ellipse(bx - 28, by - 8, 10, 14, 0, 0, 7); x.ellipse(bx + 28, by - 8, 10, 14, 0, 0, 7); x.fill();
+  x.beginPath(); x.lineWidth = 7; x.arc(bx, by + 18, 24, .15 * Math.PI, .85 * Math.PI); x.stroke();
+  x.fillStyle = P.ink; x.font = "76px Lalezar, Tahoma"; x.fillText(en.child.name, W / 2, 640);
+  const lv = `${LEVELS[en.group][en.game.level - 1]} · ${fa(en.game.stars)} ستاره`;
+  x.font = "800 38px Vazirmatn, Tahoma"; const lw = x.measureText(lv).width + 70;
+  x.fillStyle = P.soft; x.strokeStyle = P.ink; x.lineWidth = 4; x.beginPath(); x.roundRect(W / 2 - lw / 2, 672, lw, 66, 33); x.fill(); x.stroke();
+  x.fillStyle = P.ink; x.fillText(lv, W / 2, 718);
+  x.fillStyle = P.muted; x.font = "700 30px Vazirmatn, Tahoma"; x.fillText(TRACKS[en.track].name, W / 2, 790);
+  x.fillStyle = P.ink; x.font = "500 36px Vazirmatn, Tahoma";
+  wrapLines(x, "«" + (ideaTitle(en) || "ایدهٔ من") + "»", 820, 2).forEach((l, i) => x.fillText(l, W / 2, 850 + i * 52));
+  // badges
+  const got = en.game.badges.map(id => BADGES.find(b => b.id === id)), per = 4, cell = 210;
+  got.forEach((b, i) => {
+    const row = Math.floor(i / per), inRow = Math.min(per, got.length - row * per), col = i % per;
+    const cx = W / 2 + ((inRow - 1) / 2 - col) * cell, cy = 1000 + row * 150;
+    x.fillStyle = P.badge[b.c] || P.theme; x.strokeStyle = P.ink; x.lineWidth = 5; x.beginPath(); x.arc(cx, cy, 44, 0, 7); x.fill(); x.stroke();
+    x.save(); x.translate(cx - 24, cy - 24); x.scale(2, 2); x.strokeStyle = "#ffffff"; x.lineWidth = 2.2; x.lineJoin = x.lineCap = "round"; x.stroke(new Path2D(b.d)); x.restore();
+    x.fillStyle = P.ink; x.font = "800 26px Vazirmatn, Tahoma"; x.fillText(b.name, cx, cy + 82);
+  });
+  x.fillStyle = P.muted; x.font = "500 26px Vazirmatn, Tahoma"; x.fillText(new Date(en.createdAt).toLocaleDateString("fa-IR"), W / 2, 1222);
+  return new Promise(r => c.toBlob(r, "image/png"));
+}
+$("card-btn").addEventListener("click", async () => {
+  if (!lastEntry || !downloads) return;
+  $("card-status").textContent = "در حال ساختن کارت…";
+  try {
+    const blob = await makeCard(lastEntry);
+    await downloads.save({ filename: "idea-card.png", data: blob });
+    $("card-status").textContent = "کارت ذخیره شد.";
+  } catch (err) { $("card-status").textContent = err?.code === "declined" ? "" : "کارت ساخته نشد. دوباره امتحان کن."; }
 });
 
 async function loadMine() {
@@ -1222,6 +1444,7 @@ function renderBoard() {
         <dl class="qa">
           <div><dt>کودک</dt><dd>${esc(en.child?.name)}، ${fa(en.age)} ساله، ${esc(en.child?.city)}، مدرسهٔ ${esc(en.child?.school)}</dd></div>
           <div><dt>نوع مشارکت</dt><dd>${en.mode === "team" ? "با دوستان" + (en.team ? ": " + esc(en.team) : "") : "فردی"}</dd></div>
+          ${en.game ? `<div><dt>سطح و نشان‌ها</dt><dd>${esc(LEVELS[en.group]?.[en.game.level - 1] || "")} · ${fa(en.game.stars)} ستاره${en.game.badges?.length ? " · " + en.game.badges.map(id => BADGES.find(b => b.id === id)?.name).filter(Boolean).map(esc).join("، ") : ""}</dd></div>` : ""}
           ${en.interests?.length ? `<div><dt>دنیای مورد علاقه</dt><dd>${en.interests.map(esc).join("، ")}</dd></div>` : ""}
           <div><dt>والد</dt><dd>${esc(en.parent?.name)} · ${esc(en.parent?.company)} · پرسنلی <span class="ltr">${esc(fa(en.parent?.code || ""))}</span> · <span class="ltr">${esc(fa(en.parent?.phone || ""))}</span></dd></div>
         </dl>

@@ -1,0 +1,908 @@
+<title>ثبت ایدهٔ بچه‌های گلرنگ</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;500;700&display=swap">
+<style>
+/* Layout: follows the team's mockups. Age picker on top sets the form's group; then tinted sections
+   (1 basic info, 2 interests, 3 main questions as pastel cards with upload slots inside, 4 parent check),
+   a "remember" note and submit. Editors get a second tab with the review board. Same family as the award journey map. */
+:root {
+  --bg: #f6f7f3;
+  --surface: #ffffff;
+  --ink: #1c2420;
+  --muted: #5d6862;
+  --line: #dde2dc;
+  --accent: #b3263a;  --accent-soft: #fbe9ec;   /* pomegranate, shared with the award map */
+  --teal: #1d6a64;    --teal-soft: #e2f1ee;
+  --sun: #b77d00;     --sun-soft: #fdf5dc;
+  --blue: #2c63b5;    --blue-soft: #e7f0fc;
+  --violet: #6b4bb3;  --violet-soft: #f0ebfb;
+  --ok: #2f7d4f;      --ok-soft: #e4f3e9;
+  --font-display: "Lalezar", "Vazirmatn", Tahoma, sans-serif;
+  --font-body: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131815; --surface: #1b211e; --ink: #e7ece8; --muted: #a2ada6; --line: #2f3833;
+    --accent: #ef7a8a; --accent-soft: #33212a; --teal: #6cc2b9; --teal-soft: #1a302d;
+    --sun: #f2c14e; --sun-soft: #332c1b; --blue: #82aef0; --blue-soft: #1c2738;
+    --violet: #b59cf0; --violet-soft: #272138; --ok: #6fcf96; --ok-soft: #1b3024; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #131815; --surface: #1b211e; --ink: #e7ece8; --muted: #a2ada6; --line: #2f3833;
+  --accent: #ef7a8a; --accent-soft: #33212a; --teal: #6cc2b9; --teal-soft: #1a302d;
+  --sun: #f2c14e; --sun-soft: #332c1b; --blue: #82aef0; --blue-soft: #1c2738;
+  --violet: #b59cf0; --violet-soft: #272138; --ok: #6fcf96; --ok-soft: #1b3024; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.8;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 72px;
+}
+.wrap { max-width: 920px; margin-inline: auto; display: grid; gap: 28px; }
+.wrap.wide { max-width: 1100px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; font-weight: 400; }
+p { margin: 0; }
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+svg.i { width: 1.4em; height: 1.4em; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* header */
+header { display: grid; gap: 10px; justify-items: center; text-align: center; }
+.eyebrow { font-size: .85rem; color: var(--teal); font-weight: 700; letter-spacing: .02em; }
+h1 {
+  font-family: var(--font-display); font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: 1.2;
+  background: var(--sun-soft); border-radius: 18px; padding: 8px 28px 2px; transform: rotate(-1deg);
+}
+.group-line { font-weight: 700; font-size: 1.1rem; }
+.group-line span { color: var(--muted); font-weight: 400; margin-inline: 6px; }
+.intro { background: var(--accent-soft); border-radius: 12px; padding: 8px 18px; max-width: 62ch; font-size: .95rem; }
+.tagline { font-family: var(--font-display); color: var(--violet); font-size: 1.15rem; }
+
+/* age picker */
+.ages-box { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px clamp(14px, 4vw, 24px); display: grid; gap: 12px; }
+.ages-box h2 { font-family: var(--font-display); font-size: 1.5rem; }
+.ages-box .sub { color: var(--muted); font-size: .9rem; }
+.ages { display: flex; flex-wrap: wrap; gap: 18px 28px; }
+.age-group { display: grid; gap: 6px; }
+.age-group .gname { font-size: .85rem; font-weight: 700; color: var(--c); }
+.age-group[data-track="young"] { --c: var(--sun); }
+.age-group[data-track="mid"] { --c: var(--teal); }
+.age-group[data-track="teen"] { --c: var(--accent); }
+.age-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.age-tile { position: relative; }
+.age-tile input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.age-tile span {
+  display: grid; place-items: center; width: 3.2rem; height: 3.2rem; border-radius: 14px;
+  border: 2px solid var(--line); background: var(--surface);
+  font-family: var(--font-display); font-size: 1.55rem; line-height: 1; padding-top: 4px;
+  transition: transform .12s ease, background .12s ease, border-color .12s ease;
+}
+.age-tile:hover span { border-color: var(--c); }
+.age-tile input:checked + span { background: var(--c); border-color: var(--c); color: var(--surface); transform: rotate(-4deg) scale(1.06); }
+.age-tile input:focus-visible + span { outline: 2px solid var(--c); outline-offset: 3px; }
+
+/* tabs for editors */
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.tab { font: inherit; cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 6px 16px; font-weight: 500; }
+.tab:hover { border-color: var(--teal); }
+.tab[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+/* sections, one hue each as in the mockups */
+form { display: grid; gap: 20px; }
+.sec {
+  --c: var(--ok); --cs: var(--ok-soft);
+  border: 1.5px solid color-mix(in srgb, var(--c) 45%, transparent); background: var(--cs);
+  border-radius: 20px; padding: 16px clamp(12px, 3.5vw, 22px) 20px; display: grid; gap: 16px; min-width: 0;
+}
+.sec.s-interest { --c: var(--blue); --cs: var(--blue-soft); }
+.sec.s-questions { --c: var(--sun); --cs: var(--sun-soft); }
+.sec.s-parent { --c: var(--violet); --cs: var(--violet-soft); }
+.sec-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.sec-title {
+  display: inline-flex; align-items: center; gap: 8px; background: var(--surface); color: var(--ink);
+  border-radius: 999px; padding: 4px 16px 2px; font-family: var(--font-display); font-size: 1.3rem;
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--c) 40%, transparent);
+}
+.sec-title svg { color: var(--c); }
+.sec-head .sub { color: var(--muted); font-size: .88rem; }
+
+/* fields */
+.fields { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px 14px; }
+.fields .w2 { grid-column: span 2; }
+.q { display: grid; gap: 4px; min-width: 0; align-content: start; }
+.q > label, .q .legend { font-weight: 700; font-size: .92rem; }
+.hint { color: var(--muted); font-size: .82rem; line-height: 1.6; }
+.opt { color: var(--muted); font-weight: 400; font-size: .8rem; }
+.req { color: var(--accent); }
+input[type="text"], input[type="tel"], input[type="url"], textarea {
+  font: inherit; color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; width: 100%; min-width: 0;
+}
+input[readonly] { background: transparent; color: var(--muted); }
+input:focus, textarea:focus, select:focus { outline: 2px solid var(--teal); outline-offset: 0; border-color: var(--teal); }
+.ltr { direction: ltr; text-align: right; font-variant-numeric: tabular-nums; }
+.q.bad input, .q.bad textarea, .q.bad .slot-drop { border-color: var(--accent); }
+.err { color: var(--accent); font-size: .82rem; font-weight: 500; }
+.checks { display: flex; flex-wrap: wrap; gap: 6px 16px; padding-top: 4px; }
+.checks label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+input[type="radio"], input[type="checkbox"] { accent-color: var(--teal); width: 1.05rem; height: 1.05rem; margin: 0; }
+
+/* interests */
+.interests { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.int {
+  display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1.5px solid var(--line);
+  border-radius: 14px; padding: 10px 12px; cursor: pointer; font-weight: 500; font-size: .92rem; min-width: 0;
+}
+.int:hover { border-color: var(--blue); }
+.int:has(input:checked) { border-color: var(--blue); background: color-mix(in srgb, var(--blue) 10%, var(--surface)); }
+.int span { flex: 1; min-width: 0; }
+.int svg { width: 1.8em; height: 1.8em; color: var(--ic); }
+
+/* question cards */
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.card {
+  --c: var(--accent); --cs: var(--accent-soft);
+  background: var(--surface); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent);
+  border-radius: 16px; padding: 12px 14px 14px; display: grid; gap: 8px; align-content: start; min-width: 0;
+  background-image: linear-gradient(var(--cs), var(--cs));
+}
+.card.c2 { --c: var(--blue); --cs: var(--blue-soft); }
+.card.c3 { --c: var(--ok); --cs: var(--ok-soft); }
+.card.c4 { --c: var(--violet); --cs: var(--violet-soft); }
+.card.c5 { --c: var(--sun); --cs: var(--sun-soft); }
+.card.wide { grid-column: span 3; }
+.card.half { grid-column: span 2; }
+.card > label, .card .legend { font-weight: 700; font-size: .95rem; line-height: 1.7; }
+.card .n { color: var(--c); font-variant-numeric: tabular-nums; }
+.trk-young .card > label, .trk-young .card .legend { font-size: 1.05rem; }
+/* ruled answer lines, like the paper form */
+.card textarea {
+  border-radius: 10px; line-height: 2em; padding: 0 12px; min-height: 6em;
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent calc(2em - 1px), var(--line) calc(2em - 1px), var(--line) 2em);
+  background-attachment: local; resize: vertical;
+}
+
+/* upload slots */
+.slot-drop {
+  position: relative; border: 2px dashed color-mix(in srgb, var(--c) 45%, var(--line)); border-radius: 14px;
+  background: var(--surface); padding: 16px 12px; display: grid; justify-items: center; gap: 2px; text-align: center; cursor: pointer;
+}
+.slot-drop:hover, .slot-drop.over { border-color: var(--c); }
+.slot-drop svg { width: 2.2em; height: 2.2em; color: var(--c); }
+.slot-drop b { font-size: .92rem; }
+.slot-drop span { color: var(--muted); font-size: .8rem; }
+.slot-drop input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.files { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.file { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 10px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 6px 8px; }
+.thumb { width: 44px; height: 44px; border-radius: 8px; background: var(--bg); display: grid; place-items: center; overflow: hidden; font-size: .7rem; color: var(--muted); font-weight: 700; }
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+.fn { overflow-wrap: anywhere; font-size: .85rem; line-height: 1.5; }
+.fm { color: var(--muted); font-size: .78rem; }
+.fm.e { color: var(--accent); }
+.btn-x { font: inherit; border: 0; background: none; color: var(--muted); cursor: pointer; padding: 2px 8px; border-radius: 6px; font-size: .82rem; }
+.btn-x:hover { color: var(--accent); background: var(--accent-soft); }
+.files-off { color: var(--muted); font-size: .82rem; border: 1px dashed var(--line); border-radius: 10px; padding: 8px 12px; background: var(--surface); }
+
+.consent { display: flex; gap: 10px; align-items: flex-start; font-size: .92rem; }
+.consent input { margin-top: .5em; flex: none; }
+
+/* reminder + submit */
+.remember {
+  display: flex; gap: 12px; align-items: center; background: var(--accent-soft); border: 1.5px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: 16px; padding: 12px 18px; font-size: .95rem;
+}
+.remember b { font-family: var(--font-display); font-weight: 400; font-size: 1.2rem; color: var(--accent); white-space: nowrap; }
+.remember svg { color: var(--sun); width: 1.8em; height: 1.8em; }
+.submit-bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; }
+.btn { font: inherit; font-weight: 700; cursor: pointer; border-radius: 14px; padding: 10px 34px; border: 0; background: var(--accent); color: #fff; font-size: 1.05rem; }
+.btn:hover { filter: brightness(1.06); }
+.btn:disabled { opacity: .55; cursor: progress; }
+.btn.ghost { background: var(--surface); color: var(--ink); border: 1px solid var(--line); font-size: .95rem; padding: 8px 20px; }
+.status { font-size: .9rem; color: var(--muted); }
+.status.e { color: var(--accent); font-weight: 500; }
+.draft-note { font-size: .8rem; color: var(--muted); text-align: center; }
+
+.done { background: var(--ok-soft); border: 1.5px solid var(--ok); border-radius: 20px; padding: 24px clamp(16px, 4vw, 28px); display: grid; gap: 12px; }
+.done h2 { color: var(--ok); font-family: var(--font-display); font-size: 1.7rem; }
+
+/* what happens next */
+.path { display: grid; gap: 12px; }
+.path h2 { font-family: var(--font-display); font-size: 1.45rem; }
+.path ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; counter-reset: s; }
+.path li { counter-increment: s; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font-size: .9rem; display: grid; gap: 2px; align-content: start; }
+.path li::before { content: counter(s, persian); font-family: var(--font-display); font-size: 1.3rem; color: var(--teal); line-height: 1.2; }
+.path li:first-child { border-color: var(--accent); }
+.path li:first-child::before { color: var(--accent); }
+.path li small { color: var(--muted); font-size: .8rem; line-height: 1.6; }
+.mine { display: grid; gap: 6px; }
+.mine h3 { font-weight: 700; font-size: 1rem; }
+.mine ul { margin: 0; padding-inline-start: 18px; color: var(--muted); font-size: .9rem; }
+
+/* team board */
+.board { display: grid; gap: 18px; }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.kpi { border-top: 2px solid var(--ink); padding-top: 8px; }
+.kpi b { display: block; font-family: var(--font-display); font-weight: 400; font-size: 2rem; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.kpi span { color: var(--muted); font-size: .85rem; }
+.kpi.young { border-color: var(--sun); } .kpi.mid { border-color: var(--teal); } .kpi.teen { border-color: var(--accent); }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.toolbar input, .toolbar select { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; flex: 1 1 170px; min-width: 0; }
+.rows { display: grid; gap: 8px; }
+.row { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; min-width: 0; }
+.row summary { list-style: none; cursor: pointer; padding: 12px 14px; display: grid; grid-template-columns: 3rem minmax(0, 1.4fr) minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+.row summary::-webkit-details-marker { display: none; }
+.ag { font-family: var(--font-display); font-size: 1.4rem; text-align: center; border-radius: 10px; line-height: 1.6; padding-top: 2px; }
+.ag.young { background: var(--sun-soft); color: var(--sun); }
+.ag.mid { background: var(--teal-soft); color: var(--teal); }
+.ag.teen { background: var(--accent-soft); color: var(--accent); }
+.who b { display: block; overflow-wrap: anywhere; }
+.who span, .meta { color: var(--muted); font-size: .82rem; overflow-wrap: anywhere; }
+.pill { font-size: .78rem; font-weight: 700; border-radius: 999px; padding: 1px 10px; white-space: nowrap; }
+.pill.new { background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
+.pill.shortlist { background: var(--ok-soft); color: var(--ok); }
+.pill.training { background: var(--teal-soft); color: var(--teal); }
+.pill.notnow { background: var(--accent-soft); color: var(--accent); }
+.detail { border-top: 1px solid var(--line); padding: 14px; display: grid; gap: 14px; }
+.qa { display: grid; gap: 10px; margin: 0; }
+.qa div { display: grid; gap: 2px; }
+.qa dt { color: var(--muted); font-size: .82rem; }
+.qa dd { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.qa a { color: var(--teal); }
+.media { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
+.media img, .media video { max-width: 100%; width: 220px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); }
+.media audio { width: 280px; max-width: 100%; }
+.media a { color: var(--teal); }
+.status-set { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.status-set select { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 4px 10px; }
+.empty { border: 1px dashed var(--line); border-radius: 12px; padding: 24px; text-align: center; color: var(--muted); }
+
+@media (max-width: 760px) {
+  .fields, .interests { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cards { grid-template-columns: minmax(0, 1fr); }
+  .card.wide, .card.half { grid-column: auto; }
+  .path ol, .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .row summary { grid-template-columns: 2.6rem minmax(0, 1fr) auto; }
+  .row summary .meta { display: none; }
+}
+@media (max-width: 440px) {
+  .fields { grid-template-columns: minmax(0, 1fr); }
+  .fields .w2 { grid-column: auto; }
+  .int { padding: 8px 10px; font-size: .86rem; }
+  .age-tile span { width: 2.9rem; height: 2.9rem; font-size: 1.35rem; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap" id="wrap">
+  <header>
+    <p class="eyebrow">ویژهٔ فرزندان ۷ تا ۱۷ سالهٔ همکاران گروه صنعتی گلرنگ</p>
+    <h1>فرم دریافت ایده</h1>
+    <p class="group-line" id="group-line" hidden></p>
+    <p class="intro" id="intro">چیزی دور و برت هست که دوست داری بهتر بشه؟ اول سنت را انتخاب کن تا سؤال‌های مخصوص خودت را ببینی.</p>
+    <p class="tagline" id="tagline">ایده‌های کوچک، دنیای بزرگ می‌سازند!</p>
+  </header>
+
+  <div class="tabs" id="tabs" role="tablist" hidden>
+    <button class="tab" type="button" role="tab" id="tab-form" aria-selected="true">فرم ثبت ایده</button>
+    <button class="tab" type="button" role="tab" id="tab-board" aria-selected="false">ایده‌های رسیده <span id="tab-count"></span></button>
+  </div>
+
+  <main id="view-form">
+    <form id="idea-form" novalidate>
+      <section class="ages-box" id="step-age">
+        <div><h2>چند سالته؟</h2><p class="sub">سؤال‌های فرم بر اساس سنت عوض می‌شوند.</p></div>
+        <div class="ages" id="ages"></div>
+        <p class="err" id="age-err" hidden></p>
+      </section>
+
+      <div id="form-body" hidden style="display:grid;gap:20px">
+        <section class="sec s-info">
+          <div class="sec-head"><h2 class="sec-title"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>۱. اطلاعات اولیه</h2></div>
+          <div class="fields">
+            <div class="q w2"><label for="k_name">نام کودک <span class="req">*</span></label><input type="text" id="k_name" autocomplete="off"></div>
+            <div class="q"><label for="k_age">سن</label><input type="text" id="k_age" readonly></div>
+            <div class="q"><label for="k_city">شهر <span class="req">*</span></label><input type="text" id="k_city"></div>
+            <div class="q w2"><label for="k_school">مدرسه <span class="req">*</span></label><input type="text" id="k_school"></div>
+            <div class="q w2"><label for="p_name">نام والد / سرپرست <span class="req">*</span></label><input type="text" id="p_name"></div>
+            <div class="q w2"><label for="p_phone">شمارهٔ تماس والد / سرپرست <span class="req">*</span></label><input type="tel" id="p_phone" class="ltr" inputmode="numeric" placeholder="09xxxxxxxxx"></div>
+            <div class="q w2" id="mode-q">
+              <span class="legend">نوع مشارکت <span class="req">*</span></span>
+              <div class="checks" role="radiogroup">
+                <label><input type="radio" name="mode" id="mode_solo" value="solo">فردی</label>
+                <label><input type="radio" name="mode" id="mode_team" value="team">با دوستان</label>
+              </div>
+            </div>
+            <div class="q w2" id="team-box" hidden><label for="k_team">اسم دوستانت و سنشان</label><input type="text" id="k_team" placeholder="مثلاً سارا ۹ ساله، علی ۱۰ ساله"></div>
+          </div>
+        </section>
+
+        <section class="sec s-interest">
+          <div class="sec-head"><h2 class="sec-title"><svg class="i" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>۲. دنیای مورد علاقه</h2><p class="sub">یکی را انتخاب کن تا شروع کنیم. اگر بیشتر بود، بیشتر.</p></div>
+          <div class="interests" id="interests"></div>
+        </section>
+
+        <section class="sec s-questions">
+          <div class="sec-head"><h2 class="sec-title"><svg class="i" viewBox="0 0 24 24"><path d="M4 20l4-1 11-11-3-3L5 16z M14 7l3 3"/></svg>۳. سؤال‌های اصلی</h2><p class="sub" id="q-sub"></p></div>
+          <div id="tracks"></div>
+        </section>
+
+        <section class="sec s-parent">
+          <div class="sec-head"><h2 class="sec-title"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8.1-8 9-4.6-.9-8-4.5-8-9V6z M8.5 12l2.5 2.5 4.5-5"/></svg>۴. تأیید والد</h2><p class="sub">این بخش را بابا یا مامان پر کند. فقط برای اطمینان از اینکه والد در گروه گلرنگ کار می‌کند.</p></div>
+          <div class="fields">
+            <div class="q w2"><label for="p_company">شرکت محل کار در گروه گلرنگ <span class="req">*</span></label><input type="text" id="p_company" placeholder="نام شرکت یا واحد"></div>
+            <div class="q w2"><label for="p_code">شمارهٔ پرسنلی <span class="req">*</span></label><input type="text" id="p_code" class="ltr" inputmode="numeric"></div>
+          </div>
+          <label class="consent" for="p_ok">
+            <input type="checkbox" id="p_ok">
+            <span>والد یا سرپرست این کودک هستم. با ثبت این ایده و استفادهٔ تیم نوآوری از آن برای ارزیابی و برنامه‌های آموزشی موافقم. ایده متعلق به خود کودک می‌ماند. <span class="req">*</span></span>
+          </label>
+          <p class="err" id="ok-err" hidden></p>
+        </section>
+
+        <div class="remember">
+          <svg class="i" viewBox="0 0 24 24"><path d="M12 3l2.6 5.5 6 .8-4.4 4.1 1.1 5.9L12 16.4 6.7 19.3l1.1-5.9L3.4 9.3l6-.8z"/></svg>
+          <p><b>یادت باشد:</b> <span id="remember-text"></span></p>
+        </div>
+
+        <div class="submit-bar">
+          <button class="btn" type="submit" id="submit">ثبت ایده</button>
+          <span class="status" id="status" role="status"></span>
+        </div>
+        <p class="draft-note">پیش‌نویس روی همین دستگاه نگه داشته می‌شود تا اگر صفحه بسته شد، از نو شروع نکنی.</p>
+      </div>
+    </form>
+
+    <section class="done" id="done" hidden>
+      <h2>ایده‌ات ثبت شد!</h2>
+      <p id="done-text"></p>
+      <p>نتیجهٔ مرحلهٔ اول را تیم نوآوری از طریق شمارهٔ تماسی که وارد کردید خبر می‌دهد. همهٔ بچه‌ها، چه انتخاب شوند چه نه، چند خط بازخورد دربارهٔ ایده‌شان می‌گیرند.</p>
+      <div><button class="btn ghost" type="button" id="again">ثبت یک ایدهٔ دیگر</button></div>
+    </section>
+  </main>
+
+  <section class="path" id="path">
+    <h2>بعد از ثبت ایده چه می‌شود؟</h2>
+    <ol>
+      <li><b>ثبت ایده</b><small>همین فرم</small></li>
+      <li><b>انتخاب ایده‌ها</b><small>ایده‌هایی که می‌شود رشدشان داد</small></li>
+      <li><b>آموزش ایده‌پردازی</b><small>کارگاه‌های مخصوص هر سن</small></li>
+      <li><b>تحقیق دربارهٔ مسئله</b><small>با آدم‌هایی که مشکل را دارند حرف می‌زنی</small></li>
+      <li><b>ساخت نمونهٔ اولیه</b><small>ماکت، نقاشی یا یک نسخهٔ ساده</small></li>
+      <li><b>بازخورد</b><small>از منتورها و کاربران</small></li>
+      <li><b>ارائهٔ نهایی</b><small>ایده‌ات را روی صحنه معرفی می‌کنی</small></li>
+      <li><b>منتورینگ و حمایت</b><small>برای ادامهٔ راه</small></li>
+    </ol>
+    <div class="mine" id="mine" hidden>
+      <h3>ایده‌هایی که از این حساب ثبت شده</h3>
+      <ul id="mine-list"></ul>
+    </div>
+  </section>
+
+  <section class="board" id="view-board" hidden>
+    <div class="kpis" id="kpis"></div>
+    <div class="toolbar">
+      <input type="text" id="f_q" placeholder="جست‌وجو در نام، شرکت یا ایده" aria-label="جست‌وجو">
+      <select id="f_track" aria-label="گروه سنی"><option value="">همهٔ سن‌ها</option><option value="young">۷ تا ۹</option><option value="mid">۱۰ تا ۱۲</option><option value="teen">۱۳ تا ۱۷</option></select>
+      <select id="f_status" aria-label="وضعیت"><option value="">همهٔ وضعیت‌ها</option></select>
+      <button class="btn ghost" type="button" id="csv" hidden>خروجی CSV</button>
+    </div>
+    <p class="status" id="board-status" role="status"></p>
+    <div class="rows" id="rows"></div>
+  </section>
+</div>
+
+<script>
+const fa = n => String(n).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
+const toEn = s => String(s).replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const svg = d => `<svg class="i" viewBox="0 0 24 24"><path d="${d}"/></svg>`;
+const ICON = {
+  image: "M4 5h16v14H4z M4 16l5-5 4 4 3-3 4 4 M15 9h.01",
+  mic: "M12 3a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z M6 11a6 6 0 0 0 12 0 M12 17v4",
+  play: "M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z M10 9l5 3-5 3z"
+};
+
+// Questions and wording follow Sahar's benchmark and the team's mockups. Items are numbered in order; slots are upload cards.
+const IMG = ["image/png", "image/jpeg", "image/webp", "image/gif"];
+const TRACKS = {
+  young: {
+    ages: [7, 8, 9], name: "ایده‌ام را نشانت می‌دهم",
+    intro: "می‌خواهیم ایدهٔ تو را ببینیم! لازم نیست خیلی رسمی بنویسی؛ می‌توانی با نقاشی، ماکت یا صدا ایده‌ات را نشان بدهی.",
+    tagline: "ایده‌های کوچک، دنیای بزرگ می‌سازند!",
+    remember: "مهم نیست ایده‌ات خیلی کامل باشد؛ فقط کافی است چیزی را که در ذهنت هست به ما نشان بدهی.",
+    items: [
+      { id: "better", label: "چه چیزی اطرافت هست که دوست داری بهتر بشه؟", req: true },
+      { id: "who", label: "این مشکل بیشتر برای چه کسیه؟" },
+      { id: "fix", label: "اگر هر چیزی امکان‌پذیر بود، چطور درستش می‌کردی؟", hint: "اگر نوشتنش سخت است، در کارت بعدی نقاشی‌اش را بفرست." },
+      { slot: "visual", label: "ایده‌ات چه شکلیه؟ آن را بکش، بساز یا عکسش را برایمان بفرست.", place: "جای نقاشی / عکس / ماکت", icon: "image", accept: [...IMG, "video/mp4", "video/webm", "video/quicktime", "application/pdf"], max: 4, half: true },
+      { slot: "audio", label: "دوست داری دربارهٔ ایده‌ات برایمان حرف بزنی؟", hint: "فایل صوتی حداکثر ۶۰ ثانیه‌ای (اختیاری)", place: "اینجا فایل صوتی را بارگذاری کن (mp3, m4a, wav)", icon: "mic", audio: true, max: 1, maxSec: 60 }
+    ]
+  },
+  mid: {
+    ages: [10, 11, 12], name: "مشکل + ایده",
+    intro: "می‌خواهیم بدانیم چه مشکلی پیدا کرده‌ای و چه ایده‌ای برای حلش داری. لازم نیست همه چیز کامل باشد؛ با کلمه‌های خودت توضیح بده.",
+    tagline: "هر مشکل، فرصتی برای یک ایده است!",
+    remember: "مهم نیست ایده‌ات کامل باشد؛ مهم این است که مشکل را خوب ببینی و بگویی ایده‌ات چطور حلش می‌کند.",
+    items: [
+      { id: "problem", label: "چه مشکلی پیدا کردی؟", req: true },
+      { id: "where", label: "کجا این مشکل را دیدی؟" },
+      { id: "who", label: "چه کسانی این مشکل را دارند؟" },
+      { id: "why", label: "چرا حل کردن این مشکل مهم است؟" },
+      { id: "idea", label: "ایدهٔ تو برای حل این مشکل چیست؟", req: true },
+      { id: "diff", label: "چه چیزی ایدهٔ تو را متفاوت می‌کند؟" },
+      { slot: "visual", label: "ایده را با نقاشی، اسکچ، ماکت، عکس یا ویدیو نشان بده.", place: "جای نقاشی / اسکچ / عکس ماکت / ویدیو", icon: "image", accept: [...IMG, "video/mp4", "video/webm", "video/quicktime", "application/pdf"], max: 4, half: true },
+      { id: "first", label: "اگر فردا بخواهی امتحانش کنی، اولین قدم چیست؟" }
+    ]
+  },
+  teen: {
+    ages: [13, 14, 15, 16, 17], name: "Idea to Solution", nameFa: "از ایده تا راه‌حل",
+    intro: "می‌خواهیم ببینیم چه مسئله‌ای را می‌خواهی حل کنی و ایده‌ات چطور می‌تواند به یک راه‌حل واقعی تبدیل شود. لازم نیست همه چیز کامل باشد! کافی است مسئله، ایده و مسیر آزمایش آن را روشن توضیح بدهی.",
+    tagline: "آینده با ایده‌های شما ساخته می‌شود!",
+    remember: "مهم نیست ایده‌ات از همین حالا کامل باشد؛ مهم این است که مسئله را خوب ببینی، راه‌حل خودت را روشن توضیح بدهی و نشان بدهی چطور می‌شود آن را امتحان کرد.",
+    items: [
+      { id: "title", label: "یک اسم برای ایده‌ات انتخاب کن.", req: true, input: true },
+      { id: "problem", label: "چه مشکلی را می‌خواهی حل کنی؟", hint: "(کوتاه و روشن)", req: true },
+      { id: "who", label: "چه کسانی با این مشکل مواجه‌اند؟" },
+      { id: "evidence", label: "از کجا می‌دانی این مشکل واقعاً وجود دارد؟", hint: "دیدی، تجربه کردی، با کسی صحبت کردی یا تحقیق کردی؟" },
+      { id: "current", label: "الان مردم چطور این مشکل را حل می‌کنند؟" },
+      { id: "solution", label: "راه‌حل تو چیست؟", req: true },
+      { id: "diff", label: "چه چیزی ایدهٔ تو را متفاوت یا بهتر می‌کند؟" },
+      { id: "test", label: "اگر بخواهی ایده را آزمایش کنی، چه چیزی می‌سازی یا چه آزمایشی انجام می‌دهی؟" },
+      { id: "impact", label: "اگر ایده‌ات اجرا شود، چه تغییری ایجاد می‌کند؟" },
+      { slot: "visual", label: "ایده‌ات را با Sketch، عکس، Prototype یا فایل تکمیلی نشان بده.", place: "جای Sketch / عکس / Prototype / فایل", icon: "image", accept: [...IMG, "application/pdf"], max: 4, half: true },
+      { slot: "video", label: "در صورت تمایل، یک ویدیوی کوتاه حداکثر ۹۰ ثانیه‌ای از توضیح ایده‌ات بفرست.", place: "جای ویدیو / فایل", icon: "play", accept: ["video/mp4", "video/webm", "video/quicktime"], max: 1, maxSec: 90, link: true }
+    ]
+  }
+};
+const TRACK_LABEL = { young: "۷ تا ۹ سال", mid: "۱۰ تا ۱۲ سال", teen: "۱۳ تا ۱۷ سال" };
+const INTERESTS = [
+  { t: "خانه و خانواده", c: "var(--accent)", d: "M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" },
+  { t: "مدرسهٔ من", c: "var(--blue)", d: "M6 9a6 6 0 0 1 12 0v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z M9 8V6a3 3 0 0 1 6 0v2 M9 14h6" },
+  { t: "زمین و طبیعت", c: "var(--ok)", d: "M12 21v-8 M12 13c0-4 3-7 8-7 0 5-3 8-8 7z M12 15c0-3-2-6-7-6 0 4 2 7 7 6z" },
+  { t: "زندگی سالم‌تر", c: "var(--accent)", d: "M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z" },
+  { t: "شهر بهتر", c: "var(--blue)", d: "M3 21h18 M5 21V9h5v12 M10 21V4h6v17 M16 21v-9h3v9 M12 7h2 M12 10h2 M12 13h2 M7 12h1 M7 15h1" },
+  { t: "آینده و تکنولوژی", c: "var(--teal)", d: "M5 9h14v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z M12 9V5 M12 4h.01 M9 13h.01 M15 13h.01 M9 17h6" },
+  { t: "بازی و سرگرمی", c: "var(--violet)", d: "M6 8h12a4 4 0 0 1 4 4v1a4 4 0 0 1-7 2.6L14 15h-4l-1 .6A4 4 0 0 1 2 13v-1a4 4 0 0 1 4-4z M7 11v3 M5.5 12.5h3 M16 12h.01 M18 13.5h.01" },
+  { t: "ایدهٔ خودم", c: "var(--sun)", d: "M9 18h6 M10 21h4 M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z" }
+];
+const STATUSES = { new: "تازه", shortlist: "دارای پتانسیل", training: "دعوت به آموزش", notnow: "این دوره نه" };
+const REQUIRED_BASE = ["k_name", "k_city", "k_school", "p_name", "p_phone", "p_company", "p_code"];
+const DRAFT_KEY = "golrang-kids-idea-draft";
+const CARD_TINTS = ["c1", "c2", "c3", "c4", "c5"];
+
+let track = null, age = null;
+let files = []; // {key, slot, id, name, type, size, kind, state, url, err}
+let db = null, user = null, assets = null, downloads = null;
+const trackOf = a => Object.keys(TRACKS).find(k => TRACKS[k].ages.includes(a));
+
+/* ---------- build the form ---------- */
+$("ages").innerHTML = Object.entries(TRACKS).map(([k, t]) => `
+  <div class="age-group" data-track="${k}">
+    <span class="gname">${esc(t.nameFa || t.name)}</span>
+    <div class="age-row">${t.ages.map(a => `<label class="age-tile"><input type="radio" name="age" id="age_${a}" value="${a}"><span>${fa(a)}</span></label>`).join("")}</div>
+  </div>`).join("");
+
+$("interests").innerHTML = INTERESTS.map((x, i) =>
+  `<label class="int" style="--ic:${x.c}"><input type="checkbox" id="int_${i}" value="${esc(x.t)}"><span>${esc(x.t)}</span>${svg(x.d)}</label>`).join("");
+
+$("tracks").innerHTML = Object.entries(TRACKS).map(([k, t]) => `
+  <div class="cards trk-${k}" id="track-${k}" hidden>
+    ${t.items.map((it, i) => {
+      const n = `<span class="n">${fa(i + 1)}.</span> `;
+      const tint = CARD_TINTS[i % CARD_TINTS.length];
+      if (it.slot) {
+        const sid = `${k}_${it.slot}`;
+        const acc = it.audio ? "audio/*,.mp3,.m4a,.wav,.aac,.ogg" : it.accept.join(",") + (it.accept.includes("video/quicktime") ? ",.mov" : "");
+        return `<div class="card ${tint}${it.half ? " half" : ""} q" id="card_${sid}">
+          <span class="legend">${n}${esc(it.label)} <span class="opt">(اختیاری)</span></span>
+          ${it.hint ? `<span class="hint">${esc(it.hint)}</span>` : ""}
+          <label class="slot-drop" data-slot="${sid}" for="file_${sid}">${svg(ICON[it.icon])}<b>${esc(it.place)}</b><span>${it.max > 1 ? "تا " + fa(it.max) + " فایل، " : ""}هر فایل تا ${it.audio ? "۶" : "۲۰"} مگابایت</span>
+            <input type="file" id="file_${sid}" data-slot="${sid}" ${it.max > 1 ? "multiple" : ""} accept="${acc}"></label>
+          <p class="files-off" hidden>ارسال فایل برای حساب شما فعال نیست. ایده را بدون فایل ثبت کن؛ تیم نوآوری بعداً برای گرفتنش تماس می‌گیرد.</p>
+          <ul class="files" id="files_${sid}"></ul>
+          ${it.link ? `<input type="url" id="q_${k}_videoLink" class="ltr" placeholder="یا لینک ویدیو (آپارات، گوگل‌درایو و …)">` : ""}
+        </div>`;
+      }
+      const fid = `q_${k}_${it.id}`;
+      const ctl = it.input ? `<input type="text" id="${fid}">` : `<textarea id="${fid}" rows="3"></textarea>`;
+      return `<div class="card ${tint} q"><label for="${fid}">${n}${esc(it.label)} ${it.req ? '<span class="req">*</span>' : ""}</label>${it.hint ? `<span class="hint">${esc(it.hint)}</span>` : ""}${ctl}</div>`;
+    }).join("")}
+  </div>`).join("");
+
+$("f_status").insertAdjacentHTML("beforeend", Object.entries(STATUSES).map(([k, v]) => `<option value="${k}">${v}</option>`).join(""));
+
+function setAge(a) {
+  age = a; track = trackOf(a);
+  const t = TRACKS[track];
+  for (const k of Object.keys(TRACKS)) $("track-" + k).hidden = k !== track;
+  $("group-line").innerHTML = `گروه سنی ${TRACK_LABEL[track]}<span>|</span>${esc(t.name)}`;
+  $("group-line").hidden = false;
+  $("intro").textContent = t.intro;
+  $("tagline").textContent = t.tagline;
+  $("remember-text").textContent = t.remember;
+  $("q-sub").textContent = "سؤال‌های ستاره‌دار لازم‌اند. بقیه را هر چقدر خواستی جواب بده.";
+  $("k_age").value = fa(a) + " سال";
+  $("form-body").hidden = false;
+  $("age-err").hidden = true;
+}
+document.querySelectorAll('input[name="age"]').forEach(r => r.addEventListener("change", () => { setAge(+r.value); saveDraft(); }));
+document.querySelectorAll('input[name="mode"]').forEach(r => r.addEventListener("change", () => { $("team-box").hidden = !$("mode_team").checked; }));
+
+/* ---------- draft on this device ---------- */
+let draftTimer = 0;
+function collectDraft() {
+  const vals = {};
+  document.querySelectorAll("#idea-form textarea, #idea-form input[type=text]:not([readonly]), #idea-form input[type=tel], #idea-form input[type=url]").forEach(el => { if (el.value) vals[el.id] = el.value; });
+  return {
+    age, vals, mode: $("mode_team").checked ? "team" : $("mode_solo").checked ? "solo" : "",
+    interests: [...document.querySelectorAll("#interests input:checked")].map(x => x.id),
+    files: files.filter(f => f.state === "done").map(({ slot, id, name, type, size, kind, enc }) => ({ slot, id, name, type, size, kind, enc }))
+  };
+}
+function saveDraft() {
+  clearTimeout(draftTimer);
+  draftTimer = setTimeout(() => { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(collectDraft())); } catch (e) {} }, 400);
+}
+function loadDraft() {
+  let d = null;
+  try { d = JSON.parse(localStorage.getItem(DRAFT_KEY) || "null"); } catch (e) {}
+  if (!d) return;
+  if (d.age && $("age_" + d.age)) { $("age_" + d.age).checked = true; setAge(d.age); }
+  for (const [id, v] of Object.entries(d.vals || {})) if ($(id)) $(id).value = v;
+  if (d.mode && $("mode_" + d.mode)) { $("mode_" + d.mode).checked = true; $("team-box").hidden = d.mode !== "team"; }
+  for (const id of d.interests || []) if ($(id)) $(id).checked = true;
+  files = (d.files || []).filter(f => f.slot).map(f => ({ ...f, key: f.id, state: "done", url: "/_blob/" + f.id }));
+  renderAllFiles();
+}
+$("idea-form").addEventListener("input", saveDraft);
+$("idea-form").addEventListener("change", e => { if (!e.target.matches('input[type="file"]')) saveDraft(); });
+
+/* ---------- files ---------- */
+const slotDef = sid => { const [k, s] = sid.split("_"); return TRACKS[k].items.find(i => i.slot === s); };
+const KIND_FA = { image: "عکس", video: "ویدیو", audio: "صدا", pdf: "PDF" };
+const sizeFa = b => b > 1048576 ? fa((b / 1048576).toFixed(1)) + " مگابایت" : fa(Math.max(1, Math.round(b / 1024))) + " کیلوبایت";
+const ext = f => (f.name.split(".").pop() || "").toLowerCase();
+
+function mediaType(f) {
+  const e = ext(f);
+  if (f.type === "video/quicktime" || e === "mov") return "video/mp4"; // iPhone video; plays in browsers as mp4
+  if (f.type) return f.type;
+  return { jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp", gif: "image/gif", mp4: "video/mp4", webm: "video/webm", pdf: "application/pdf" }[e] || "";
+}
+const AUDIO_EXT = { mp3: "audio/mpeg", m4a: "audio/mp4", wav: "audio/wav", aac: "audio/aac", ogg: "audio/ogg", oga: "audio/ogg", webm: "audio/webm" };
+
+function mediaDuration(file, tag) {
+  return new Promise(res => {
+    const el = document.createElement(tag), u = URL.createObjectURL(file);
+    const done = v => { URL.revokeObjectURL(u); res(v); };
+    el.preload = "metadata"; el.onloadedmetadata = () => done(el.duration); el.onerror = () => done(NaN);
+    setTimeout(() => done(NaN), 8000); el.src = u;
+  });
+}
+// The asset store has no audio types, so a voice file travels as a data: URL inside a text file and is turned back into audio for the team.
+function readDataUrl(file) {
+  return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(file); });
+}
+// Big phone photos are scaled down before upload so the shared storage lasts.
+async function shrink(file) {
+  if (!/^image\/(jpeg|png|webp)$/.test(file.type) || file.size < 2.5 * 1048576) return file;
+  try {
+    const bmp = await createImageBitmap(file);
+    const k = Math.min(1, 2000 / Math.max(bmp.width, bmp.height));
+    const c = document.createElement("canvas");
+    c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+    c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+    const blob = await new Promise(r => c.toBlob(r, "image/jpeg", 0.85));
+    return blob && blob.size < file.size ? new File([blob], file.name.replace(/\.\w+$/, "") + ".jpg", { type: "image/jpeg" }) : file;
+  } catch (e) { return file; }
+}
+
+async function addFiles(sid, list) {
+  const def = slotDef(sid);
+  for (const raw of list) {
+    if (files.filter(f => f.slot === sid).length >= def.max) { setStatus(def.max === 1 ? "اینجا فقط یک فایل می‌شود فرستاد. اول قبلی را حذف کن." : "اینجا حداکثر " + fa(def.max) + " فایل می‌شود فرستاد.", true); break; }
+    const entry = { key: Math.random().toString(36).slice(2), slot: sid, name: raw.name, size: raw.size, state: "up" };
+    files.push(entry); renderFiles(sid);
+    try {
+      if (def.audio) {
+        const at = raw.type.startsWith("audio/") ? raw.type : AUDIO_EXT[ext(raw)];
+        if (!at) throw { msg: "این فایل صوتی نیست. mp3، m4a یا wav بفرست." };
+        if (raw.size > 6 * 1048576) throw { msg: "فایل صوتی بزرگ‌تر از ۶ مگابایت است." };
+        const dur = await mediaDuration(raw, "audio");
+        if (dur > def.maxSec + 5) throw { msg: "صدا بیشتر از " + fa(def.maxSec) + " ثانیه است. کوتاه‌ترش کن." };
+        let data = await readDataUrl(raw);
+        data = data.replace(/^data:[^;,]*/, "data:" + at);
+        const res = await assets.upload(new Blob([data], { type: "text/plain" }), { type: "text/plain" });
+        Object.assign(entry, { id: res.id, url: res.url, type: at, kind: "audio", enc: "dataurl", state: "done" });
+      } else {
+        const t = mediaType(raw);
+        if (/heic|heif/i.test(raw.name + raw.type)) throw { msg: "عکس HEIC آیفون پشتیبانی نمی‌شود. عکس را با فرمت JPG بفرست." };
+        const okType = def.accept.includes(t) || (t === "video/mp4" && def.accept.includes("video/quicktime"));
+        if (!okType) throw { msg: "این نوع فایل اینجا پشتیبانی نمی‌شود." };
+        const kind = t.startsWith("image/") ? "image" : t.startsWith("video/") ? "video" : "pdf";
+        if (kind === "video" && def.maxSec) {
+          const dur = await mediaDuration(raw, "video");
+          if (dur > def.maxSec + 5) throw { msg: "ویدیو بیشتر از " + fa(def.maxSec) + " ثانیه است. کوتاه‌ترش کن." };
+        }
+        const f = await shrink(raw);
+        if (f.size > 20 * 1048576) throw { code: "too_large" };
+        const up = f.type === "image/jpeg" && f !== raw ? "image/jpeg" : t;
+        const res = await assets.upload(f, { type: up });
+        Object.assign(entry, { id: res.id, url: res.url, size: res.sizeBytes, type: up, kind, state: "done" });
+      }
+    } catch (e) {
+      entry.state = "err";
+      entry.err = e?.msg || (e?.code === "too_large" ? "فایل بزرگ‌تر از ۲۰ مگابایت است. کوتاه‌تر یا کوچک‌ترش کن." :
+        e?.code === "unsupported_type" ? "این نوع فایل پشتیبانی نمی‌شود." :
+        e?.code === "quota_or_state" ? "فضای ذخیره پر شده است. به تیم نوآوری خبر بده." : "بارگذاری نشد. دوباره امتحان کن.");
+    }
+    renderFiles(sid); saveDraft();
+  }
+}
+function renderFiles(sid) {
+  const ul = $("files_" + sid); if (!ul) return;
+  ul.innerHTML = files.filter(f => f.slot === sid).map(f => {
+    const th = f.state === "done" && f.kind === "image" ? `<img src="${esc(f.url)}" alt="">` : esc(KIND_FA[f.kind] || "فایل");
+    const meta = f.state === "up" ? "در حال بارگذاری…" : f.state === "err" ? esc(f.err) : esc(KIND_FA[f.kind] || "") + " · " + sizeFa(f.size);
+    return `<li class="file"><div class="thumb">${th}</div><div><div class="fn">${esc(f.name)}</div><div class="fm${f.state === "err" ? " e" : ""}">${meta}</div></div>${f.state === "up" ? "" : `<button type="button" class="btn-x" data-key="${f.key}">حذف</button>`}</li>`;
+  }).join("");
+}
+function renderAllFiles() { document.querySelectorAll(".files[id^=files_]").forEach(ul => renderFiles(ul.id.slice(6))); }
+
+$("tracks").addEventListener("click", e => {
+  const b = e.target.closest("[data-key]"); if (!b) return;
+  const f = files.find(x => x.key === b.dataset.key); if (!f) return;
+  files = files.filter(x => x !== f); renderFiles(f.slot); saveDraft();
+  if (f.id && assets) assets.delete(f.id).catch(() => {});
+});
+$("tracks").addEventListener("change", e => {
+  const inp = e.target.closest('input[type="file"]'); if (!inp) return;
+  addFiles(inp.dataset.slot, [...inp.files]); inp.value = "";
+});
+$("tracks").addEventListener("dragover", e => { const d = e.target.closest(".slot-drop"); if (d) { e.preventDefault(); d.classList.add("over"); } });
+$("tracks").addEventListener("dragleave", e => { e.target.closest(".slot-drop")?.classList.remove("over"); });
+$("tracks").addEventListener("drop", e => {
+  const d = e.target.closest(".slot-drop"); if (!d) return;
+  e.preventDefault(); d.classList.remove("over");
+  if (assets) addFiles(d.dataset.slot, [...e.dataTransfer.files]);
+});
+
+/* ---------- validation and submit ---------- */
+function mark(el, msg) {
+  const q = el.closest(".q"); q.classList.add("bad");
+  if (!q.querySelector(":scope > .err")) q.insertAdjacentHTML("beforeend", `<span class="err">${msg}</span>`);
+}
+function clearMarks() {
+  document.querySelectorAll(".q.bad").forEach(q => { q.classList.remove("bad"); q.querySelector(":scope > .err")?.remove(); });
+  $("age-err").hidden = $("ok-err").hidden = true;
+}
+function setStatus(msg, bad) { $("status").textContent = msg; $("status").className = "status" + (bad ? " e" : ""); }
+
+function validate() {
+  clearMarks(); setStatus("");
+  if (!track) { $("age-err").textContent = "اول سنت را انتخاب کن."; $("age-err").hidden = false; return [$("step-age")]; }
+  const bad = [];
+  for (const it of TRACKS[track].items) if (it.req) { const el = $(`q_${track}_${it.id}`); if (!el.value.trim()) { mark(el, "این سؤال را جواب بده."); bad.push(el); } }
+  // The youngest may draw instead of writing: "how would you fix it" counts as answered when a picture is attached.
+  if (track === "young") {
+    const fix = $("q_young_fix");
+    if (!fix.value.trim() && !files.some(f => f.slot === "young_visual" && f.state === "done")) { mark(fix, "جواب بده یا در کارت بعدی نقاشی‌اش را بفرست."); bad.push(fix); }
+  }
+  for (const id of REQUIRED_BASE) if (!$(id).value.trim()) { mark($(id), "این بخش لازم است."); bad.push($(id)); }
+  const ph = toEn($("p_phone").value).replace(/\D/g, "");
+  if ($("p_phone").value.trim() && !/^(98|0)?9\d{9}$/.test(ph)) { mark($("p_phone"), "شمارهٔ موبایل را کامل وارد کنید، مثل ۰۹۱۲۱۲۳۴۵۶۷."); bad.push($("p_phone")); }
+  if (!$("mode_solo").checked && !$("mode_team").checked) { mark($("mode_solo"), "یکی را انتخاب کن."); bad.push($("mode-q")); }
+  if (!$("p_ok").checked) { $("ok-err").textContent = "برای ثبت، تأیید والد لازم است."; $("ok-err").hidden = false; bad.push($("p_ok")); }
+  if (files.some(f => f.state === "up")) { bad.push($("submit")); setStatus("صبر کن تا فایل‌ها کامل بارگذاری شوند.", true); }
+  return bad;
+}
+const newId = () => Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
+const LOGIN_MSG = "برای ثبت ایده باید با حساب سازمانی وارد شده باشید.";
+
+$("idea-form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const bad = validate();
+  if (bad.length) {
+    if (!$("status").classList.contains("e")) setStatus("چند بخش هنوز کامل نیست. بخش‌های قرمز را ببین.", true);
+    bad[0].scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+  if (!db || !user) { setStatus(LOGIN_MSG, true); return; }
+  const uid = await user.id();
+  if (!uid) { setStatus(LOGIN_MSG, true); return; }
+
+  const answers = {};
+  for (const it of TRACKS[track].items) if (it.id) { const v = $(`q_${track}_${it.id}`).value.trim(); if (v) answers[it.id] = v; }
+  if (track === "teen" && $("q_teen_videoLink").value.trim()) answers.videoLink = $("q_teen_videoLink").value.trim();
+  const v = id => $(id).value.trim();
+  const entry = {
+    id: newId(), createdAt: new Date().toISOString(), age, track, answers,
+    child: { name: v("k_name"), city: v("k_city"), school: v("k_school") },
+    mode: $("mode_team").checked ? "team" : "solo", team: $("mode_team").checked ? v("k_team") : "",
+    interests: [...document.querySelectorAll("#interests input:checked")].map(x => x.value),
+    parent: { name: v("p_name"), phone: toEn(v("p_phone")).replace(/\D/g, ""), company: v("p_company"), code: toEn(v("p_code")) },
+    consent: true,
+    files: files.filter(f => f.state === "done" && f.slot.startsWith(track + "_")).map(({ slot, id, name, type, size, kind, enc }) => ({ slot: slot.split("_")[1], id, name, type, size, kind, ...(enc ? { enc } : {}) }))
+  };
+
+  $("submit").disabled = true; setStatus("در حال ثبت…");
+  try {
+    const ref = db.doc("ideas/" + uid);
+    const snap = await ref.get();
+    const entries = snap.exists ? [...(snap.data().entries || [])] : [];
+    entries.push(entry);
+    await ref.set({ entries, updatedAt: entry.createdAt });
+    try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+    showDone(entry);
+    loadMine();
+  } catch (err) {
+    setStatus(err?.code === "invalid_argument" ? "این حساب اجازهٔ ثبت ندارد. از تیم نوآوری بخواهید دسترسی ثبت (Contributor) به شما بدهند." :
+      err?.code === "quota_exceeded" ? "ظرفیت ثبت پر شده است. به تیم نوآوری خبر دهید." : "ثبت نشد. چند لحظه بعد دوباره «ثبت ایده» را بزنید.", true);
+  } finally { $("submit").disabled = false; }
+});
+
+const ideaTitle = en => { const a = en.answers || {}; return a.title || a.problem || a.better || a.idea || a.solution || ""; };
+function showDone(en) {
+  $("idea-form").hidden = true; $("done").hidden = false;
+  const t = ideaTitle(en);
+  $("done-text").textContent = `${en.child.name} عزیز، ایده‌ات${t ? " «" + (t.length > 70 ? t.slice(0, 70) + "…" : t) + "»" : ""}${en.files.length ? " با " + fa(en.files.length) + " فایل" : ""} به دست تیم نوآوری گلرنگ رسید.`;
+  $("done").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+$("again").addEventListener("click", () => {
+  // Keep the parent's details: a sibling or a second idea only needs the child's part again.
+  const keep = ["p_name", "p_phone", "p_company", "p_code", "k_city"].map(id => [id, $(id).value]);
+  $("idea-form").reset();
+  keep.forEach(([id, val]) => $(id).value = val);
+  files = []; renderAllFiles(); track = age = null;
+  $("form-body").hidden = true; $("team-box").hidden = true; $("group-line").hidden = true;
+  for (const k of Object.keys(TRACKS)) $("track-" + k).hidden = true;
+  clearMarks(); setStatus("");
+  $("done").hidden = true; $("idea-form").hidden = false;
+  $("step-age").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+async function loadMine() {
+  if (!db || !user) return;
+  const uid = await user.id(); if (!uid) return;
+  try {
+    const snap = await db.doc("ideas/" + uid).get();
+    const list = snap.exists ? snap.data().entries || [] : [];
+    $("mine").hidden = !list.length;
+    $("mine-list").innerHTML = list.map(en => `<li>${esc(en.child?.name)} (${fa(en.age)} ساله): ${esc(ideaTitle(en).slice(0, 60))}، ${new Date(en.createdAt).toLocaleDateString("fa-IR")}</li>`).join("");
+  } catch (e) {}
+}
+
+/* ---------- team board (editors only) ---------- */
+let ideas = [], reviews = {};
+const audioCache = {};
+function showView(which) {
+  $("view-form").hidden = which !== "form"; $("path").hidden = which !== "form";
+  $("view-board").hidden = which !== "board";
+  $("tab-form").setAttribute("aria-selected", which === "form"); $("tab-board").setAttribute("aria-selected", which === "board");
+  $("wrap").classList.toggle("wide", which === "board");
+  try { localStorage.setItem("golrang-kids-tab", which); } catch (e) {}
+}
+$("tab-form").addEventListener("click", () => showView("form"));
+$("tab-board").addEventListener("click", () => showView("board"));
+
+function startBoard() {
+  $("tabs").hidden = false;
+  let saved = null; try { saved = localStorage.getItem("golrang-kids-tab"); } catch (e) {}
+  if (saved === "board") showView("board");
+  $("board-status").textContent = "در حال خواندن ایده‌ها…";
+  db.collection("ideas").onSnapshot(snap => {
+    ideas = snap.docs.flatMap(d => (d.data().entries || []).map(en => ({ ...en, uid: d.id })))
+      .sort((a, b) => (b.createdAt || "").localeCompare(a.createdAt || ""));
+    renderBoard();
+  }, () => { $("board-status").textContent = "خواندن ایده‌ها ممکن نشد. صفحه را دوباره باز کنید."; });
+  db.collection("reviews").onSnapshot(snap => { reviews = {}; snap.docs.forEach(d => reviews[d.id] = d.data()); renderBoard(); }, () => {});
+}
+const statusOf = en => reviews[en.id]?.status || "new";
+const itemLabel = (trk, id) => TRACKS[trk]?.items.find(i => i.id === id)?.label;
+const safeUrl = u => /^https?:\/\//i.test(u) ? u : "";
+
+function renderBoard() {
+  $("board-status").textContent = "";
+  const by = k => ideas.filter(x => x.track === k).length;
+  $("tab-count").textContent = ideas.length ? "(" + fa(ideas.length) + ")" : "";
+  $("kpis").innerHTML = `
+    <div class="kpi"><b>${fa(ideas.length)}</b><span>کل ایده‌ها</span></div>
+    <div class="kpi young"><b>${fa(by("young"))}</b><span>۷ تا ۹ سال</span></div>
+    <div class="kpi mid"><b>${fa(by("mid"))}</b><span>۱۰ تا ۱۲ سال</span></div>
+    <div class="kpi teen"><b>${fa(by("teen"))}</b><span>۱۳ تا ۱۷ سال</span></div>`;
+  if (!ideas.length) { $("rows").innerHTML = `<div class="empty">هنوز ایده‌ای ثبت نشده. وقتی بچه‌ها فرم را پر کنند، ایده‌ها اینجا با جواب‌ها، نقاشی‌ها و فایل‌ها نشان داده می‌شوند.</div>`; return; }
+  const q = $("f_q").value.trim(), ft = $("f_track").value, fs = $("f_status").value;
+  const open = new Set([...document.querySelectorAll("#rows details[open]")].map(d => d.dataset.id));
+  const list = ideas.filter(en => (!ft || en.track === ft) && (!fs || statusOf(en) === fs) &&
+    (!q || JSON.stringify([en.child, en.parent?.company, en.answers]).includes(q)));
+  if (!list.length) { $("rows").innerHTML = `<div class="empty">با این فیلترها ایده‌ای پیدا نشد.</div>`; return; }
+  $("rows").innerHTML = list.map(en => {
+    const st = statusOf(en);
+    const qa = Object.entries(en.answers || {}).map(([k, val]) => k === "videoLink"
+      ? `<div><dt>لینک ویدیو</dt><dd>${safeUrl(val) ? `<a href="${esc(val)}" target="_blank" rel="noopener">${esc(val)}</a>` : esc(val)}</dd></div>`
+      : `<div><dt>${esc(itemLabel(en.track, k) || k)}</dt><dd>${esc(val)}</dd></div>`).join("");
+    const media = (en.files || []).map(f => {
+      const u = "/_blob/" + encodeURIComponent(f.id);
+      return f.kind === "image" ? `<a href="${u}" target="_blank" rel="noopener"><img src="${u}" alt="${esc(f.name)}" loading="lazy"></a>` :
+        f.kind === "video" ? `<video src="${u}" controls preload="metadata"></video>` :
+        f.kind === "audio" ? `<audio controls preload="none" data-asset="${esc(f.id)}"></audio>` :
+        `<a href="${u}" target="_blank" rel="noopener">${esc(f.name)}</a>`;
+    }).join("");
+    return `<details class="row" data-id="${esc(en.id)}"${open.has(en.id) ? " open" : ""}>
+      <summary>
+        <span class="ag ${esc(en.track)}">${fa(en.age)}</span>
+        <span class="who"><b>${esc(en.child?.name)}</b><span>${esc(ideaTitle(en).slice(0, 90))}</span></span>
+        <span class="meta">${esc(en.parent?.company)} · ${new Date(en.createdAt).toLocaleDateString("fa-IR")}${en.files?.length ? " · " + fa(en.files.length) + " فایل" : ""}</span>
+        <span class="pill ${st}">${STATUSES[st]}</span>
+      </summary>
+      <div class="detail">
+        <dl class="qa">${qa}</dl>
+        ${media ? `<div class="media">${media}</div>` : ""}
+        <dl class="qa">
+          <div><dt>کودک</dt><dd>${esc(en.child?.name)}، ${fa(en.age)} ساله، ${esc(en.child?.city)}، مدرسهٔ ${esc(en.child?.school)}</dd></div>
+          <div><dt>نوع مشارکت</dt><dd>${en.mode === "team" ? "با دوستان" + (en.team ? ": " + esc(en.team) : "") : "فردی"}</dd></div>
+          ${en.interests?.length ? `<div><dt>دنیای مورد علاقه</dt><dd>${en.interests.map(esc).join("، ")}</dd></div>` : ""}
+          <div><dt>والد</dt><dd>${esc(en.parent?.name)} · ${esc(en.parent?.company)} · پرسنلی <span class="ltr">${esc(fa(en.parent?.code || ""))}</span> · <span class="ltr">${esc(fa(en.parent?.phone || ""))}</span></dd></div>
+        </dl>
+        <div class="status-set"><label for="st_${esc(en.id)}">وضعیت:</label>
+          <select id="st_${esc(en.id)}" data-entry="${esc(en.id)}">${Object.entries(STATUSES).map(([k, v]) => `<option value="${k}"${k === st ? " selected" : ""}>${v}</option>`).join("")}</select>
+        </div>
+      </div>
+    </details>`;
+  }).join("");
+  hydrateAudio();
+}
+// Voice files are stored as text holding a data: URL; only audio data URLs are ever played.
+function hydrateAudio() {
+  document.querySelectorAll("#rows audio[data-asset]").forEach(async a => {
+    const id = a.dataset.asset;
+    try {
+      if (!audioCache[id]) audioCache[id] = fetch("/_blob/" + encodeURIComponent(id)).then(r => r.ok ? r.text() : "");
+      const txt = await audioCache[id];
+      if (/^data:audio\/[\w.+-]+;base64,[A-Za-z0-9+/=]+$/.test(txt)) a.src = txt;
+    } catch (e) {}
+  });
+}
+["f_q", "f_track", "f_status"].forEach(id => $(id).addEventListener("input", renderBoard));
+$("rows").addEventListener("change", async e => {
+  const s = e.target.closest("select[data-entry]"); if (!s) return;
+  s.disabled = true;
+  try { await db.doc("reviews/" + s.dataset.entry).set({ status: s.value, updatedAt: new Date().toISOString() }); }
+  catch (err) { $("board-status").textContent = "وضعیت ذخیره نشد. دوباره امتحان کنید."; s.disabled = false; }
+});
+
+$("csv").addEventListener("click", async () => {
+  const cell = x => '"' + String(x ?? "").replace(/"/g, '""') + '"';
+  const qIds = [...new Set(Object.values(TRACKS).flatMap(t => t.items.filter(i => i.id).map(i => i.id))), "videoLink"];
+  const head = ["تاریخ", "سن", "گروه سنی", "وضعیت", "نام کودک", "شهر", "مدرسه", "مشارکت", "دوستان", "دنیای مورد علاقه", ...qIds, "تعداد فایل", "نام والد", "تماس", "شرکت", "شمارهٔ پرسنلی"];
+  const rows = ideas.map(en => [en.createdAt, en.age, TRACK_LABEL[en.track], STATUSES[statusOf(en)], en.child?.name, en.child?.city, en.child?.school,
+    en.mode === "team" ? "با دوستان" : "فردی", en.team, (en.interests || []).join("، "), ...qIds.map(k => en.answers?.[k] || ""), (en.files || []).length,
+    en.parent?.name, en.parent?.phone, en.parent?.company, en.parent?.code]);
+  const csv = "﻿" + [head, ...rows].map(r => r.map(cell).join(",")).join("\r\n");
+  try { await downloads.save({ filename: "golrang-kids-ideas.csv", data: csv }); }
+  catch (err) { if (err?.code !== "declined") $("board-status").textContent = "خروجی گرفته نشد."; }
+});
+
+/* ---------- capabilities ---------- */
+function filesOff() {
+  document.querySelectorAll(".slot-drop").forEach(d => d.hidden = true);
+  document.querySelectorAll(".files-off").forEach(p => p.hidden = false);
+}
+loadDraft();
+(async () => {
+  const c = window.claude;
+  if (!c?.use) { filesOff(); return; }
+  const [d, u, a, dl] = await Promise.all(["db", "user", "assets", "downloads"].map(n => c.use(n).catch(() => null)));
+  db = d; user = u; assets = a; downloads = dl;
+  if (!assets) filesOff();
+  if (downloads) $("csv").hidden = false;
+  if (db && user && await user.canEdit().catch(() => false)) startBoard();
+  loadMine();
+})();
+</script>

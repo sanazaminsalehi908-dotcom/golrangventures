@@ -47,6 +47,7 @@ body[data-track="mid"] { --theme: var(--blue); --theme-soft: var(--blue-soft); }
 body[data-track="teen"] { --theme: var(--purple); --theme-soft: var(--purple-soft); }
 
 * { box-sizing: border-box; }
+html, body { direction: rtl; }
 body {
   background-color: var(--bg); color: var(--ink);
   background-image: radial-gradient(var(--dot) 1.3px, transparent 1.6px);
@@ -467,7 +468,7 @@ input:focus, textarea:focus { outline: none; box-shadow: -3px 3px 0 var(--c, var
   </symbol>
 </svg>
 
-<div class="wrap" id="wrap">
+<div class="wrap" id="wrap" dir="rtl" lang="fa">
   <header class="hero">
     <div class="doodles" aria-hidden="true">
       <svg class="d1" viewBox="0 0 40 40"><path d="M20 3l4.5 11 11.5 1-8.8 7.6 2.8 11.4L20 27.8 10 34l2.8-11.4L4 15l11.5-1z"/></svg>
@@ -608,6 +609,7 @@ input:focus, textarea:focus { outline: none; box-shadow: -3px 3px 0 var(--c, var
 <canvas id="confetti" hidden></canvas>
 
 <script>
+document.documentElement.dir = "rtl"; document.documentElement.lang = "fa";
 const fa = n => String(n).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
 const toEn = s => String(s).replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
 const $ = id => document.getElementById(id);

@@ -42,9 +42,8 @@
   --green: #6fdca2; --green-soft: #1f3a2f; --blue: #8db4ff; --blue-soft: #233148;
   --purple: #bba0ff; --purple-soft: #2f2a45; --orange: #ffab73; --orange-soft: #3e2f25; color-scheme: dark;
 }
-body[data-track="young"] { --theme: var(--orange); --theme-soft: var(--orange-soft); }
-body[data-track="mid"] { --theme: var(--blue); --theme-soft: var(--blue-soft); }
-body[data-track="teen"] { --theme: var(--purple); --theme-soft: var(--purple-soft); }
+body[data-track="a"] { --theme: var(--orange); --theme-soft: var(--orange-soft); }
+body[data-track="b"] { --theme: var(--purple); --theme-soft: var(--purple-soft); }
 
 * { box-sizing: border-box; }
 html, body { direction: rtl; }
@@ -132,13 +131,39 @@ body[data-track] h1 .mark::after { background: var(--theme); opacity: .55; }
 .ages-box { padding: 20px clamp(14px, 4vw, 26px) 22px; display: grid; gap: 14px; }
 .ages-box h2 { font-family: var(--font-display); font-size: 1.9rem; line-height: 1.3; }
 .ages-box .sub { color: var(--muted); font-size: .92rem; }
-.ages { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 16px 30px; }
+.ages { display: grid; grid-template-columns: repeat(2, auto); justify-content: start; gap: 16px 36px; }
 .age-group { display: grid; gap: 8px; align-content: start; }
 .age-group .gname { font-weight: 800; font-size: .88rem; color: var(--c); display: flex; align-items: center; gap: 6px; }
 .age-group .gname::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--c); transform: rotate(45deg); }
-.age-group[data-track="young"] { --c: var(--orange); --cs: var(--orange-soft); }
-.age-group[data-track="mid"] { --c: var(--blue); --cs: var(--blue-soft); }
-.age-group[data-track="teen"] { --c: var(--purple); --cs: var(--purple-soft); }
+.age-group[data-group="a"] { --c: var(--orange); --cs: var(--orange-soft); }
+.age-group[data-group="b"] { --c: var(--purple); --cs: var(--purple-soft); }
+.age-group .gname b { font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; }
+
+/* challenge or free idea */
+.paths-box { display: grid; gap: 12px; border-top: 2.5px dashed var(--line); padding-top: 16px; }
+.paths-box h3 { font-family: var(--font-display); font-size: 1.5rem; line-height: 1.3; }
+.paths { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.pathc { position: relative; min-width: 0; }
+.pathc input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; z-index: 1; }
+.pathc .face {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 14px; align-items: start; height: 100%;
+  padding: 16px; background: var(--pcs); border: 2.5px solid var(--ink); border-radius: 18px;
+  transition: transform .2s cubic-bezier(.3, 1.6, .5, 1), box-shadow .2s ease;
+}
+.pathc .pico { grid-row: span 3; display: grid; place-items: center; width: 58px; height: 58px; border-radius: 16px; background: var(--surface); border: 2px solid var(--ink); color: var(--pc); }
+.pathc .pico svg { width: 32px; height: 32px; stroke-width: 2.1; }
+.pathc .ptag { justify-self: start; font-size: .75rem; font-weight: 800; background: var(--pc); color: var(--on-accent); border-radius: 999px; padding: 1px 10px; }
+.pathc .pt { font-family: var(--font-display); font-size: 1.35rem; line-height: 1.35; }
+.pathc .ps { color: var(--muted); font-size: .88rem; line-height: 1.7; }
+.pathc:hover .face { transform: translateY(-3px); }
+.pathc input:checked + .face { box-shadow: -5px 5px 0 var(--shadow); transform: rotate(-1deg); }
+.pathc input:focus-visible + .face { outline: 3px solid var(--pc); outline-offset: 3px; }
+.pathc .tick {
+  position: absolute; top: -10px; left: -10px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--pc); color: var(--surface); border: 2.5px solid var(--ink); transform: scale(0); transition: transform .25s cubic-bezier(.3, 1.8, .5, 1); z-index: 2;
+}
+.pathc .tick svg { width: 16px; height: 16px; stroke-width: 3.2; }
+.pathc input:checked ~ .tick { transform: scale(1); }
 .age-row { display: flex; flex-wrap: wrap; gap: 8px; }
 .age-tile { position: relative; }
 .age-tile input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; z-index: 1; }
@@ -270,7 +295,8 @@ input:focus, textarea:focus { outline: none; box-shadow: -3px 3px 0 var(--c, var
   display: inline-grid; place-items: center; min-width: 1.75em; height: 1.75em; border-radius: 50%; margin-inline-end: 4px;
   background: var(--cs); border: 2px solid var(--c); color: var(--ink); font-size: .85em; font-variant-numeric: tabular-nums; vertical-align: 1px;
 }
-.trk-young .card > label, .trk-young .card .legend { font-size: 1.07rem; }
+.grp-a .card > label, .grp-a .card .legend { font-size: 1.05rem; }
+.card.wide { grid-column: 1 / -1; }
 /* ruled lines with a red margin, like a school notebook */
 .card textarea {
   line-height: 2em; padding: 0 30px 0 12px; min-height: 6.5em; resize: vertical; border-width: 2px;
@@ -381,7 +407,7 @@ input:focus, textarea:focus { outline: none; box-shadow: -3px 3px 0 var(--c, var
 .kpi { background: var(--surface); border: 2.5px solid var(--ink); border-radius: 16px; box-shadow: -4px 4px 0 var(--shadow); padding: 10px 14px; }
 .kpi b { display: block; font-family: var(--font-display); font-weight: 400; font-size: 2.2rem; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .kpi span { color: var(--muted); font-size: .85rem; font-weight: 700; }
-.kpi.young { background: var(--orange-soft); } .kpi.mid { background: var(--blue-soft); } .kpi.teen { background: var(--purple-soft); }
+.kpi.a { background: var(--orange-soft); } .kpi.b { background: var(--purple-soft); } .kpi.free { background: var(--green-soft); }
 .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 .toolbar input, .toolbar select { font: inherit; color: var(--ink); background: var(--surface); border: 2px solid var(--ink); border-radius: 12px; padding: 6px 10px; flex: 1 1 170px; min-width: 0; }
 .rows { display: grid; gap: 10px; }
@@ -390,7 +416,9 @@ input:focus, textarea:focus { outline: none; box-shadow: -3px 3px 0 var(--c, var
 .row summary { list-style: none; cursor: pointer; padding: 12px 14px; display: grid; grid-template-columns: 3rem minmax(0, 1.4fr) minmax(0, 1fr) auto; gap: 12px; align-items: center; }
 .row summary::-webkit-details-marker { display: none; }
 .ag { font-family: var(--font-display); font-size: 1.4rem; text-align: center; border-radius: 50%; width: 2.8rem; height: 2.8rem; display: grid; place-items: center; padding-top: 4px; border: 2px solid var(--ink); }
-.ag.young { background: var(--orange-soft); } .ag.mid { background: var(--blue-soft); } .ag.teen { background: var(--purple-soft); }
+.ag.a { background: var(--orange-soft); } .ag.b { background: var(--purple-soft); }
+.kind { font-size: .72rem; font-weight: 800; border-radius: 6px; padding: 0 6px; margin-inline-start: 6px; background: var(--yellow-soft); vertical-align: 1px; }
+.kind.free { background: var(--green-soft); }
 .who b { display: block; overflow-wrap: anywhere; }
 .who span, .meta { color: var(--muted); font-size: .82rem; overflow-wrap: anywhere; }
 .pill { font-size: .78rem; font-weight: 800; border-radius: 999px; padding: 2px 12px; white-space: nowrap; border: 2px solid var(--ink); }
@@ -415,7 +443,8 @@ input:focus, textarea:focus { outline: none; box-shadow: -3px 3px 0 var(--c, var
   .hero-in { grid-template-columns: minmax(0, 1fr) 120px; }
   .fields, .interests { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .cards { grid-template-columns: minmax(0, 1fr); }
-  .card.half { grid-column: auto; }
+  .card.half, .card.wide { grid-column: auto; }
+  .paths { grid-template-columns: minmax(0, 1fr); }
   .path ol, .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .path li::after { display: none; }
   .ages { grid-template-columns: 1fr; }
@@ -479,10 +508,10 @@ input:focus, textarea:focus { outline: none; box-shadow: -3px 3px 0 var(--c, var
     </div>
     <div class="hero-in">
       <div class="hero-text">
-        <p class="eyebrow">ویژهٔ فرزندان ۷ تا ۱۷ سالهٔ همکاران گروه صنعتی گلرنگ</p>
+        <p class="eyebrow">مسابقهٔ خلاقیت و نوآوری فرزندان همکاران گروه صنعتی گلرنگ</p>
         <h1>فرم دریافت <span class="mark">ایده</span></h1>
         <p class="group-line" id="group-line" hidden></p>
-        <p class="intro" id="intro">چیزی دور و برت هست که دوست داری بهتر بشه؟ اول سنت را انتخاب کن تا سؤال‌های مخصوص خودت را ببینی.</p>
+        <p class="intro" id="intro">برای بچه‌های ۷ تا ۱۸ سال، در دو گروه سنی. هر گروه یک چالش مخصوص خودش دارد و هر کس بخواهد می‌تواند ایدهٔ آزاد هم بفرستد. اول سنت را انتخاب کن.</p>
         <p class="tagline" id="tagline">ایده‌های کوچک، دنیای بزرگ می‌سازند!</p>
       </div>
       <div class="mascot" aria-hidden="true"><svg viewBox="0 0 200 230"><use href="#mascot"/></svg></div>
@@ -500,6 +529,11 @@ input:focus, textarea:focus { outline: none; box-shadow: -3px 3px 0 var(--c, var
         <div><h2>اول بگو چند سالته؟</h2><p class="sub">سؤال‌های فرم بر اساس سنت عوض می‌شوند.</p></div>
         <div class="ages" id="ages"></div>
         <p class="err" id="age-err" hidden></p>
+        <div class="paths-box" id="paths-box" hidden>
+          <div><h3>حالا انتخاب کن: چالش مسابقه یا ایدهٔ آزاد؟</h3><p class="sub">اگر بخواهی، بعد از ثبت می‌توانی در بخش دیگر هم شرکت کنی.</p></div>
+          <div class="paths" id="paths"></div>
+          <p class="err" id="path-err" hidden></p>
+        </div>
       </section>
 
       <div class="progress" id="progress" hidden>
@@ -528,18 +562,18 @@ input:focus, textarea:focus { outline: none; box-shadow: -3px 3px 0 var(--c, var
           </div>
         </section>
 
-        <section class="sec s-interest">
-          <div class="sec-head"><h2 class="sec-title"><span class="num">۲</span>دنیای مورد علاقه</h2><p class="sub">یکی را انتخاب کن تا شروع کنیم. اگر بیشتر بود، بیشتر.</p></div>
+        <section class="sec s-interest" id="sec-interest">
+          <div class="sec-head"><h2 class="sec-title"><span class="num" id="num-int">۲</span>دنیای مورد علاقه</h2><p class="sub">یکی را انتخاب کن تا شروع کنیم. اگر بیشتر بود، بیشتر.</p></div>
           <div class="interests" id="interests"></div>
         </section>
 
         <section class="sec s-questions">
-          <div class="sec-head"><h2 class="sec-title"><span class="num">۳</span>سؤال‌های اصلی</h2><p class="sub" id="q-sub"></p></div>
+          <div class="sec-head"><h2 class="sec-title"><span class="num" id="num-q">۳</span><span id="q-title">سؤال‌های اصلی</span></h2><p class="sub" id="q-sub"></p></div>
           <div id="tracks"></div>
         </section>
 
         <section class="sec s-parent">
-          <div class="sec-head"><h2 class="sec-title"><span class="num">۴</span>تأیید والد</h2><p class="sub">این بخش را بابا یا مامان پر کند.</p></div>
+          <div class="sec-head"><h2 class="sec-title"><span class="num" id="num-p">۴</span>تأیید والد</h2><p class="sub">این بخش را بابا یا مامان پر کند.</p></div>
           <p class="hint">فقط برای اطمینان از اینکه والد در گروه صنعتی گلرنگ کار می‌کند.</p>
           <div class="fields">
             <div class="q w2"><label for="p_company">شرکت محل کار در گروه گلرنگ <span class="req">*</span></label><input type="text" id="p_company" placeholder="نام شرکت یا واحد"></div>
@@ -598,7 +632,7 @@ input:focus, textarea:focus { outline: none; box-shadow: -3px 3px 0 var(--c, var
     <div class="kpis" id="kpis"></div>
     <div class="toolbar">
       <input type="text" id="f_q" placeholder="جست‌وجو در نام، شرکت یا ایده" aria-label="جست‌وجو">
-      <select id="f_track" aria-label="گروه سنی"><option value="">همهٔ سن‌ها</option><option value="young">۷ تا ۹</option><option value="mid">۱۰ تا ۱۲</option><option value="teen">۱۳ تا ۱۷</option></select>
+      <select id="f_track" aria-label="بخش"><option value="">همهٔ بخش‌ها</option></select>
       <select id="f_status" aria-label="وضعیت"><option value="">همهٔ وضعیت‌ها</option></select>
       <button class="btn ghost" type="button" id="csv" hidden>خروجی CSV</button>
     </div>
@@ -621,45 +655,86 @@ const ICON = {
   play: "M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z M10 9l5 3-5 3z"
 };
 
-// Questions and wording follow Sahar's benchmark and the team's mockups. Items are numbered in order; slots are upload cards.
+// Two age groups, each with its own challenge plus a free-idea path (consultant's proposal).
+// Free-idea questions follow Sahar's benchmark and the team's mockups. Items are numbered in order; slots are upload cards.
 const IMG = ["image/png", "image/jpeg", "image/webp", "image/gif"];
+const VIS = [...IMG, "video/mp4", "video/webm", "video/quicktime", "application/pdf"];
+const AUDIO_SLOT = { slot: "audio", label: "دوست داری دربارهٔ ایده‌ات برایمان حرف بزنی؟", hint: "فایل صوتی حداکثر ۶۰ ثانیه‌ای (اختیاری)", place: "اینجا فایل صوتی را بارگذاری کن (mp3, m4a, wav)", icon: "mic", audio: true, max: 1, maxSec: 60 };
+const VIDEO_SLOT = { slot: "video", label: "در صورت تمایل، یک ویدیوی کوتاه حداکثر ۹۰ ثانیه‌ای از توضیح ایده‌ات بفرست.", place: "جای ویدیو / فایل", icon: "play", accept: ["video/mp4", "video/webm", "video/quicktime"], max: 1, maxSec: 90, link: true };
+const GROUPS = {
+  a: { ages: [7, 8, 9, 10, 11, 12], name: "گروه الف", range: "۷ تا ۱۲ سال", tracks: ["aSchool", "aFree"] },
+  b: { ages: [13, 14, 15, 16, 17, 18], name: "گروه ب", range: "۱۳ تا ۱۸ سال", tracks: ["bJob", "bFree"] }
+};
+const PICON = {
+  school: "M3 21h18 M5 21V10l7-5 7 5v11 M10 21v-5h4v5 M9 11h.01 M15 11h.01 M12 5V2l3 1.5-3 1.5",
+  job: "M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2 M4 13h16 M18.5 2.5l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4-1.4-.6 1.4-.6z",
+  free: "M9 18h6 M10 21h4 M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"
+};
 const TRACKS = {
-  young: {
-    ages: [7, 8, 9], name: "ایده‌ام را نشانت می‌دهم",
-    intro: "می‌خواهیم ایدهٔ تو را ببینیم! لازم نیست خیلی رسمی بنویسی؛ می‌توانی با نقاشی، ماکت یا صدا ایده‌ات را نشان بدهی.",
+  aSchool: {
+    group: "a", kind: "challenge", icon: "school", color: "var(--orange)", soft: "var(--orange-soft)",
+    name: "چالش: مدرسهٔ بهتر", short: "الف · مدرسهٔ بهتر",
+    pick: "چی رو توی مدرسه عوض می‌کردی که مدرسه جای بهتری بشه؟",
+    intro: "اگر یک روز می‌توانستی یک چیز را در مدرسه عوض کنی، چه چیزی را عوض می‌کردی؟ می‌توانی یک درس را با یک فعالیت دیگر عوض کنی، یک فعالیت یا امکان تازه اضافه کنی، یا هر چیز دیگری که مدرسه را جای بهتری می‌کند. لازم نیست رسمی بنویسی؛ نقاشی و صدا هم قبول است.",
+    tagline: "مدرسهٔ رؤیایی‌ات را بساز!",
+    remember: "ایده‌ات لازم نیست بزرگ یا کامل باشد. یک تغییر کوچک هم می‌تواند یک روز مدرسه را برای خیلی‌ها بهتر کند.",
+    items: [
+      { id: "type", label: "می‌خواهی در مدرسه چه کار کنی؟", req: true, wide: true, choice: ["یک درس را با یک فعالیت دیگر عوض کنم", "یک فعالیت یا کلاس تازه اضافه کنم", "یک امکان یا وسیلهٔ تازه بیاورم", "حیاط، کلاس یا ساختمان را تغییر بدهم", "یک برنامه یا قانون را عوض کنم", "چیز دیگری"] },
+      { id: "now", label: "الان چه چیزی در مدرسه هست که دوستش نداری یا فکر می‌کنی می‌شود بهترش کرد؟", req: true },
+      { id: "why", label: "چرا؟ چه وقت‌هایی اذیتت می‌کند یا کم است؟" },
+      { id: "idea", label: "ایده‌ات چیه؟ چه چیزی را عوض می‌کنی یا اضافه می‌کنی؟", req: true, orDraw: true, hint: "اگر نوشتنش سخت است، نقاشی‌اش را پایین‌تر بفرست." },
+      { id: "day", label: "اگر ایده‌ات اجرا شود، یک روز مدرسه چه فرقی می‌کند؟" },
+      { id: "who", label: "چه کسانی از این تغییر خوشحال می‌شوند؟", hint: "بچه‌ها، معلم‌ها، مدیر، بابا و مامان‌ها…", half: true },
+      { slot: "visual", label: "مدرسه را با ایده‌ات بکش، بساز یا عکسش را برایمان بفرست.", place: "جای نقاشی / ماکت / عکس", icon: "image", accept: VIS, max: 4, half: true },
+      AUDIO_SLOT
+    ]
+  },
+  aFree: {
+    group: "a", kind: "free", icon: "free", color: "var(--green)", soft: "var(--green-soft)", interests: true,
+    name: "ایدهٔ آزاد", short: "الف · ایدهٔ آزاد",
+    pick: "هر مشکلی که دور و برت دیدی و ایده‌ای برای حلش داری.",
+    intro: "هر جای دیگری هم که مشکلی دیدی، در خانه، کوچه، پارک، شهر یا طبیعت، ایده‌ات را برایمان بفرست. می‌توانی بنویسی، بکشی یا با صدا تعریف کنی.",
     tagline: "ایده‌های کوچک، دنیای بزرگ می‌سازند!",
     remember: "مهم نیست ایده‌ات خیلی کامل باشد؛ فقط کافی است چیزی را که در ذهنت هست به ما نشان بدهی.",
     items: [
-      { id: "better", label: "چه چیزی اطرافت هست که دوست داری بهتر بشه؟", req: true },
+      { id: "problem", label: "چه مشکلی پیدا کردی؟", req: true, hint: "در خانه، کوچه، پارک، شهر یا هر جای دیگر." },
       { id: "who", label: "این مشکل بیشتر برای چه کسیه؟" },
-      { id: "fix", label: "اگر هر چیزی امکان‌پذیر بود، چطور درستش می‌کردی؟", hint: "اگر نوشتنش سخت است، در کارت بعدی نقاشی‌اش را بفرست." },
-      { slot: "visual", label: "ایده‌ات چه شکلیه؟ آن را بکش، بساز یا عکسش را برایمان بفرست.", place: "جای نقاشی / عکس / ماکت", icon: "image", accept: [...IMG, "video/mp4", "video/webm", "video/quicktime", "application/pdf"], max: 4, half: true },
-      { slot: "audio", label: "دوست داری دربارهٔ ایده‌ات برایمان حرف بزنی؟", hint: "فایل صوتی حداکثر ۶۰ ثانیه‌ای (اختیاری)", place: "اینجا فایل صوتی را بارگذاری کن (mp3, m4a, wav)", icon: "mic", audio: true, max: 1, maxSec: 60 }
-    ]
-  },
-  mid: {
-    ages: [10, 11, 12], name: "مشکل + ایده",
-    intro: "می‌خواهیم بدانیم چه مشکلی پیدا کرده‌ای و چه ایده‌ای برای حلش داری. لازم نیست همه چیز کامل باشد؛ با کلمه‌های خودت توضیح بده.",
-    tagline: "هر مشکل، فرصتی برای یک ایده است!",
-    remember: "مهم نیست ایده‌ات کامل باشد؛ مهم این است که مشکل را خوب ببینی و بگویی ایده‌ات چطور حلش می‌کند.",
-    items: [
-      { id: "problem", label: "چه مشکلی پیدا کردی؟", req: true },
-      { id: "where", label: "کجا این مشکل را دیدی؟" },
-      { id: "who", label: "چه کسانی این مشکل را دارند؟" },
       { id: "why", label: "چرا حل کردن این مشکل مهم است؟" },
-      { id: "idea", label: "ایدهٔ تو برای حل این مشکل چیست؟", req: true },
+      { id: "idea", label: "اگر هر چیزی امکان‌پذیر بود، چطور درستش می‌کردی؟", req: true, orDraw: true, hint: "اگر نوشتنش سخت است، نقاشی‌اش را پایین‌تر بفرست." },
       { id: "diff", label: "چه چیزی ایدهٔ تو را متفاوت می‌کند؟" },
-      { slot: "visual", label: "ایده را با نقاشی، اسکچ، ماکت، عکس یا ویدیو نشان بده.", place: "جای نقاشی / اسکچ / عکس ماکت / ویدیو", icon: "image", accept: [...IMG, "video/mp4", "video/webm", "video/quicktime", "application/pdf"], max: 4, half: true },
-      { id: "first", label: "اگر فردا بخواهی امتحانش کنی، اولین قدم چیست؟" }
+      { id: "first", label: "اگر فردا بخواهی امتحانش کنی، اولین قدمت چیست؟" },
+      { slot: "visual", label: "ایده‌ات چه شکلیه؟ آن را بکش، بساز یا عکسش را برایمان بفرست.", place: "جای نقاشی / عکس / ماکت", icon: "image", accept: VIS, max: 4, half: true },
+      AUDIO_SLOT
     ]
   },
-  teen: {
-    ages: [13, 14, 15, 16, 17], name: "Idea to Solution", nameFa: "از ایده تا راه‌حل",
+  bJob: {
+    group: "b", kind: "challenge", icon: "job", color: "var(--purple)", soft: "var(--purple-soft)",
+    name: "چالش: شغلی از آینده", short: "ب · شغلی از آینده",
+    pick: "با توجه به تغییرات دنیا و هوش مصنوعی، یک شغل تازه، مفید و لازم خلق کن.",
+    intro: "دنیا با هوش مصنوعی، ربات‌ها، تغییرات اقلیمی و پیشرفت علم دارد عوض می‌شود. بعضی شغل‌ها کم‌رنگ می‌شوند و شغل‌هایی به وجود می‌آیند که امروز هنوز اسمی ندارند. یک شغل از آینده خلق کن: شغلی که تا حالا نبوده، ولی مفید و لازم است.",
+    tagline: "آینده را تو طراحی می‌کنی!",
+    remember: "لازم نیست بدانی این شغل دقیقاً کی به وجود می‌آید. مهم این است که بگویی چرا لازم است، به چه کسی کمک می‌کند و کسی که این کار را می‌کند هر روز چه می‌کند.",
+    items: [
+      { id: "title", label: "اسم این شغل چیست؟", req: true, input: true, wide: true, hint: "اسمی که در یک نگاه بگوید این شغل چیست." },
+      { id: "change", label: "کدام تغییر دنیا این شغل را لازم می‌کند؟", req: true, hint: "هوش مصنوعی، تغییر اقلیم، پیر شدن جمعیت، سفر فضایی یا هر تغییری که خودت می‌بینی. چه نشانه‌ای از آن را همین امروز می‌بینی؟" },
+      { id: "need", label: "این شغل چه مشکلی را حل می‌کند و به چه کسانی کمک می‌کند؟", req: true },
+      { id: "day", label: "یک روز کاری این آدم را تعریف کن. از صبح تا شب چه کار می‌کند؟", req: true },
+      { id: "human", label: "هوش مصنوعی در این شغل چه کمکی می‌کند؟ چه کاری فقط از آدم برمی‌آید؟" },
+      { id: "skills", label: "برای این شغل چه مهارت‌ها و درس‌هایی لازم است؟ از همین حالا چطور می‌شود شروع کرد؟" },
+      { id: "risk", label: "این شغل ممکن است چه چالش یا خطری داشته باشد؟ چطور می‌شود حواسمان به آن باشد؟" },
+      { slot: "visual", label: "یک آگهی استخدام، کارت ویزیت یا پوستر برای این شغل طراحی کن.", place: "جای آگهی / پوستر / طرح / فایل", icon: "image", accept: [...IMG, "application/pdf"], max: 4, half: true },
+      VIDEO_SLOT
+    ]
+  },
+  bFree: {
+    group: "b", kind: "free", icon: "free", color: "var(--green)", soft: "var(--green-soft)", interests: true,
+    name: "ایدهٔ آزاد · Idea to Solution", short: "ب · ایدهٔ آزاد",
+    pick: "یک مسئلهٔ واقعی که می‌خواهی حل کنی و راه‌حلی که به ذهنت رسیده.",
     intro: "می‌خواهیم ببینیم چه مسئله‌ای را می‌خواهی حل کنی و ایده‌ات چطور می‌تواند به یک راه‌حل واقعی تبدیل شود. لازم نیست همه چیز کامل باشد! کافی است مسئله، ایده و مسیر آزمایش آن را روشن توضیح بدهی.",
     tagline: "آینده با ایده‌های شما ساخته می‌شود!",
     remember: "مهم نیست ایده‌ات از همین حالا کامل باشد؛ مهم این است که مسئله را خوب ببینی، راه‌حل خودت را روشن توضیح بدهی و نشان بدهی چطور می‌شود آن را امتحان کرد.",
     items: [
-      { id: "title", label: "یک اسم برای ایده‌ات انتخاب کن.", req: true, input: true },
+      { id: "title", label: "یک اسم برای ایده‌ات انتخاب کن.", req: true, input: true, wide: true },
       { id: "problem", label: "چه مشکلی را می‌خواهی حل کنی؟", hint: "(کوتاه و روشن)", req: true },
       { id: "who", label: "چه کسانی با این مشکل مواجه‌اند؟" },
       { id: "evidence", label: "از کجا می‌دانی این مشکل واقعاً وجود دارد؟", hint: "دیدی، تجربه کردی، با کسی صحبت کردی یا تحقیق کردی؟" },
@@ -667,13 +742,12 @@ const TRACKS = {
       { id: "solution", label: "راه‌حل تو چیست؟", req: true },
       { id: "diff", label: "چه چیزی ایدهٔ تو را متفاوت یا بهتر می‌کند؟" },
       { id: "test", label: "اگر بخواهی ایده را آزمایش کنی، چه چیزی می‌سازی یا چه آزمایشی انجام می‌دهی؟" },
-      { id: "impact", label: "اگر ایده‌ات اجرا شود، چه تغییری ایجاد می‌کند؟" },
+      { id: "impact", label: "اگر ایده‌ات اجرا شود، چه تغییری ایجاد می‌کند؟", half: true },
       { slot: "visual", label: "ایده‌ات را با Sketch، عکس، Prototype یا فایل تکمیلی نشان بده.", place: "جای Sketch / عکس / Prototype / فایل", icon: "image", accept: [...IMG, "application/pdf"], max: 4, half: true },
-      { slot: "video", label: "در صورت تمایل، یک ویدیوی کوتاه حداکثر ۹۰ ثانیه‌ای از توضیح ایده‌ات بفرست.", place: "جای ویدیو / فایل", icon: "play", accept: ["video/mp4", "video/webm", "video/quicktime"], max: 1, maxSec: 90, link: true }
+      VIDEO_SLOT
     ]
   }
 };
-const TRACK_LABEL = { young: "۷ تا ۹ سال", mid: "۱۰ تا ۱۲ سال", teen: "۱۳ تا ۱۷ سال" };
 const INTERESTS = [
   { t: "خانه و خانواده", c: "var(--orange)", d: "M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" },
   { t: "مدرسهٔ من", c: "var(--blue)", d: "M6 9a6 6 0 0 1 12 0v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z M9 8V6a3 3 0 0 1 6 0v2 M9 14h6" },
@@ -689,23 +763,35 @@ const REQUIRED_BASE = ["k_name", "k_city", "k_school", "p_name", "p_phone", "p_c
 const DRAFT_KEY = "golrang-kids-idea-draft";
 const CARD_TINTS = ["c1", "c2", "c3", "c4", "c5"];
 
-let track = null, age = null;
+let track = null, age = null, group = null;
 let files = []; // {key, slot, id, name, type, size, kind, state, url, err}
 let db = null, user = null, assets = null, downloads = null;
-const trackOf = a => Object.keys(TRACKS).find(k => TRACKS[k].ages.includes(a));
+const groupOf = a => Object.keys(GROUPS).find(k => GROUPS[k].ages.includes(a));
+const TICK = svg("M5 12.5l4.5 4.5L19 7");
+// A choice item stores the picked option's text; every other item is a text field.
+const fieldVal = (k, it) => it.choice ? (document.querySelector(`input[name="q_${k}_${it.id}"]:checked`)?.value || "") : $(`q_${k}_${it.id}`).value.trim();
+const fieldEl = (k, it) => it.choice ? document.querySelector(`input[name="q_${k}_${it.id}"]`) : $(`q_${k}_${it.id}`);
 
 /* ---------- build the form ---------- */
-$("ages").innerHTML = Object.entries(TRACKS).map(([k, t]) => `
-  <div class="age-group" data-track="${k}">
-    <span class="gname">${esc(t.nameFa || t.name)}</span>
-    <div class="age-row">${t.ages.map(a => `<label class="age-tile"><input type="radio" name="age" id="age_${a}" value="${a}"><span>${fa(a)}</span></label>`).join("")}</div>
+$("ages").innerHTML = Object.entries(GROUPS).map(([k, g]) => `
+  <div class="age-group" data-group="${k}">
+    <span class="gname"><b>${esc(g.name)}</b> ${esc(g.range)}</span>
+    <div class="age-row">${g.ages.map(a => `<label class="age-tile"><input type="radio" name="age" id="age_${a}" value="${a}"><span>${fa(a)}</span></label>`).join("")}</div>
   </div>`).join("");
 
+$("paths").innerHTML = Object.entries(TRACKS).map(([k, t]) => `
+  <label class="pathc" data-group="${t.group}" style="--pc:${t.color};--pcs:${t.soft}" hidden>
+    <input type="radio" name="trackpick" id="pick_${k}" value="${k}">
+    <span class="face"><span class="pico">${svg(PICON[t.icon])}</span><span class="ptag">${t.kind === "challenge" ? "چالش مسابقه" : "ایدهٔ آزاد"}</span>
+      <span class="pt">${esc(t.kind === "challenge" ? t.name.replace("چالش: ", "") : "ایدهٔ آزاد")}</span><span class="ps">${esc(t.pick)}</span></span>
+    <span class="tick">${TICK}</span>
+  </label>`).join("");
+
 $("interests").innerHTML = INTERESTS.map((x, i) =>
-  `<label class="int" style="--ic:${x.c}"><input type="checkbox" id="int_${i}" value="${esc(x.t)}"><span class="face"><span class="ico">${svg(x.d)}</span>${esc(x.t)}</span><span class="tick">${svg("M5 12.5l4.5 4.5L19 7")}</span></label>`).join("");
+  `<label class="int" style="--ic:${x.c}"><input type="checkbox" id="int_${i}" value="${esc(x.t)}"><span class="face"><span class="ico">${svg(x.d)}</span>${esc(x.t)}</span><span class="tick">${TICK}</span></label>`).join("");
 
 $("tracks").innerHTML = Object.entries(TRACKS).map(([k, t]) => `
-  <div class="cards trk-${k}" id="track-${k}" hidden>
+  <div class="cards grp-${t.group}" id="track-${k}" hidden>
     ${t.items.map((it, i) => {
       const n = `<span class="n">${fa(i + 1)}</span> `;
       const tint = CARD_TINTS[i % CARD_TINTS.length];
@@ -722,28 +808,51 @@ $("tracks").innerHTML = Object.entries(TRACKS).map(([k, t]) => `
           ${it.link ? `<input type="url" id="q_${k}_videoLink" class="ltr" placeholder="یا لینک ویدیو (آپارات، گوگل‌درایو و …)">` : ""}
         </div>`;
       }
-      const fid = `q_${k}_${it.id}`;
+      const fid = `q_${k}_${it.id}`, size = it.wide ? " wide" : it.half ? " half" : "";
+      const star = it.req ? ' <span class="req">*</span>' : "";
+      if (it.choice) return `<div class="card ${tint}${size} q"><span class="legend">${n}${esc(it.label)}${star}</span>
+        <div class="checks" role="radiogroup">${it.choice.map((c, j) => `<label class="pick" style="--c:var(--yellow)"><input type="radio" name="${fid}" id="${fid}_${j}" value="${esc(c)}"><span>${esc(c)}</span></label>`).join("")}</div></div>`;
       const ctl = it.input ? `<input type="text" id="${fid}">` : `<textarea id="${fid}" rows="3"></textarea>`;
-      return `<div class="card ${tint} q"><label for="${fid}">${n}${esc(it.label)} ${it.req ? '<span class="req">*</span>' : ""}</label>${it.hint ? `<span class="hint">${esc(it.hint)}</span>` : ""}${ctl}</div>`;
+      return `<div class="card ${tint}${size} q"><label for="${fid}">${n}${esc(it.label)}${star}</label>${it.hint ? `<span class="hint">${esc(it.hint)}</span>` : ""}${ctl}</div>`;
     }).join("")}
   </div>`).join("");
 
+$("f_track").insertAdjacentHTML("beforeend", Object.entries(TRACKS).map(([k, t]) => `<option value="${k}">${esc(t.short)}</option>`).join(""));
 $("f_status").insertAdjacentHTML("beforeend", Object.entries(STATUSES).map(([k, v]) => `<option value="${k}">${v}</option>`).join(""));
 
 function setAge(a) {
-  age = a; track = trackOf(a);
-  const t = TRACKS[track];
-  for (const k of Object.keys(TRACKS)) $("track-" + k).hidden = k !== track;
-  $("group-line").innerHTML = `گروه سنی ${TRACK_LABEL[track]}<span class="sep"></span>${esc(t.name)}`;
-  document.body.dataset.track = track;
+  age = a; group = groupOf(a);
+  const g = GROUPS[group];
+  document.body.dataset.track = group;
+  $("k_age").value = fa(a) + " سال";
+  $("age-err").hidden = true;
+  $("paths-box").hidden = false;
+  document.querySelectorAll(".pathc").forEach(c => c.hidden = c.dataset.group !== group);
+  $("group-line").innerHTML = `${esc(g.name)} · ${esc(g.range)}`;
   $("group-line").hidden = false;
+  if (track && TRACKS[track].group !== group) {
+    $("pick_" + track).checked = false; track = null;
+    $("form-body").hidden = true; $("progress").hidden = true;
+    $("intro").textContent = "حالا بین چالش مسابقه و ایدهٔ آزاد یکی را انتخاب کن.";
+  } else if (!track) $("intro").textContent = "حالا بین چالش مسابقه و ایدهٔ آزاد یکی را انتخاب کن.";
+}
+function setTrack(k) {
+  track = k;
+  const t = TRACKS[k], g = GROUPS[t.group];
+  for (const x of Object.keys(TRACKS)) $("track-" + x).hidden = x !== k;
+  $("group-line").innerHTML = `${esc(g.name)} · ${esc(g.range)}<span class="sep"></span>${esc(t.name)}`;
   $("intro").textContent = t.intro;
   $("tagline").textContent = t.tagline;
   $("remember-text").textContent = t.remember;
+  $("q-title").textContent = t.kind === "challenge" ? t.name.replace("چالش: ", "چالش ") : "سؤال‌های اصلی";
   $("q-sub").textContent = "سؤال‌های ستاره‌دار لازم‌اند. بقیه را هر چقدر خواستی جواب بده.";
-  $("k_age").value = fa(a) + " سال";
+  // The interests section only makes sense for a free idea; numbering follows what is shown.
+  $("sec-interest").hidden = !t.interests;
+  const nums = t.interests ? ["۲", "۳", "۴"] : [null, "۲", "۳"];
+  if (nums[0]) $("num-int").textContent = nums[0];
+  $("num-q").textContent = nums[1]; $("num-p").textContent = nums[2];
   $("form-body").hidden = false; $("progress").hidden = false;
-  $("age-err").hidden = true;
+  $("path-err").hidden = true;
   updateProgress();
 }
 
@@ -751,11 +860,10 @@ function setAge(a) {
 function progressParts() {
   if (!track) return [0, 1];
   const parts = [true];
-  for (const it of TRACKS[track].items) if (it.req) parts.push(!!$(`q_${track}_${it.id}`).value.trim());
-  if (track === "young") parts.push(!!$("q_young_fix").value.trim() || files.some(f => f.slot === "young_visual" && f.state === "done"));
+  for (const it of TRACKS[track].items) if (it.req) parts.push(!!fieldVal(track, it) || (it.orDraw && hasDrawing()));
   for (const id of REQUIRED_BASE) parts.push(!!$(id).value.trim());
   parts.push($("mode_solo").checked || $("mode_team").checked);
-  parts.push(!!document.querySelector("#interests input:checked"));
+  if (TRACKS[track].interests) parts.push(!!document.querySelector("#interests input:checked"));
   parts.push($("p_ok").checked);
   return [parts.filter(Boolean).length, parts.length];
 }
@@ -765,7 +873,9 @@ function updateProgress() {
   $("ptrack").setAttribute("aria-valuenow", pct);
   $("ptext").innerHTML = pct === 100 ? "آماده برای ثبت!" : `${fa(pct)}٪ <small>کامل شده</small>`;
 }
+const hasDrawing = () => files.some(f => f.slot === track + "_visual" && f.state === "done");
 document.querySelectorAll('input[name="age"]').forEach(r => r.addEventListener("change", () => { setAge(+r.value); saveDraft(); }));
+document.querySelectorAll('input[name="trackpick"]').forEach(r => r.addEventListener("change", () => { setTrack(r.value); saveDraft(); }));
 document.querySelectorAll('input[name="mode"]').forEach(r => r.addEventListener("change", () => { $("team-box").hidden = !$("mode_team").checked; }));
 
 /* ---------- draft on this device ---------- */
@@ -774,7 +884,9 @@ function collectDraft() {
   const vals = {};
   document.querySelectorAll("#idea-form textarea, #idea-form input[type=text]:not([readonly]), #idea-form input[type=tel], #idea-form input[type=url]").forEach(el => { if (el.value) vals[el.id] = el.value; });
   return {
-    age, vals, mode: $("mode_team").checked ? "team" : $("mode_solo").checked ? "solo" : "",
+    age, track, vals,
+    choices: [...document.querySelectorAll('#tracks input[type="radio"]:checked')].map(x => x.id),
+    mode: $("mode_team").checked ? "team" : $("mode_solo").checked ? "solo" : "",
     interests: [...document.querySelectorAll("#interests input:checked")].map(x => x.id),
     files: files.filter(f => f.state === "done").map(({ slot, id, name, type, size, kind, enc }) => ({ slot, id, name, type, size, kind, enc }))
   };
@@ -788,6 +900,8 @@ function loadDraft() {
   try { d = JSON.parse(localStorage.getItem(DRAFT_KEY) || "null"); } catch (e) {}
   if (!d) return;
   if (d.age && $("age_" + d.age)) { $("age_" + d.age).checked = true; setAge(d.age); }
+  if (d.track && TRACKS[d.track] && TRACKS[d.track].group === group) { $("pick_" + d.track).checked = true; setTrack(d.track); }
+  for (const id of d.choices || []) if ($(id)) $(id).checked = true;
   for (const [id, v] of Object.entries(d.vals || {})) if ($(id)) $(id).value = v;
   if (d.mode && $("mode_" + d.mode)) { $("mode_" + d.mode).checked = true; $("team-box").hidden = d.mode !== "team"; }
   for (const id of d.interests || []) if ($(id)) $(id).checked = true;
@@ -914,19 +1028,18 @@ function mark(el, msg) {
 }
 function clearMarks() {
   document.querySelectorAll(".q.bad").forEach(q => { q.classList.remove("bad"); q.querySelector(":scope > .err")?.remove(); });
-  $("age-err").hidden = $("ok-err").hidden = true;
+  $("age-err").hidden = $("ok-err").hidden = $("path-err").hidden = true;
 }
 function setStatus(msg, bad) { $("status").textContent = msg; $("status").className = "status" + (bad ? " e" : ""); }
 
 function validate() {
   clearMarks(); setStatus("");
-  if (!track) { $("age-err").textContent = "اول سنت را انتخاب کن."; $("age-err").hidden = false; return [$("step-age")]; }
+  if (!age) { $("age-err").textContent = "اول سنت را انتخاب کن."; $("age-err").hidden = false; return [$("step-age")]; }
+  if (!track) { $("path-err").textContent = "یکی را انتخاب کن: چالش مسابقه یا ایدهٔ آزاد."; $("path-err").hidden = false; return [$("paths-box")]; }
   const bad = [];
-  for (const it of TRACKS[track].items) if (it.req) { const el = $(`q_${track}_${it.id}`); if (!el.value.trim()) { mark(el, "این سؤال را جواب بده."); bad.push(el); } }
-  // The youngest may draw instead of writing: "how would you fix it" counts as answered when a picture is attached.
-  if (track === "young") {
-    const fix = $("q_young_fix");
-    if (!fix.value.trim() && !files.some(f => f.slot === "young_visual" && f.state === "done")) { mark(fix, "جواب بده یا در کارت بعدی نقاشی‌اش را بفرست."); bad.push(fix); }
+  // Younger kids may draw instead of writing: an orDraw question counts as answered when a picture is attached.
+  for (const it of TRACKS[track].items) if (it.req && !fieldVal(track, it) && !(it.orDraw && hasDrawing())) {
+    const el = fieldEl(track, it); mark(el, it.orDraw ? "جواب بده یا نقاشی‌اش را پایین‌تر بفرست." : it.choice ? "یکی را انتخاب کن." : "این سؤال را جواب بده."); bad.push(el.closest(".q"));
   }
   for (const id of REQUIRED_BASE) if (!$(id).value.trim()) { mark($(id), "این بخش لازم است."); bad.push($(id)); }
   const ph = toEn($("p_phone").value).replace(/\D/g, "");
@@ -952,14 +1065,15 @@ $("idea-form").addEventListener("submit", async e => {
   if (!uid) { setStatus(LOGIN_MSG, true); return; }
 
   const answers = {};
-  for (const it of TRACKS[track].items) if (it.id) { const v = $(`q_${track}_${it.id}`).value.trim(); if (v) answers[it.id] = v; }
-  if (track === "teen" && $("q_teen_videoLink").value.trim()) answers.videoLink = $("q_teen_videoLink").value.trim();
+  for (const it of TRACKS[track].items) if (it.id) { const v = fieldVal(track, it); if (v) answers[it.id] = v; }
+  const link = $(`q_${track}_videoLink`)?.value.trim();
+  if (link) answers.videoLink = link;
   const v = id => $(id).value.trim();
   const entry = {
-    id: newId(), createdAt: new Date().toISOString(), age, track, answers,
+    id: newId(), createdAt: new Date().toISOString(), age, group, track, kind: TRACKS[track].kind, answers,
     child: { name: v("k_name"), city: v("k_city"), school: v("k_school") },
     mode: $("mode_team").checked ? "team" : "solo", team: $("mode_team").checked ? v("k_team") : "",
-    interests: [...document.querySelectorAll("#interests input:checked")].map(x => x.value),
+    interests: TRACKS[track].interests ? [...document.querySelectorAll("#interests input:checked")].map(x => x.value) : [],
     parent: { name: v("p_name"), phone: toEn(v("p_phone")).replace(/\D/g, ""), company: v("p_company"), code: toEn(v("p_code")) },
     consent: true,
     files: files.filter(f => f.state === "done" && f.slot.startsWith(track + "_")).map(({ slot, id, name, type, size, kind, enc }) => ({ slot: slot.split("_")[1], id, name, type, size, kind, ...(enc ? { enc } : {}) }))
@@ -981,7 +1095,7 @@ $("idea-form").addEventListener("submit", async e => {
   } finally { $("submit").disabled = false; }
 });
 
-const ideaTitle = en => { const a = en.answers || {}; return a.title || a.problem || a.better || a.idea || a.solution || ""; };
+const ideaTitle = en => { const a = en.answers || {}; return a.title || a.idea || a.problem || a.now || a.solution || ""; };
 // One celebratory burst on a successful submit, in the page's own colours.
 function confetti() {
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -1018,9 +1132,10 @@ $("again").addEventListener("click", () => {
   const keep = ["p_name", "p_phone", "p_company", "p_code", "k_city"].map(id => [id, $(id).value]);
   $("idea-form").reset();
   keep.forEach(([id, val]) => $(id).value = val);
-  files = []; renderAllFiles(); track = age = null;
+  files = []; renderAllFiles(); track = age = group = null;
   $("form-body").hidden = true; $("progress").hidden = true; $("team-box").hidden = true; $("group-line").hidden = true;
   delete document.body.dataset.track;
+  $("paths-box").hidden = true;
   for (const k of Object.keys(TRACKS)) $("track-" + k).hidden = true;
   clearMarks(); setStatus("");
   $("done").hidden = true; $("idea-form").hidden = false;
@@ -1069,13 +1184,13 @@ const safeUrl = u => /^https?:\/\//i.test(u) ? u : "";
 
 function renderBoard() {
   $("board-status").textContent = "";
-  const by = k => ideas.filter(x => x.track === k).length;
+  const by = f => ideas.filter(f).length;
   $("tab-count").textContent = ideas.length ? "(" + fa(ideas.length) + ")" : "";
   $("kpis").innerHTML = `
     <div class="kpi"><b>${fa(ideas.length)}</b><span>کل ایده‌ها</span></div>
-    <div class="kpi young"><b>${fa(by("young"))}</b><span>۷ تا ۹ سال</span></div>
-    <div class="kpi mid"><b>${fa(by("mid"))}</b><span>۱۰ تا ۱۲ سال</span></div>
-    <div class="kpi teen"><b>${fa(by("teen"))}</b><span>۱۳ تا ۱۷ سال</span></div>`;
+    <div class="kpi a"><b>${fa(by(x => x.track === "aSchool"))}</b><span>الف · مدرسهٔ بهتر</span></div>
+    <div class="kpi b"><b>${fa(by(x => x.track === "bJob"))}</b><span>ب · شغلی از آینده</span></div>
+    <div class="kpi free"><b>${fa(by(x => x.kind === "free"))}</b><span>ایدهٔ آزاد (هر دو گروه)</span></div>`;
   if (!ideas.length) { $("rows").innerHTML = `<div class="empty">هنوز ایده‌ای ثبت نشده. وقتی بچه‌ها فرم را پر کنند، ایده‌ها اینجا با جواب‌ها، نقاشی‌ها و فایل‌ها نشان داده می‌شوند.</div>`; return; }
   const q = $("f_q").value.trim(), ft = $("f_track").value, fs = $("f_status").value;
   const open = new Set([...document.querySelectorAll("#rows details[open]")].map(d => d.dataset.id));
@@ -1096,8 +1211,8 @@ function renderBoard() {
     }).join("");
     return `<details class="row" data-id="${esc(en.id)}"${open.has(en.id) ? " open" : ""}>
       <summary>
-        <span class="ag ${esc(en.track)}">${fa(en.age)}</span>
-        <span class="who"><b>${esc(en.child?.name)}</b><span>${esc(ideaTitle(en).slice(0, 90))}</span></span>
+        <span class="ag ${esc(en.group)}">${fa(en.age)}</span>
+        <span class="who"><b>${esc(en.child?.name)}<span class="kind${en.kind === "free" ? " free" : ""}">${esc(TRACKS[en.track]?.short || "")}</span></b><span>${esc(ideaTitle(en).slice(0, 90))}</span></span>
         <span class="meta">${esc(en.parent?.company)} · ${new Date(en.createdAt).toLocaleDateString("fa-IR")}${en.files?.length ? " · " + fa(en.files.length) + " فایل" : ""}</span>
         <span class="pill ${st}">${STATUSES[st]}</span>
       </summary>
@@ -1139,10 +1254,11 @@ $("rows").addEventListener("change", async e => {
 
 $("csv").addEventListener("click", async () => {
   const cell = x => '"' + String(x ?? "").replace(/"/g, '""') + '"';
-  const qIds = [...new Set(Object.values(TRACKS).flatMap(t => t.items.filter(i => i.id).map(i => i.id))), "videoLink"];
-  const head = ["تاریخ", "سن", "گروه سنی", "وضعیت", "نام کودک", "شهر", "مدرسه", "مشارکت", "دوستان", "دنیای مورد علاقه", ...qIds, "تعداد فایل", "نام والد", "تماس", "شرکت", "شمارهٔ پرسنلی"];
-  const rows = ideas.map(en => [en.createdAt, en.age, TRACK_LABEL[en.track], STATUSES[statusOf(en)], en.child?.name, en.child?.city, en.child?.school,
-    en.mode === "team" ? "با دوستان" : "فردی", en.team, (en.interests || []).join("، "), ...qIds.map(k => en.answers?.[k] || ""), (en.files || []).length,
+  // One column per question of each section, since the same id means different things in different sections.
+  const cols = Object.entries(TRACKS).flatMap(([k, t]) => t.items.filter(i => i.id).map(i => [k, i.id, `${t.short}: ${i.label}`]));
+  const head = ["تاریخ", "سن", "بخش", "وضعیت", "نام کودک", "شهر", "مدرسه", "مشارکت", "دوستان", "دنیای مورد علاقه", ...cols.map(c => c[2]), "لینک ویدیو", "تعداد فایل", "نام والد", "تماس", "شرکت", "شمارهٔ پرسنلی"];
+  const rows = ideas.map(en => [en.createdAt, en.age, TRACKS[en.track]?.short || en.track, STATUSES[statusOf(en)], en.child?.name, en.child?.city, en.child?.school,
+    en.mode === "team" ? "با دوستان" : "فردی", en.team, (en.interests || []).join("، "), ...cols.map(([k, id]) => en.track === k ? en.answers?.[id] || "" : ""), en.answers?.videoLink || "", (en.files || []).length,
     en.parent?.name, en.parent?.phone, en.parent?.company, en.parent?.code]);
   const csv = "﻿" + [head, ...rows].map(r => r.map(cell).join(",")).join("\r\n");
   try { await downloads.save({ filename: "golrang-kids-ideas.csv", data: csv }); }

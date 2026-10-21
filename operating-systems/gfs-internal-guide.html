@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8">
-<title>راهنمای همکاری با GFS</title>
+<title>راهنمای داخلی GFS</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap">
 <style>
 /* Print layout: three A4 pages. Cover in GFS navy with the seven-arm asterisk; inner pages white with navy type and lime accents, as in the GFS deck. */
@@ -76,6 +76,34 @@ h2 .star { width: 22px; height: 22px; flex: none; }
 .gain b { display: block; font-size: 12pt; }
 .gain p { font-size: 10.5pt; color: var(--muted); line-height: 1.65; }
 
+.p4 .pad { padding-top: 18mm !important; }
+.p4 .exp { margin-top: 7mm; }
+.p4 .exp .row > div { padding: 4mm 5mm; font-size: 11pt; }
+.p4 .exp .row.h > div { font-size: 11pt; padding: 3mm 5mm; }
+.p4 .minor { font-size: 10.5pt; margin-top: 5mm; }
+.p4 h2 + .steps { margin-top: 8mm; }
+.p4 .step { padding: 4.5mm 5mm; gap: 1mm; }
+.p4 .step b { font-size: 12.5pt; }
+.p4 .step p { font-size: 10.5pt; }
+.p4 .step::before { font-size: 22pt; }
+/* six musts */
+.musts { margin-top: 7mm; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 5mm; }
+.must { border: 1px solid var(--line); border-radius: 3.5mm; padding: 5mm; display: grid; gap: 2mm; align-content: start; }
+.must .mh { display: flex; align-items: center; gap: 3mm; }
+.must .mn { width: 10mm; height: 10mm; border-radius: 50%; background: var(--navy); color: var(--lime); display: grid; place-items: center; font-weight: 900; font-size: 13pt; flex: none; }
+.must h3 { font-size: 13.5pt; }
+.must p { font-size: 10.2pt; line-height: 1.75; }
+.must .mq { background: var(--lime-soft); border-radius: 2mm; padding: 2.2mm 3mm; font-size: 9.8pt; font-weight: 500; }
+.must .mq::before { content: "سؤال سنجش: "; font-weight: 900; }
+.decide { margin-top: 7mm; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 4mm; }
+.decide div { border-radius: 3mm; padding: 4mm 5mm; display: grid; gap: 1mm; }
+.decide b { font-size: 11.5pt; }
+.decide span { font-size: 10pt; line-height: 1.65; }
+.decide .go { background: var(--navy); color: #fff; }
+.decide .go b { color: var(--lime); }
+.decide .stop { background: var(--mist); }
+.pre { margin-top: 4mm; font-size: 9.8pt; color: var(--muted); }
+.pre b { color: var(--navy); }
 /* ---------- page 3 ---------- */
 .two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8mm; margin-top: 5mm; }
 .nots { list-style: none; display: grid; gap: 3.2mm; margin-top: 5mm; }
@@ -130,8 +158,8 @@ h2 .star { width: 22px; height: 22px; flex: none; }
       <svg><use href="#gfs-star"/></svg>
       <div><b>ستارگان آیندهٔ گلرنگ</b><span>GOLRANG FUTURE STARS</span></div>
     </div>
-    <h1>راهنمای همکاری<em>با GFS</em></h1>
-    <p class="lede">GFS بستری است برای جوانان و نوجوانان ۱۲ تا ۲۴ ساله که استعدادهای خود را بشناسند، توسعه پیدا کنند، دیده شوند و تأثیر بگذارند. ما این تجربه را با کمک سازمان‌های همکار، در کنار منتورهای باتجربه و در مسیری بلندمدت می‌سازیم. این راهنما می‌گوید GFS با سازمان شما در چه قالبی همکاری می‌کند، وارد چه کارهایی نمی‌شود و همکاری چطور شروع می‌شود.</p>
+    <h1>راهنمای داخلی<em>GFS</em></h1>
+    <p class="lede">GFS بستری است برای جوانان و نوجوانان ۱۲ تا ۲۴ ساله که استعدادهای خود را بشناسند، توسعه پیدا کنند، دیده شوند و تأثیر بگذارند. این راهنما برای تیم GFS است تا وقتی پروژه یا فعالیتی به ما پیشنهاد می‌شود، سریع و یکدست تصمیم بگیریم وارد شویم یا نه، و اگر نه، دقیق بگوییم چرا.</p>
     <p class="quote">آموزش آکادمیک امروز روی همه باز است. چیزی که هنوز دست‌نیافتنی مانده، تجربه است.<small>نقطهٔ شروع GFS</small></p>
   </div>
 
@@ -151,15 +179,34 @@ h2 .star { width: 22px; height: 22px; flex: none; }
   </div>
 </section>
 
-<!-- ========== Page 2: models and gains ========== -->
+<!-- ========== Page 2: the six musts ========== -->
+<section class="page">
+  <div class="pad" style="padding-top:16mm">
+    <h2><svg class="star"><use href="#gfs-star"/></svg>شش باید</h2>
+    <p class="sub">هر پروژه یا فعالیتی که به GFS پیشنهاد می‌شود باید این شش ویژگی را داشته باشد. هر کدام یک سؤال سنجش دارد.</p>
+    <div class="musts">
+      <div class="must"><div class="mh"><span class="mn">۱</span><h3>تجربه‌محور</h3></div><p>ستاره‌ها خودشان کار واقعی انجام می‌دهند: می‌سازند، آزمایش می‌کنند و مسئله حل می‌کنند. تماشا و شنیدن تجربه حساب نمی‌شود.</p><p class="mq">بیشتر زمان فعالیت صرف کاری می‌شود که خود ستاره‌ها انجام می‌دهند؟</p></div>
+      <div class="must"><div class="mh"><span class="mn">۲</span><h3>جنبهٔ آموزشی</h3></div><p>روشن است ستاره چه مهارت یا دانشی یاد می‌گیرد، و منتوری در طول کار کنارش هست که بازخورد می‌دهد.</p><p class="mq">می‌توانیم در یک جمله بنویسیم ستاره چه یاد می‌گیرد و منتورش کیست؟</p></div>
+      <div class="must"><div class="mh"><span class="mn">۳</span><h3>انگیزاننده برای ساختن آینده</h3></div><p>به ستاره نشان می‌دهد همین‌جا هم می‌شود آینده ساخت، و به او بهانه‌ای برای ماندن و ادامه دادن می‌دهد.</p><p class="mq">بعد از این فعالیت، ستاره مسیر حرفه‌ای روشن‌تری پیش رو می‌بیند؟</p></div>
+      <div class="must"><div class="mh"><span class="mn">۴</span><h3>رویکرد نو به موضوع</h3></div><p>با نگاه نسل جدید، از زاویه‌ای تازه به مسئله می‌پردازد؛ نه تکرار برنامه‌های آموزشی رایج.</p><p class="mq">اگر GFS نبود، همین کار به همین شکل جای دیگری اجرا نمی‌شد؟</p></div>
+      <div class="must"><div class="mh"><span class="mn">۵</span><h3>بلندمدت و ادامه‌دار</h3></div><p>رویداد تک‌مرحله‌ای نیست؛ بخشی از مسیری چندساله است و برای ستاره قدم بعدی دارد: مرحلهٔ بعد، جذب، بورسیه یا استارتاپ.</p><p class="mq">روشن است ستاره بعد از پایان این فعالیت به کجا می‌رود؟</p></div>
+      <div class="must"><div class="mh"><span class="mn">۶</span><h3>دیده‌شدن و تأثیر واقعی</h3></div><p>نتیجهٔ کار ستاره در سازمان همکار صاحب دارد، استفاده می‌شود و ستاره فرصت ارائهٔ آن را دارد، مثلاً در Demo Day.</p><p class="mq">چه کسی در سازمان همکار نتیجه را تحویل می‌گیرد؟</p></div>
+    </div>
+
+    <div class="decide">
+      <div class="go"><b>هر شش برقرار است</b><span>وارد می‌شویم.</span></div>
+      <div class="stop"><b>یکی برقرار نیست</b><span>همان معیار دلیل ماست؛ همان را به طرف مقابل می‌گوییم، یا اصلاحش را پیشنهاد می‌دهیم.</span></div>
+    </div>
+    <p class="pre"><b>نشانه‌های رایج «نه»:</b> آموزش کلاسی صرف · کار روزمره یا جایگزین نیروی ثابت · رویداد نمایشی یا یک‌باره · کاری که امضا یا مسئولیت رسمی لازم دارد</p>
+    <p class="pre"><b>پیش‌شرط:</b> مخاطب ۱۲ تا ۲۴ ساله است، و برای زیر ۱۸ ساله‌ها رضایت ولی، حضور همراه و محیط ایمن تضمین شده است.</p>
+  </div>
+</section>
+
+<!-- ========== Page 3: models and value ========== -->
 <section class="page">
   <div class="pad" style="padding-top:15mm">
     <h2><svg class="star"><use href="#gfs-star"/></svg>مدل‌های همکاری</h2>
-    <p class="sub">هر گروه سنی مسیر متفاوتی دارد. سازمان شما می‌تواند در یک یا چند مدل شریک شود.</p>
-    <div class="tenets">
-      <div class="tenet"><b>رویکرد نو به موضوع</b><p>هر پروژهٔ GFS با نگاه نسل جدید، از زاویه‌ای تازه به مسئلهٔ سازمان می‌پردازد؛ نه تکرار برنامه‌های آموزشی رایج.</p></div>
-      <div class="tenet"><b>بلندمدت، نه یک‌باره</b><p>همکاری با GFS رویداد تک‌مرحله‌ای نیست؛ مسیری چندساله است که ستاره‌ها را تا ورود به کار همراهی می‌کند.</p></div>
-    </div>
+    <p class="sub">قالب‌هایی که GFS با سازمان‌های همکار اجرا می‌کند. هر گروه سنی مسیر متفاوتی دارد و یک سازمان می‌تواند در چند مدل شریک شود.</p>
 
     <div class="models">
       <div class="model head"><div>مدل</div><div>سن</div><div>نقش سازمان همکار</div><div>خروجی برای ستاره</div></div>
@@ -192,32 +239,20 @@ h2 .star { width: 22px; height: 22px; flex: none; }
 
     <p class="bench">برنامه‌های مشابه در بزرگ‌ترین شرکت‌های دنیا هم اجرا می‌شود؛ در صنعت دارو از جمله <b>Pfizer</b>، <b>Roche</b>، <b>Novartis</b> و <b>Johnson &amp; Johnson</b>.</p>
 
-    <h2 style="margin-top:9mm"><svg class="star"><use href="#gfs-star"/></svg>سازمان شما چه به دست می‌آورد</h2>
+    <h2 style="margin-top:9mm"><svg class="star"><use href="#gfs-star"/></svg>ارزشی که برای سازمان همکار می‌سازیم</h2>
     <div class="gains">
       <div class="gain"><div class="ico"><svg><use href="#gfs-star"/></svg></div><div><b>دسترسی زودهنگام به استعدادها</b><p>پیش از آنکه جوانان وارد بازار کار شوند یا مهاجرت کنند.</p></div></div>
       <div class="gain"><div class="ico"><svg><use href="#gfs-star"/></svg></div><div><b>نگاه تازه به مسئله‌های واقعی</b><p>تیم‌های جوان با ذهن باز روی چالش‌های سازمان کار می‌کنند.</p></div></div>
       <div class="gain"><div class="ico"><svg><use href="#gfs-star"/></svg></div><div><b>برند کارفرمایی نزد نسل Z</b><p>شناخته‌شدن به‌عنوان سازمانی که به جوانان فرصت می‌دهد.</p></div></div>
-      <div class="gain"><div class="ico"><svg><use href="#gfs-star"/></svg></div><div><b>رشد متخصصان خودتان</b><p>منتورشیپ مهارت رهبری و انتقال دانش را در تیم شما تقویت می‌کند.</p></div></div>
+      <div class="gain"><div class="ico"><svg><use href="#gfs-star"/></svg></div><div><b>رشد متخصصان سازمان</b><p>منتورشیپ مهارت رهبری و انتقال دانش را در تیم آن‌ها تقویت می‌کند.</p></div></div>
     </div>
   </div>
 </section>
 
-<!-- ========== Page 3: boundaries, expectations, steps ========== -->
-<section class="page">
+<!-- ========== Page 4: expectations and steps ========== -->
+<section class="page p4">
   <div class="pad" style="padding-top:16mm">
-    <div class="two">
-      <div>
-        <h2><svg class="star"><use href="#gfs-star"/></svg>وارد این کارها نمی‌شویم</h2>
-        <ul class="nots">
-          <li>آموزش کلاسی صرف، بدون تجربهٔ عملی</li>
-          <li>برنامهٔ یک‌بارهٔ کوتاه که ادامه و مسیری بعد از آن ندارد</li>
-          <li>کار روزمره یا جایگزین نیروی ثابت سازمان</li>
-          <li>رویداد نمایشی یا تبلیغاتی که تجربهٔ واقعی برای جوانان ندارد</li>
-          <li>نقش واسطهٔ صرف جذب نیرو؛ جذب یکی از خروجی‌های ممکن است، نه هدف همکاری</li>
-          <li>کاری که امضا یا مسئولیت رسمی مالی، حقوقی، فنی یا کیفیت لازم دارد</li>
-          <li>حضور زیر ۱۸ ساله‌ها در محیط پرخطر یا بدون همراه</li>
-        </ul>
-      </div>
+    <div>
       <div>
         <h2><svg class="star"><use href="#gfs-star"/></svg>انتظارات دوطرفه</h2>
         <div class="exp">
@@ -233,10 +268,10 @@ h2 .star { width: 22px; height: 22px; flex: none; }
       </div>
     </div>
 
-    <h2 style="margin-top:10mm"><svg class="star"><use href="#gfs-star"/></svg>همکاری چطور شروع می‌شود</h2>
+    <h2 style="margin-top:12mm"><svg class="star"><use href="#gfs-star"/></svg>همکاری چطور شروع می‌شود</h2>
     <div class="steps">
-      <div class="step"><b>آشنایی و نیازسنجی</b><p>جلسه‌ای برای شناخت سازمان شما و مسئله‌هایش.</p></div>
-      <div class="step"><b>انتخاب مدل</b><p>مدل همکاری، گروه سنی و منتورها مشخص می‌شود.</p></div>
+      <div class="step"><b>سنجش پیشنهاد</b><p>پیشنهاد با شش باید سنجیده می‌شود.</p></div>
+      <div class="step"><b>آشنایی و انتخاب مدل</b><p>نیاز سازمان همکار، مدل همکاری، گروه سنی و منتورها مشخص می‌شود.</p></div>
       <div class="step"><b>تعریف و توافق</b><p>پروژه یا چالش تعریف و توافق‌نامهٔ یک‌صفحه‌ای امضا می‌شود.</p></div>
       <div class="step"><b>انتخاب ستاره‌ها</b><p>فراخوان، آزمون و رویداد انتخاب.</p></div>
       <div class="step"><b>اجرای دوره</b><p>کار روی پروژه با منتورینگ، و پایان با Demo Day.</p></div>

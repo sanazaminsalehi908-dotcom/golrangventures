@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>معیارهای ورود GFS به پروژه‌ها</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap">
+<style>
+/* Print layout: two A4 pages. Page 1 = decision tool (header band, prerequisites, quick check, decision rule, examples). Page 2 = the six criteria in detail. GFS navy, lime and the seven-arm asterisk. */
+:root {
+  --navy: #152148;
+  --navy-2: #1f2d63;
+  --navy-3: #2b3b7a;
+  --lime: #c6f24e;
+  --lime-soft: #eefbcf;
+  --paper: #ffffff;
+  --mist: #f1f3f9;
+  --muted: #5b6488;
+  --line: #dfe3ef;
+  --no: #c2364b;
+  --no-soft: #fbe9ec;
+  --fix: #9a6a00;
+  --fix-soft: #fdf3dc;
+  --font: "Vazirmatn", Tahoma, sans-serif;
+}
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #888; }
+body { font-family: var(--font); color: var(--navy); font-size: 10.5pt; line-height: 1.7; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.page { width: 210mm; height: 297mm; position: relative; overflow: hidden; background: var(--paper); page-break-after: always; margin: 0 auto 8mm; }
+.page:last-child { page-break-after: auto; }
+@media print { html, body { background: none; } .page { margin: 0; } }
+.pad { padding: 0 16mm; }
+h1, h2, h3 { font-weight: 900; line-height: 1.25; }
+h2 { font-size: 15pt; display: flex; align-items: center; gap: 8px; }
+h2 .star { width: 18px; height: 18px; flex: none; }
+.ph { border-bottom: 1.5px dashed currentColor; padding-inline: 2px; }
+section + section { margin-top: 7mm; }
+
+/* header band */
+.band { background: var(--navy); color: #fff; padding: 12mm 16mm 10mm; position: relative; overflow: hidden; }
+.band .bigstar { position: absolute; width: 95mm; height: 95mm; left: -22mm; top: -18mm; color: var(--navy-2); }
+.brand { display: flex; align-items: center; gap: 10px; position: relative; }
+.brand svg { width: 30px; height: 30px; color: var(--lime); }
+.brand b { font-size: 11pt; font-weight: 900; display: block; line-height: 1.2; }
+.brand span { font-size: 7.5pt; letter-spacing: .18em; opacity: .7; direction: ltr; display: block; text-align: right; }
+.band h1 { font-size: 27pt; margin-top: 7mm; position: relative; }
+.band h1 em { font-style: normal; color: var(--lime); }
+.band p { margin-top: 3mm; max-width: 150mm; color: #dfe4f5; font-size: 10.8pt; line-height: 1.8; position: relative; }
+.tag { display: inline-block; margin-top: 4mm; background: var(--lime); color: var(--navy); font-weight: 700; font-size: 8.5pt; padding: 0 3mm; border-radius: 999px; position: relative; }
+
+/* prerequisites */
+.pre { margin-top: 7mm; display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); gap: 4mm; align-items: stretch; }
+.pre .label { background: var(--mist); border-radius: 3mm; padding: 3mm 4mm; font-weight: 900; font-size: 10.5pt; display: grid; place-items: center; }
+.pre .item { border: 1px solid var(--line); border-radius: 3mm; padding: 3mm 4mm; font-size: 9.6pt; line-height: 1.6; }
+.pre .item b { display: block; font-size: 10pt; }
+
+/* quick check */
+.check { margin-top: 4mm; border: 1px solid var(--line); border-radius: 3mm; overflow: hidden; }
+.check .r { display: grid; grid-template-columns: 9mm 46mm minmax(0, 1fr) 13mm 13mm; align-items: center; border-top: 1px solid var(--line); }
+.check .r:first-child { border-top: 0; }
+.check .r > div { padding: 3.4mm 2.5mm; font-size: 10.3pt; }
+.check .r.h > div { background: var(--navy); color: #fff; font-weight: 700; font-size: 8.8pt; padding: 2mm 2.5mm; }
+.check .n { font-weight: 900; text-align: center; font-size: 11pt; }
+.check .name { font-weight: 700; }
+.check .core { background: var(--lime-soft); }
+.check .box { justify-self: center; width: 5.5mm; height: 5.5mm; border: 1.5px solid var(--navy); border-radius: 1.2mm; }
+.check .r.h .c { text-align: center; }
+.legend { margin-top: 2mm; font-size: 8.8pt; color: var(--muted); display: flex; align-items: center; gap: 2mm; }
+.legend i { display: inline-block; width: 4mm; height: 4mm; background: var(--lime-soft); border: 1px solid var(--line); border-radius: 1mm; }
+
+.form { margin-top: 4mm; display: grid; grid-template-columns: 2fr 1.3fr 1fr; gap: 5mm; }
+.form div { display: grid; gap: 1mm; font-size: 9pt; color: var(--muted); }
+.form b { font-weight: 700; }
+.form i { display: block; height: 8mm; border-bottom: 1.5px solid var(--navy); }
+.verdict { margin-top: 5mm; border: 1.5px solid var(--navy); border-radius: 3mm; padding: 4mm 5mm; display: flex; flex-wrap: wrap; align-items: center; gap: 3mm 8mm; font-size: 10.5pt; }
+.verdict b { font-weight: 900; font-size: 12pt; }
+.verdict span { display: flex; align-items: center; gap: 2mm; font-weight: 700; }
+.verdict span i { width: 5.5mm; height: 5.5mm; border: 1.5px solid var(--navy); border-radius: 50%; display: inline-block; }
+.verdict em { font-style: normal; color: var(--muted); font-size: 9.5pt; flex-basis: 100%; height: 11mm; border-top: 1px dashed var(--line); padding-top: 2mm; }
+/* decision rule */
+.rule { margin-top: 4mm; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4mm; }
+.rule div { border-radius: 3mm; padding: 3.5mm 4mm; display: grid; gap: 1mm; align-content: start; }
+.rule b { font-size: 11pt; }
+.rule p { font-size: 9.4pt; line-height: 1.6; }
+.rule .go { background: var(--navy); color: #fff; }
+.rule .go b { color: var(--lime); }
+.rule .fix { background: var(--fix-soft); }
+.rule .fix b { color: var(--fix); }
+.rule .stop { background: var(--no-soft); }
+.rule .stop b { color: var(--no); }
+
+/* examples */
+.ex { margin-top: 4mm; width: 100%; border-collapse: collapse; font-size: 9.5pt; }
+.ex th { text-align: start; font-size: 8.5pt; color: var(--muted); font-weight: 700; padding: 0 2.5mm 1.5mm; border-bottom: 1px solid var(--line); }
+.ex td { padding: 2.4mm 2.5mm; border-bottom: 1px solid var(--line); vertical-align: top; line-height: 1.6; }
+.ex td:nth-child(2) { white-space: nowrap; }
+.pill { display: inline-block; border-radius: 999px; padding: 0 2.5mm; font-weight: 700; font-size: 8.8pt; white-space: nowrap; }
+.pill.no { background: var(--no-soft); color: var(--no); }
+.pill.fix { background: var(--fix-soft); color: var(--fix); }
+.pill.go { background: var(--navy); color: var(--lime); }
+
+/* criteria cards */
+.p2head { padding: 13mm 16mm 0; display: flex; align-items: baseline; justify-content: space-between; }
+.p2head h2 { font-size: 18pt; }
+.p2head span { font-size: 9pt; color: var(--muted); }
+.cards { padding: 6mm 16mm 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 5mm; }
+.card { border: 1px solid var(--line); border-radius: 3.5mm; padding: 4.5mm 5mm; display: grid; gap: 2mm; align-content: start; position: relative; }
+.card.core { border-color: var(--navy); border-width: 1.5px; }
+.card .top { display: flex; align-items: center; gap: 3mm; }
+.card .num { width: 9mm; height: 9mm; border-radius: 50%; background: var(--navy); color: var(--lime); display: grid; place-items: center; font-weight: 900; font-size: 12pt; flex: none; }
+.card h3 { font-size: 13pt; }
+.card .badge { margin-inline-start: auto; font-size: 7.8pt; font-weight: 700; background: var(--lime); color: var(--navy); border-radius: 999px; padding: 0 2.5mm; }
+.card .def { font-size: 9.6pt; line-height: 1.65; }
+.card .q { background: var(--mist); border-radius: 2mm; padding: 2mm 3mm; font-size: 9.4pt; line-height: 1.6; }
+.card .q b { display: block; font-size: 8pt; color: var(--muted); }
+.card .yn { display: grid; gap: 1mm; font-size: 9pt; line-height: 1.55; }
+.card .yn div { display: grid; grid-template-columns: 4.5mm minmax(0, 1fr); gap: 1.5mm; }
+.card .yn .y::before, .card .yn .n::before { font-weight: 900; }
+.card .yn .y::before { content: "✓"; color: #2f7d4f; }
+.card .yn .n::before { content: "✕"; color: var(--no); }
+.card .say { border-inline-start: 3px solid var(--no); padding-inline-start: 3mm; font-size: 9pt; line-height: 1.6; color: var(--muted); }
+.card .say b { display: block; color: var(--navy); font-size: 8pt; }
+.foot { position: absolute; left: 0; right: 0; bottom: 0; background: var(--navy); color: #c7cee9; padding: 4.5mm 16mm; font-size: 8.5pt; display: flex; align-items: center; gap: 4mm; }
+.foot svg { width: 7mm; height: 7mm; color: var(--lime); flex: none; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="gfs-star" viewBox="0 0 100 100">
+      <g stroke="currentColor" stroke-width="15" stroke-linecap="butt" fill="none">
+        <line x1="50" y1="50" x2="50" y2="3"/><line x1="50" y1="50" x2="50" y2="97"/><line x1="50" y1="50" x2="97" y2="50"/>
+        <line x1="50" y1="50" x2="83.2" y2="16.8"/><line x1="50" y1="50" x2="83.2" y2="83.2"/>
+        <line x1="50" y1="50" x2="16.8" y2="16.8"/><line x1="50" y1="50" x2="16.8" y2="83.2"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ========== Page 1: the decision tool ========== -->
+<section class="page">
+  <div class="band">
+    <svg class="bigstar"><use href="#gfs-star"/></svg>
+    <div class="brand"><svg><use href="#gfs-star"/></svg><div><b>ستارگان آیندهٔ گلرنگ</b><span>GOLRANG FUTURE STARS</span></div></div>
+    <h1>معیارهای ورود <em>GFS</em> به پروژه‌ها</h1>
+    <p>هر پروژه یا فعالیتی که به GFS پیشنهاد می‌شود با شش معیار سنجیده می‌شود. اگر هر شش برقرار باشد وارد می‌شویم. اگر نه، همان معیاری که برقرار نیست دلیل «نه» ماست و همان را به طرف مقابل می‌گوییم.</p>
+    <span class="tag">سند داخلی تیم GFS</span>
+  </div>
+
+  <div class="pad">
+    <div class="pre">
+      <div class="label">پیش‌شرط</div>
+      <div class="item"><b>مخاطب درست</b>فعالیت برای جوانان و نوجوانان ۱۲ تا ۲۴ ساله است.</div>
+      <div class="item"><b>ایمن و متناسب با سن</b>برای زیر ۱۸ ساله‌ها رضایت ولی، حضور همراه و محیط ایمن تضمین شده است.</div>
+    </div>
+
+    <section style="margin-top:7mm">
+      <h2><svg class="star"><use href="#gfs-star"/></svg>سنجش سریع</h2>
+    <div class="form">
+      <div><b>پیشنهاد</b><i></i></div>
+      <div><b>پیشنهاددهنده</b><i></i></div>
+      <div><b>تاریخ</b><i></i></div>
+    </div>
+      <div class="check">
+        <div class="r h"><div>#</div><div>معیار</div><div>سؤال</div><div class="c">بله</div><div class="c">نه</div></div>
+        <div class="r core"><div class="n">۱</div><div class="name">تجربه‌محور</div><div>ستاره‌ها خودشان کار واقعی انجام می‌دهند؟</div><div class="box"></div><div class="box"></div></div>
+        <div class="r core"><div class="n">۲</div><div class="name">جنبهٔ آموزشی</div><div>یادگیری مشخص است و منتوری کنار ستاره هست؟</div><div class="box"></div><div class="box"></div></div>
+        <div class="r core"><div class="n">۳</div><div class="name">انگیزاننده برای ساختن آینده</div><div>مسیر آیندهٔ ستاره روشن‌تر و انگیزه‌اش بیشتر می‌شود؟</div><div class="box"></div><div class="box"></div></div>
+        <div class="r"><div class="n">۴</div><div class="name">رویکرد نو به موضوع</div><div>این کار به همین شکل جای دیگری اجرا نمی‌شود؟</div><div class="box"></div><div class="box"></div></div>
+        <div class="r"><div class="n">۵</div><div class="name">بلندمدت و ادامه‌دار</div><div>بعد از آن، قدم بعدی برای ستاره وجود دارد؟</div><div class="box"></div><div class="box"></div></div>
+        <div class="r"><div class="n">۶</div><div class="name">دیده‌شدن و تأثیر واقعی</div><div>نتیجهٔ کار صاحب و مخاطب مشخص دارد؟</div><div class="box"></div><div class="box"></div></div>
+      </div>
+      <p class="legend"><i></i>معیارهای ۱ تا ۳ هستهٔ GFS هستند.</p>
+      <div class="verdict"><b>تصمیم</b><span><i></i>وارد می‌شویم</span><span><i></i>با اصلاح</span><span><i></i>وارد نمی‌شویم</span><em>دلیل / اصلاح پیشنهادی:</em></div>
+    </section>
+
+
+  </div>
+  <div class="foot"><svg><use href="#gfs-star"/></svg>تعریف دقیق هر معیار و جمله‌ای که هنگام «نه» می‌گوییم در صفحه‌های بعد آمده است.</div>
+</section>
+
+<!-- ========== Page 2: the six criteria ========== -->
+<section class="page">
+  <div class="p2head"><h2><svg class="star"><use href="#gfs-star"/></svg>شش معیار، دقیق</h2><span>هر معیار: یعنی چه، چطور بسنجیم، اگر نه چه بگوییم</span></div>
+  <div class="cards">
+
+    <div class="card core">
+      <div class="top"><div class="num">۱</div><h3>تجربه‌محور</h3><span class="badge">هسته</span></div>
+      <p class="def">ستاره‌ها خودشان کار واقعی انجام می‌دهند: می‌سازند، آزمایش می‌کنند و مسئله حل می‌کنند. تماشا و شنیدن تجربه حساب نمی‌شود.</p>
+      <p class="q"><b>سؤال سنجش</b>آیا دست‌کم <span class="ph">نیمی</span> از زمان فعالیت صرف کاری می‌شود که خود ستاره‌ها انجام می‌دهند؟</p>
+      <div class="yn"><div class="y"><span>پروژهٔ واقعی در تیم، کار در آزمایشگاه، ساخت نمونهٔ اولیه</span></div><div class="n"><span>سمینار، کلاس، بازدیدی که فقط تماشاست</span></div></div>
+      <p class="say"><b>اگر نه، می‌گوییم</b>«GFS وارد فعالیتی می‌شود که جوانان در آن خودشان کار واقعی انجام دهند. این پیشنهاد بیشتر شنیدن یا تماشاست.»</p>
+    </div>
+
+    <div class="card core">
+      <div class="top"><div class="num">۲</div><h3>جنبهٔ آموزشی</h3><span class="badge">هسته</span></div>
+      <p class="def">مشخص است ستاره در پایان چه مهارت یا دانشی یاد گرفته، و منتوری در طول کار کنارش است که بازخورد می‌دهد.</p>
+      <p class="q"><b>سؤال سنجش</b>آیا می‌توانیم در یک جمله بنویسیم ستاره چه یاد می‌گیرد، و منتور مشخص شده است؟</p>
+      <div class="yn"><div class="y"><span>کارآموزی با منتور ثابت و هدف یادگیری مکتوب</span></div><div class="n"><span>کار تکراری اجرایی، پرکردن جای نیروی ثابت</span></div></div>
+      <p class="say"><b>اگر نه، می‌گوییم</b>«در این فعالیت یادگیری مشخص و منتوری برای همراهی ستاره‌ها تعریف نشده است. GFS جایگزین نیروی کار نیست.»</p>
+    </div>
+
+    <div class="card core">
+      <div class="top"><div class="num">۳</div><h3>انگیزاننده برای ساختن آینده</h3><span class="badge">هسته</span></div>
+      <p class="def">فعالیت به ستاره نشان می‌دهد همین‌جا هم می‌شود آینده ساخت، و به او بهانه‌ای برای ماندن و ادامه دادن می‌دهد.</p>
+      <p class="q"><b>سؤال سنجش</b>آیا بعد از این فعالیت، ستاره مسیر حرفه‌ای روشن‌تری پیش رو می‌بیند و انگیزهٔ بیشتری برای ادامه دارد؟</p>
+      <div class="yn"><div class="y"><span>موضوعی که آیندهٔ یک صنعت را می‌سازد، آدم‌های الهام‌بخش</span></div><div class="n"><span>کار بی‌ارتباط با آینده، حس استفاده‌شدن</span></div></div>
+      <p class="say"><b>اگر نه، می‌گوییم</b>«هدف GFS ساختن انگیزه و مسیر برای آیندهٔ جوانان است و این فعالیت چنین مسیری پیش رویشان نمی‌گذارد.»</p>
+    </div>
+
+    <div class="card">
+      <div class="top"><div class="num">۴</div><h3>رویکرد نو به موضوع</h3></div>
+      <p class="def">فعالیت از زاویه‌ای تازه به موضوع نگاه می‌کند و نسخهٔ تکراری برنامه‌های موجود نیست.</p>
+      <p class="q"><b>سؤال سنجش</b>اگر GFS نبود، همین فعالیت به همین شکل جای دیگری اجرا می‌شد؟ اگر بله، رویکرد نو ندارد.</p>
+      <div class="yn"><div class="y"><span>گره زدن یک صنعت سنتی با فناوری روز</span></div><div class="n"><span>یک دورهٔ آموزشی رایج با نام تازه</span></div></div>
+      <p class="say"><b>اگر نه، می‌گوییم</b>«این فعالیت به همین شکل جای دیگری هم اجرا می‌شود. GFS سراغ کارهایی می‌رود که نگاه تازه‌ای به موضوع دارند.»</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== Page 3: criteria 5-6 and examples ========== -->
+<section class="page">
+  <div class="cards" style="padding-top:13mm">
+    <div class="card">
+      <div class="top"><div class="num">۵</div><h3>بلندمدت و ادامه‌دار</h3></div>
+      <p class="def">فعالیت بخشی از یک مسیر است و برای ستاره قدم بعدی دارد: مرحلهٔ بعدی برنامه، جذب، بورسیه یا استارتاپ.</p>
+      <p class="q"><b>سؤال سنجش</b>آیا مشخص است ستاره بعد از پایان به کجا می‌رود، و طرف همکاری برای بیش از یک دوره همراه است؟</p>
+      <div class="yn"><div class="y"><span>مسیر چندمرحله‌ای از کمپ تا کارآموزی</span></div><div class="n"><span>رویداد یک‌روزه بدون ادامه</span></div></div>
+      <p class="say"><b>اگر نه، می‌گوییم</b>«همکاری‌های GFS بلندمدت‌اند و وارد فعالیت یک‌باره‌ای که ادامه ندارد نمی‌شویم.»</p>
+    </div>
+
+    <div class="card">
+      <div class="top"><div class="num">۶</div><h3>دیده‌شدن و تأثیر واقعی</h3></div>
+      <p class="def">خروجی کار ستاره واقعاً استفاده یا دیده می‌شود، و کسی در سازمان همکار صاحب آن است.</p>
+      <p class="q"><b>سؤال سنجش</b>آیا کسی نتیجه را تحویل می‌گیرد و ستاره فرصت ارائهٔ آن را دارد، مثلاً در Demo Day؟</p>
+      <div class="yn"><div class="y"><span>پروژه‌ای که نتیجه‌اش در سازمان پیاده می‌شود</span></div><div class="n"><span>پروژهٔ بی‌صاحب، رویداد نمایشی برای عکس</span></div></div>
+      <p class="say"><b>اگر نه، می‌گوییم</b>«نتیجهٔ کار جوانان در این فعالیت صاحب و مخاطب مشخصی ندارد. برای GFS مهم است که کار ستاره‌ها دیده شود و اثر بگذارد.»</p>
+    </div>
+
+  </div>
+  <div class="pad" style="margin-top:9mm">
+    <section>
+      <h2><svg class="star"><use href="#gfs-star"/></svg>قاعدهٔ تصمیم</h2>
+      <div class="rule">
+        <div class="go"><b>وارد می‌شویم</b><p>هر شش معیار برقرار است.</p></div>
+        <div class="fix"><b>با اصلاح</b><p>یکی از معیارهای ۴ تا ۶ برقرار نیست. پیشنهاد اصلاح می‌دهیم و اگر طرف مقابل پذیرفت، وارد می‌شویم.</p></div>
+        <div class="stop"><b>وارد نمی‌شویم</b><p>یکی از معیارهای ۱ تا ۳ برقرار نیست. دلیل را با جملهٔ همان معیار می‌گوییم.</p></div>
+      </div>
+    </section>
+    <section>
+      <h2><svg class="star"><use href="#gfs-star"/></svg>سه مثال</h2>
+      <table class="ex">
+        <thead><tr><th>پیشنهاد</th><th>معیار برقرارنشده</th><th>تصمیم</th></tr></thead>
+        <tbody>
+          <tr><td>یک روز بازدید دانش‌آموزان از کارخانه، با عکس برای گزارش سالانه</td><td>۱، ۵، ۶</td><td><span class="pill no">وارد نمی‌شویم</span></td></tr>
+          <tr><td>دورهٔ آنلاین برنامه‌نویسی برای ۱۵ تا ۱۸ ساله‌ها</td><td>۱، ۴</td><td><span class="pill no">نه، مگر پروژهٔ عملی شود</span></td></tr>
+          <tr><td>چالش سه‌ماههٔ ۱۸ تا ۲۴ ساله‌ها برای کاهش ضایعات یک خط تولید، با منتور از همان واحد و جذب برترین‌ها</td><td>هیچ‌کدام</td><td><span class="pill go">وارد می‌شویم</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+  <div class="foot"><svg><use href="#gfs-star"/></svg>این معیارها پیشنهادی‌اند و پس از تأیید تیم GFS نهایی می‌شوند.</div>
+</section>
+
+</body>
+</html>

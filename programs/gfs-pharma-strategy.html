@@ -2,95 +2,185 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800;900&display=swap">
 <style>
-/* Layout: one RTL reading column; tables and diagrams carry the plan, prose stays short. Vazirmatn throughout. */
+/* Layout: navy GFS header band carrying the core idea, then one RTL reading column. Experience is the accent (lime); the two exits are quiet outcomes. Brand: navy, lime, cyan. */
 :root {
-  --bg: #f6f7fb;
+  --bg: #f4f6ef;
   --surface: #ffffff;
-  --ink: #18203a;
-  --muted: #5b6480;
-  --line: #dde1ec;
-  --line-strong: #9aa2b8;
-  --accent: #1e6fd9;        /* career path / main */
-  --accent-soft: rgba(30, 111, 217, 0.10);
-  --venture: #e2622b;       /* venture path */
-  --venture-soft: rgba(226, 98, 43, 0.10);
+  --ink: #0b1530;
+  --muted: #4a5570;
+  --line: #dde1d3;
+  --band: #0b1530;          /* header band, same in both themes */
+  --band-ink: #f2f4ea;
+  --band-muted: #b5c0d8;
+  --band-line: #24396e;
+  --lime: #cedc45;
+  --lime-ink: #5f6e0a;      /* lime as text on light surfaces */
+  --lime-soft: #f0f4cf;
+  --accent: #1a6e86;
+  --accent-soft: #e1f1f4;
+  --edge: #9aa2b8;
   --font: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0f1424; --surface: #161d31; --ink: #e8ecf6; --muted: #a3acc4; --line: #2a3350; --line-strong: #6d7794;
-    --accent: #6aa8ff; --accent-soft: rgba(106, 168, 255, 0.14); --venture: #ff9a6b; --venture-soft: rgba(255, 154, 107, 0.14);
+    --bg: #0b1530; --surface: #13224a; --ink: #f2f4ea; --muted: #b5c0d8; --line: #24396e;
+    --band: #060d22; --lime-ink: #cedc45; --lime-soft: #2a3424; --accent: #3fd6e8; --accent-soft: #16304d; --edge: #6d7794;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0f1424; --surface: #161d31; --ink: #e8ecf6; --muted: #a3acc4; --line: #2a3350; --line-strong: #6d7794;
-  --accent: #6aa8ff; --accent-soft: rgba(106, 168, 255, 0.14); --venture: #ff9a6b; --venture-soft: rgba(255, 154, 107, 0.14);
+  --bg: #0b1530; --surface: #13224a; --ink: #f2f4ea; --muted: #b5c0d8; --line: #24396e;
+  --band: #060d22; --lime-ink: #cedc45; --lime-soft: #2a3424; --accent: #3fd6e8; --accent-soft: #16304d; --edge: #6d7794;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
-body {
-  margin: 0; background: var(--bg); color: var(--ink);
-  font-family: var(--font); font-size: 16px; line-height: 1.95;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 40px 72px;
-}
-main { max-width: 780px; margin-inline: auto; display: grid; gap: 44px; text-align: right; }
-header { display: grid; gap: 6px; border-bottom: 1px solid var(--line); padding-bottom: 24px; }
-.eyebrow { margin: 0; color: var(--accent); font-weight: 700; font-size: 0.95rem; }
-h1 { margin: 0; font-size: clamp(1.8rem, 5vw, 2.4rem); font-weight: 800; line-height: 1.4; text-wrap: balance; }
-.byline { margin: 0; color: var(--muted); font-size: 0.9rem; }
-section { display: grid; gap: 14px; min-width: 0; }
-h2 { margin: 0; font-size: 1.35rem; font-weight: 800; line-height: 1.5; text-wrap: balance; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.85; }
+.band { background: var(--band); color: var(--band-ink); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 36px 44px; }
+.band-inner { max-width: 960px; margin-inline: auto; display: grid; gap: 16px; }
+.logo { width: 260px; max-width: 70%; height: auto; display: block; }
+.eyebrow { margin: 0; font-size: .85rem; color: var(--lime); font-weight: 700; }
+.band h1 { margin: 0; font-weight: 900; font-size: clamp(2.1rem, 6.4vw, 3.6rem); line-height: 1.3; text-wrap: balance; }
+.band h1 em { font-style: normal; color: var(--lime); }
+.band .lede { margin: 0; max-width: 64ch; color: var(--band-muted); font-size: 1.08rem; }
+.band .lede b { color: var(--band-ink); font-weight: 700; }
+.byline { margin: 0; color: var(--band-muted); font-size: .85rem; border-top: 1px solid var(--band-line); padding-top: 14px; }
+
+.page { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 36px 72px; }
+.wrap { max-width: 960px; margin-inline: auto; display: grid; gap: 56px; }
+h2, h3 { margin: 0; text-wrap: balance; }
+h2 { font-weight: 800; font-size: 1.6rem; line-height: 1.4; }
+h3 { font-size: 1.05rem; font-weight: 700; }
 p { margin: 0; }
-.lead { font-size: 1.05rem; }
-strong { font-weight: 700; }
-ol, ul { margin: 0; padding-inline-start: 1.4em; display: grid; gap: 6px; }
+section { display: grid; gap: 18px; min-width: 0; }
+.sub { max-width: 70ch; color: var(--muted); }
+.kicker { font-size: .82rem; font-weight: 700; color: var(--accent); }
+
+nav.toc { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .9rem; }
+nav.toc a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); }
+nav.toc a:hover, nav.toc a:focus-visible { color: var(--accent); border-color: var(--accent); outline: none; }
+
+.decisions { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; counter-reset: d; }
+.decisions li { counter-increment: d; background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--lime); border-radius: 14px; padding: 18px; display: grid; gap: 6px; align-content: start; }
+.decisions li::before { content: "تصمیم " counter(d, persian); font-size: .8rem; font-weight: 700; color: var(--lime-ink); }
+.decisions p { color: var(--muted); font-size: .93rem; }
+
+.success { background: var(--lime-soft); border-radius: 14px; padding: 20px 22px; display: grid; gap: 8px; }
+.success h3 { font-size: 1.15rem; font-weight: 800; }
+.success p { max-width: 74ch; }
+
+.quote { margin: 0; padding: 18px 22px; border-inline-start: 4px solid var(--lime); background: var(--surface); border-radius: 0 12px 12px 0; font-weight: 700; font-size: 1.1rem; line-height: 1.7; }
+
+.gets { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; counter-reset: g; }
+.gets li { counter-increment: g; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 2px 12px; }
+.gets li::before { content: counter(g, persian); grid-row: span 2; width: 36px; height: 36px; border-radius: 50%; background: var(--band); color: var(--lime); font-weight: 800; display: grid; place-items: center; line-height: 1; }
+.gets li.key { background: var(--lime-soft); border-color: transparent; }
+.gets p { color: var(--muted); font-size: .93rem; }
+
 .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
-table { width: 100%; border-collapse: collapse; font-size: 0.93rem; line-height: 1.8; }
-th, td { text-align: right; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
-th { font-weight: 700; color: var(--muted); font-size: 0.85rem; background: color-mix(in srgb, var(--surface) 92%, var(--line)); }
+table { border-collapse: collapse; width: 100%; min-width: 600px; font-size: .93rem; line-height: 1.8; }
+th, td { text-align: start; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--line); }
 tr:last-child td { border-bottom: 0; }
-td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
-.quote { margin: 0; padding: 14px 18px; border-radius: 12px; background: var(--accent-soft); font-weight: 700; }
+thead th { font-size: .82rem; color: var(--muted); font-weight: 700; background: var(--bg); }
+td:first-child { font-weight: 500; }
+td.num { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
 figure { margin: 0; display: grid; gap: 8px; }
-.fig-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
-.fig-wrap svg { display: block; width: 100%; min-width: 620px; height: auto; font-family: var(--font); }
-figcaption { color: var(--muted); font-size: 0.85rem; }
-.checklist { list-style: none; padding: 0; }
-.checklist li { display: flex; gap: 10px; align-items: baseline; }
-.checklist li::before { content: ""; flex: none; width: 14px; height: 14px; border: 1.5px solid var(--line-strong); border-radius: 4px; transform: translateY(2px); }
-.sources { font-size: 0.9rem; }
-.sources a { color: var(--accent); }
-.note { color: var(--muted); font-size: 0.9rem; }
+.fig-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 8px; }
+.fig-wrap svg { display: block; width: 100%; min-width: 640px; height: auto; font-family: var(--font); }
+figcaption { color: var(--muted); font-size: .85rem; }
+.svg-ink { fill: var(--ink); } .svg-muted { fill: var(--muted); } .svg-lime { fill: var(--lime-ink); }
+.svg-box { fill: none; stroke: var(--edge); stroke-width: 1.25; }
+.svg-key { fill: var(--lime-soft); stroke: var(--lime); stroke-width: 2.5; }
+.svg-out { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+.svg-other { fill: none; stroke: var(--edge); stroke-width: 1.25; stroke-dasharray: 5 4; }
+.svg-line { fill: none; stroke: var(--edge); stroke-width: 1.25; }
+.svg-arrow { fill: var(--edge); }
+.svg-gate { fill: var(--edge); } .svg-gate.key { fill: var(--lime); stroke: var(--lime-ink); stroke-width: 1; }
+
+.tracks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.track { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
+.track .out { font-size: .9rem; color: var(--ink); font-weight: 500; border-top: 1px solid var(--line); padding-top: 8px; }
+.track p { color: var(--muted); font-size: .93rem; }
+
+.message { background: var(--band); color: var(--band-ink); border-radius: 14px; padding: 18px 22px; display: grid; gap: 6px; }
+.message .kicker { color: var(--lime); }
+.message p { color: var(--band-muted); }
+.message strong { color: var(--band-ink); font-size: 1.2rem; font-weight: 800; }
+
+.stats { display: grid; grid-template-columns: 1.3fr repeat(3, minmax(0, 1fr)); gap: 12px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; display: grid; gap: 2px; align-content: start; }
+.stat .n { font-size: 2.4rem; font-weight: 900; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.stat .l { font-weight: 700; }
+.stat .s { color: var(--muted); font-size: .85rem; }
+.stat.key { background: var(--band); border-color: var(--band); color: var(--band-ink); }
+.stat.key .n { color: var(--lime); font-size: 3.2rem; }
+.stat.key .s { color: var(--band-muted); }
+.longterm { background: var(--lime-soft); border-radius: 12px; padding: 14px 18px; font-weight: 700; }
+
+.risk-top { background: var(--band); color: var(--band-ink); border-radius: 14px; padding: 20px 22px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px 28px; }
+.risk-top .kicker { color: var(--lime); grid-column: 1 / -1; }
+.risk-top h3 { font-size: 1.25rem; font-weight: 800; }
+.risk-top p { color: var(--band-muted); }
+.risk-top .fix { border-inline-start: 2px solid var(--band-line); padding-inline-start: 20px; display: grid; gap: 4px; }
+.risk-top .fix b { color: var(--lime); font-size: .82rem; }
+.risk-top .fix p { color: var(--band-ink); font-weight: 700; }
+
+.checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.checklist li { display: flex; gap: 10px; align-items: baseline; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; }
+.checklist li::before { content: ""; flex: none; width: 14px; height: 14px; border: 1.5px solid var(--edge); border-radius: 4px; transform: translateY(2px); }
+.checklist li.key { background: var(--lime-soft); border-color: transparent; font-weight: 700; }
+ol.steps { margin: 0; padding-inline-start: 1.4em; display: grid; gap: 6px; }
+
+footer { color: var(--muted); font-size: .88rem; border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 8px; }
+footer ul { margin: 0; padding-inline-start: 1.2em; display: grid; gap: 2px; }
+footer a { color: var(--accent); }
+
+@media (max-width: 760px) {
+  .decisions, .gets, .tracks, .risk-top { grid-template-columns: minmax(0, 1fr); }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat.key { grid-column: 1 / -1; }
+  .risk-top .fix { border-inline-start: 0; padding-inline-start: 0; border-top: 1px solid var(--band-line); padding-top: 10px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  nav.toc a { transition: color .15s, border-color .15s; }
+}
 </style>
 
-<main dir="rtl" lang="fa">
-  <header>
-    <p class="eyebrow">ستارگان آینده گلرنگ · نسخهٔ دارویی</p>
-    <h1>استراتژی برگزاری GFS دارو</h1>
-    <p class="byline">۳ آبان ۱۴۰۵ · پیش‌نویس ۲ برای گفت‌وگو با گلرنگ ونچرز و سرمایه‌گذاری دارویی گلرنگ</p>
-  </header>
+<div dir="rtl" lang="fa">
+<header class="band">
+  <div class="band-inner">
+    <img class="logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAb8AAAA1CAYAAADRT+V4AAA6tElEQVR42u2deXxcVdnHv8+5dybpDrSkSVsK3Oxp2QVkEZVFJU1bWlYFQV8BAUEEZd+lYFlEVFwQRaTsW7d0BATFDQQEytLsc4WuSVgKXZOZued5/5iEZs9MtoLm+Xz6RzP33nPOc855fudZj+y8+9H0hRzHsKZ2yT7A142a6VOKZ38pFovzaSLXcVhZtXQvx3AaoiMm5886OxEENFaVjyXMFEX2UHSkTZjySQWl7zJMPVJDNPJt4CogM5Xnd512zISmpth27fO6ysg4MuwXHJXzQe7Lyi29e3gmtz/V+PE/COzf0zMC/zSELvY81g9z7NND1X78UgOn9vSMwtYEcnGJ5z47aPK/Ly81VkV2IaTfUJWvAoUKr62qeHyniXmzPvi0TMAaf7EXUvcU0OMQ2UPhn2srH9ohq+D4DzeFmxKZZG422A+NSrNIc2J4yfZONsGzhGw9gXFSeT4e375sbYwu+7zCt0SlFBiFajUwDH4DSQJ+tMmDzFF5ebxp7fbrymo/VhJDRnle6OXBbMf34/tB4j3PG/HO9jvYQ0Vt01dcYi973tj3B6udcBjeqkp8oSTffS4RbL+5fcMnazTxXTwv9MqggF84HGJ1xaKTMXqZquQjugGV6yVuf4trJqzxF+8w2ZvtbzdhVlU+NgiZg4zojhO9GQ91p7Guq156MioXKkxHNKbK9SYR+y24YxvryrOy82bWuI7zzuo3F63fFI6Z/KLjPhyWYr1TTmFpHVDXWRgsHjVCQ4c62K1ZuWV/G8w+1PtLszVwDkaoy8krfaNLDdVfnAXutSjHAhOAFRZ+EE/I8nq/fB/TFK/LKpmzcTD6l5kZ5j8VT8xWWD7JK3vnv31N+NGNEwIy54vGd6yo0x8UeeHXt0c/VvlM36r8BCFe7cevL/RCLwxGOxV+4sgAvU409Nbr/sYr9vLGvDfUY3UMvFUb+5pgzknoyFrf5yLPY8D74ftMSBC7WOCzlbWx3+9REv59U9N2WGP++2MSjPtOgB5Z7Tc/XOhl/GzAwW/1ikX7q8jPQQ2iLwcqF0mCdyUk3xPkey5yp/9S5BLvgNJNfRJc0ch3DZrXove+k5U348cpma7qIqc4wqkKn3WEMVgWAV2C38rq8kkIv1HRBPCSYs+zIuslFD5dkKtUKa+veuTrWQXHf5hVVLbhfxnMGuuWHYTwVQArmgC5JdubsS51ICr/ulHzdZRDEEYq8ktgwMHPcQxrqssvNcLxquxlDM0qehHQCfxCrosQOluVbymsR/QGYnKXOOSEQ9wjKoeRkfFdY+Rua3XADmXWNSeLcJIIhwFYgqOBd9b65bsaNd8y6A6dtSZ5P058wfY8UPZZ4ROIRrdOCcj8DbCbCjiY3/l+/Nv5eaFXAjt0/VgZjU1rhh8iMhnAwBVv+rEr9/DCyweqnZAL1TWJowP0FhCjop8bReZNvs8PhtIsawxU1ibKgPNAxhlhf6uxqxr88A0TPRoH7pBJ9iZiVwrmi6CicMGbFTFTUhj+XXwIvV++z46WMfME/SIIBjmj1o/HpxW7v4o1S8+8SquleKwKuEYCPUc0OMMRPdC4RAxcIIKDyomjJtjSPk8cegwi5yX/cXzK7wlfQzhKhDG9Pbtb0ay1qlypcF6AnqLIZx01i1C5Irlb9DDrjDo15Lr8z5MwvXU+jMo5ibjslNbrak5AOAph5KCedB0HEU5G2FeEHk2u8UQCS7AY+JEVPUZhkYa4AEeXiXA0IqMQvXBtVXnugHUwZHLE6P+1Al+7vgdmooh+c9u6b/NP9RshDWV/+oBPiUZj0xO4twK7bftFR1plfm1d4ouuMzR9iUZj05rRKxQpavNnLxOu9/34/gNiYnRhRU3zLIte1FamKhyUIH6r7zflDsVYXQeq6prninC5IOOSfVBjRY74SGMX+/6G8QMEODtvInGRRb4AKklRgSvIdyuq4+c0vsWoIQK+3LjGb1Pki223FOipKyrtGaFwb3iTBmWVzNmIbb4PYzIVdwFwvQj5iJiWU9Z4UXPJJ3ljxhMJNn/AXQIxR829jsqtIuwtkuSFIGNF9KxVNQs/dUJnmFKjSXmzlkuc3xl0tsD9iJ4nyIQ24nuacfnRMKf6CjjNuQnkcgPTOv6mwqQAe8mK2vghg92PKj+2l0XmK2bvLiA6N4AbfD9+WH/bqalJHG2QCxSyuxCwB1h1L/b9rbsONvBV1sZOE+QyOlgRBIyIfNky8mbfZ+f+Ap8lfhPol6QDfiiEFDlr08jBB0DfZ3dL/DIjXQVFyThUT6+oip/TI8/SaXCtX76rqLlL4fDkCbu9WqloJcj3+zogRZaLausmqRoMpq2qimSFw/oLQY6j9czShqyyUpCrpxQcU/8/L8VU1wF/aT03qGHLp31Ixgjr6sqPVOVOwXhdr0O7LBYz5w4Ji2GDgRdQndDFJq5X+FSZ3n2f0QHOHQK7anf2BGSqgZ/6fvzb6QQopNmPEov8WGFSD49NCVRuqfGbryvMzYhoH6zcNUkf3487ypE28+sg+jmroWtDIb45GCZBY6CipvlYkHNBugMdR9GDrMZv9v3Q9z2PD9Ln6YbxlhG3KezXvbFI3QSc+tHI+OaQG/rlYMS0ZWRCgvi1PUYDi44Bzq3246FCL/TTPoFfyHVZU/1EMeKeoMr5CDtKO/lIAEQFvR9J/Hpi7uw+25Un5pZeODhmMcPK2oVeSN2TQM8HyWov47GI/keU8gC5fXJu6dvD53fIyisrB8r/G8bi+4+NzNSRexnRc0U5FiGjA9A3Aa+h/GazCR71iso2D0W/svNLq4AT/ht4XOk3FwbIrSCpaDkjE3BPrR+7YY+S8EMDGSjh+7E9EugVgpnU68OiYwS5Ihpt2uJ5mc+l2kY4Q6mqtKcl0O+mdMgRPbCyOn63IXG1541YPVBjHZEJKypixwfIBT0AX1t0+owlcYXvu/M9j5TTtxp8sjaSeZnCPr03gSPw7eqaWLykJHzXwM4tuySIX99bGkwbzftU349t6aofPYJfQ92SnRT3TNCTUN1DWsybbY41WwT+pAEPByovQ2jsuurI2I7fSSgbdikqbdweGzIjI8w7KxadI+jXFNlfhHAHbTUu8A+rcq9N8A8D7rrqSF7nU0Dz1hxvzprB6GNjxcIx8Uyzs4mHOpmhJRRsmpQ3q7674Is1dZFJJujap7b1I+q9A0o3ZWaG+c/riz4ek0NzbMr041fG4p+8DI51/sLJYjO+bkSzAazoU9le2R/78836mmW5oN8R+Kog2R0P6Yq+p7BIrTyE5Z0RQShnXXWkixN28/sT8+cM55R1f8wsFnRqqgqUgAOcW1ERk8KC8IMDsRxX+bFpTcjVgkxLXfs2YwLYHUgZ/KoqPxhjGedBh0NUz1r+Zy3uNZV+803FXkZd/4Hg/TFxxp6dwJwiqJtiHxzB7tEMO0Hq4LcZxijsQoquMoVQAnPemxXN48Y1bbwzq2TCxv6Ptzk/gblM4IDU35JMkD1frGDCXh0iXt0kqi/OUpwvi/IlFXkr25txE4CIe6ig1yCS2c0AMwQ9FEc+Y6R7o0GGEjRGIzXAHVm5pUt6FH7RyJcFPUrQiRNzy77e/vSx7EhUv6wi77X2sdfN8NbC/RG9GWRUV5YJURwV9hWlQELdj0E1wzZGl621yJ27TTvmnoFIzq73l+0LXKgqB7lomFBXzZula1YsuyynuPSjdu9GI98Q0W+pMlVC2uWCHDnBngE86a9YdJARfWTbvIV1VdWSjxR9ygZyU3cJ/CHXZU3l4v3VyJcEPUw1OHdi3qzarp5dG40c5ApfUvRLE70ZffbnaJAxwRhORmR68uQm64GPwa+hduGOIuFDk4E08j4x+5Mpe87p0TQorpaBnCtCqJtHxhmYpY5+pcdwGc3Y2hhd9rwNuD67YEa0mznNUStHOKJHaSBPTiwofTCd8YdDLqsrFn0GI0cCRVj786z8mQNqGgyHXFZVLDkAxx4EMh4Sd0z0Zvf7cLpXsbOoptKOjWMvTUM47RSgF66oTsQKct3H+9N+lR/bqwl+Qhe+tx6EdCAE947blPFwOm3l5o7fGI1yR6DxqSIcmA4AhjCX+f6myzxvdGPfgWDdyDg7nePASZoi8LX0YL1F75ieT3U67eXlEa2rk1sC9AaQSSnNLOqCOXlT5jhGZHLr1n5ogL6/OSeu4csd4TPpWKdV9SUkces+eW6nVA+33l92vyBfa3V/qeqPt6nqNlMw3VbraPH7jZfWc1wPRzxgV+CohmjkYQk2n5VVcPyH7YAtGjlPhJ99/ILy4jZBv+xWAxeAGEQA/VXKozcSQnpwvooYgXEI43oagyQZNNXAZ1e+tXAWImdk5Zb2KXk0IyPMOxWLvmtUb0IksyvfYxuT7E7GbW4JKBJW1y6b5Ap3ilAG0tqvLt+1mBFJTY8MQaZ0mJNdBJkuDqUNNeXnTiqe9eegTfz5urrIno7onxDJkuSubY4Hbqf4qYbaSCmOPigwNvlZGRydwjGsrV1yvqi5sTV61KIPGLPV9C5wJNMgoe6Xp4QQsqT33QxIvnE5rSEa+e6u0475eeshqKF24Y5iwj9RlVOMafGHu/paWhaAqvIpGjIvIy3CW/VtjPObrjRZ43B+mxE2WdHbsr2Z9S0HyIscdJfWZaBWnp6YXxpJatblsx2V3yBkgQHVFwKxdw7EHMWahd08517fDxyLfEdJNcpXRono9bV+zCkpCj8ST/NcKaJURuN7ucj1mibwGeTxsU0Zd2btmZ4/WxU8j3czM0PffH1F/Pci7C+paUWOwkGWjPm+v+nS3NzRjen6GsMZSsCEbwhycprAt9mB2z0vY0m6c2steF7oRd+PXxqgt0PKkd8ZCeTUFRXBxsJC586++DyX++yUIPwjIxyQBqsChZffldC5h3ihLufWGGVIwnDb0PHqjvxRNBrpEHZrp/YAPAV0NLluTzIyR+Gexk5j6J1cx2FVxcIzRfSq7jTqbjXF6KIsx+gtiH5loIYiQrE45pa1NeXT2+1QdBTS3jfa5XZy7HhBxg5Uf9TwEfAnVfuEqn1C0apWUFU14wc7bSJ1xun171QsPCccclt2WoarSFZvqRY9UbNjQiIpCG8jOW1TIlTk20Z1x49/hhM//g05V5xt/hFHzfhU5rWfuuXDCr8BTTff9wcVVcHJ//TTm+PqaPPhLnKZQl4aryUEHh0bd3+SVUKfTXJNTRCSpotAn1FI2XCr8NmAjHuqolsONGlItsYKxqyoTHwP+LakB3z1is7zvPCj/ZlZzwv92xI+X0hdcxTUDbDnVFTHv+v7jE6nvUq/OX8k8Z+kY+oUiAv6tEvoB4d43R9qhhxQRDConDjS8nk+3XSEip6Y7kur3lo6TpFL2ofWp7p+Q4cZZbYgA5qEqLA3oud8Epg6taDsbRvjOtSegdozdi2Z8/AncfIFGScq31q5YnEuw9RBQLLFIXS/g5kPbE2Dq6OF4JwsYrNT1jaJHSOYaxX2TH29SwK42+G9W7MK+ajf480d816M8C0G/VtyO6VMuxpCl9XVbdlPUjCY+P77Yz7KjJ+n8C3o1oTfxXi1wcHcWpibsXgg5rcol1cMzKeLak49UEjhjID4uYKMSeWFTDTXUXO5IJ9JR5xZ1eeaSPy4t4jWHoVokDB/cRy+2H9Bod9U5HgRRrQA4I7G0SN9/7EnPe+4QQ2fD2KsMOH+jwGYJcIFbUB8hMKXGqORh9Mxf0qGndUxxF5VXxK4SZEPOh8WbOOkouPWGyOo2LmCGdVmUW8A7kDlT2LtJDXmcpHOuVUSbF6uzqgvtvxHVJ39RPT8VlNoMsdRzga2OwAGgaWjf7Pfino89qC6GS/2bxHbLJBzBflcm4W9r3HYC4gOQ14nANwM7hO+H3vbIncpyb2fAjDtCFwlKhuR3nBE9nPgoDQP8YGLPlBSErq9qSlnwE6P0z3W/NMPXzyB+L0GSlJXUigICN1cEw2Wgu3R4JtgzB4Ch7YECqXYN9noSuhaz+OvA3ZY1lYTaOyaAH5JS0J9CoN1FE4W1Pb+rGRa9NtJzNB0puLNdyV82SFeuFdc6RH8WgIhnusvs3x/8cujcDe3CNjWSdllRGxkqI+fTNlc2CJInxuAOX+uIRrZIMI1bf42mWRtyHbgZ4ywtq48B+xEIFuts7a1zqRRM72tW0yVGg342sRuAig+nijHwah8/K4qgcDvpxQfc0UsFk/6gdCNXfn/WvyrbXnwl3p/WaOo/gaRj6PV6usih2bnlf5jqAWl7z82MhSMnOg6OlEDGY3y+kDeopFVOGclsLK/36mvjbyBowvankQtsjfwxDDcdU15eeFX6+oSVwTYi0FSLxyRzNPqTaPJTLM7gaCPQfiXg1GD8hCPLf/0Q6dOJHazRQ6T1POoc8CemQIgpNultx2xV3oerw7OASf8mu9zbkB8HsmYjpQAkJTAWyXVA1PLd+OoPtco4ct6MnW2k9NdMHgX1xnY2kP5+XM2o9LYobOT1NmWdpCOGVCUog6a5Y4dBpHb6osZWFNXagJ0Xe2yO8TK3aLOI6LOMtNzMuaG7F6ArxttOmGFda3XSFmR0SpMaCMYEo5K0P3E67/pwUdhtb1DWxEJmS4WuDWT+wUoNctyR+uIX4YdvddRHneN3uq42k+flDpWZcArTBjbvKWjGU/o3YeRENuESnv/l3V27/hc2Al268DzEajdqbM1oLN2n7BtgpFEx7XTWZWx2+Y19dD8gSBrobDQfdLB3Oqg2y1NJGnqtH8wbLzN8wavcMAhHluaSNzY4gPcjvccUOGgV3pe+NXBbMTzeMWBq1Aqt+NYE1b1T0bCP0oV+JKKCPJGB2F88NqaJXMHsrbl6tqln6WDf0xF93QdPbuxqnzs2trIkYoc1v536ntYyPs1RCNXNFaVj62PRr4BsmeH3wtXVS650vcfG7DgiMbokmLgO+1ZJesDad7UhXD6jhi+IkJ+a9m0/m9eBdrlqYREmVvvl+/TWFU+1jWcjsrubRj4PmifzIdr/MWeGK7rALYuhrPXRCO7fazdRiMHGdGvdrCJpFW13zg6GZHTBDkUSS2Euks7DO3s+yEHPXZtbWSvgZp/13HACR2Hyt7t+WIren03sfWjjtYBMXr5Or/8wLaHADA/7PDqzip8s21gVUM08gXg2g7PjXAcPdb3HxvZ4C/7Hm3qaYpgBL7cWLts/3p/abYRPW2oJVM8DgX5biSOXCQMfZWgZDqD3t1Ixi89b/zGwW5veu7ItS7hG4F/bScweNtBb8zLG1zg26bdh/7tCDeCrtweg1X0+a3SPN/zSKsql6voY8A3pCUUXJApCI+vqVkyqB0WxEW4jrBc53aWZYEKC7t9N5moPo+wmWe6+124fjQjr2/0I4PDcMUKWrVL/nFr+smHzzT6kR7yC3kY23x2dsHc9Yo8i/J5EUxLisYBgrzaqj93qLxTERh9Owncy+5B5LSuVNl2QGT4+8f8kk5MNQJlIShrz9N2NlxrVR4a6sUfWAtin1c1h7byBjjQdVg+0PMv7SenMWFNr3fDZRUc/2FDNPKaKjNbiywIMsVB/tVT/5IHJzMXmNvjc8m9e9VoRl7VzXem4chLpmNFQlWrQsVgFW9odzQPoNALPe/78QstMk/RCUO0PLYKPD5uS+iu/OlDBLzJNIj3IHRGtR+/0sCxMFQat7zvYK/wvPBrQ7X/WtIgXvH92OUB8jPQnYaIzYGBFxsJX5iKj6/TwVs0+Dfo06psx2smO5kCn4/H5I98kkm0Bqv3JoKhsWyoKoguEnRFCqtiC/DYLvmzhvq+uBVxZcijM4PAovAIotVD1aaiCRWWOjSndNqNJ1jEJywwRpFGC78dyjYLCkJ/S0YK6uDXzlXZ6KA/Lylwb8yazubtweM9i0PzgAdANw/BhFYG2HOGEvjakueFXw1wzxMGpy5zxy1lVZ5aTeiidEyd7cAvp2D2BxLoNYi+MjQ7rudFoEnb8Q93LZnRmP6niQ0FiCu6SrEX5BTN+vdQLq7J+bNWqHAjqmt7UU9uNgl7XzAQl6apblYllgLvfWvlst2LZv5ne2y8qYXHvGat3NgSATv4y9jK321c5qda7mxKYekKa/m2oqtS4OWHaO8Rcf1Z76qst8pFU/JnDqlpLpGAgkI3opgbB9MEquhHhuDm/PzwPfGEsL2ouRkcQnda5FEG0QcoUOGIzivywm9uzwNVkcdrBm4YZAC0ij4bFvfWL/TjrkTXWiUrf+Yrq6oiZaGwPmiQwwdPYPAkGvuaOqEyo/Kj1ssl26jPfwlM/PTeLu9UZWPHu/sUvTsQ/aFR8y2BqwYPu3nOJuSMnMKZdUO9sBJBwERvxkONfvkbKHcjcmAHHtShctnE3NLHBmislYKcbi2OY3QB0nXBYlV8YHZ2fulb22vTxeIJcvJK72v0y19V5fcicsDgLAC2oPrz7LwZl6b7ak5+6d8bo5F9VPR3QKl0qDrTAmT/EBtcmMBJOIZ7RNi7m8n5S2DlAiMcjOiPpE24uSobgdvE2nJ15LZ26RnJ398Sq/+Xkz/j5b6ywfdjNwTInH6arQaRzJ9E3D8OlGGm1o9X9PXdgMFPqFYoCZD7a/2+Xxth4cFCL3R9/zXA0CvRaOLXKnYeyOjBmFxBvhIQ/0ptP655/tjd1lJ4+oj6mmW56rKnYweukoYaEoK+OalwVkWLNrJgbU3kSSMcYER3UKNxUfN6dl5pamYr0fsI7O8QU6QizTbB8pzCGa1gdPU6f+Gdjg3vC4wd4BVWM6V49svxRN8r8FqxDxkrb3T5m1EjamaLcGxP38jyyiocx3x2VVX5Xo6jxWJxEioNkpCXu8qRSyB3ulb/lN5GkHfapj0YI7utrVl2qEF33TavGg8CUz0pv7S7IJcfY/WhbdNGzWCDYJZXVhFy3QNX1iw60CC7i2XAQpcDo5ucOK9MLJ7Z56r8Wbml74dc95jVNYunYXXv9svaVk2ZNveV1gjezMzwPitXLDpYA3YVs61+qzV2RXbuzOUt/329sebRBzEjP9e63q2JPdfqxzNGDltbt3QfQQrE4gYqK7eu5zXvgBmbGKZhGixNVLSJ7Rvtmjr4tVJL2P2g+yZa8riW9X7CXDwK1RF0KIHQUuy3S1Nty8Zf80lkeLZX9hrQpU0+Wb9yaREp5PMEgaUFdHqNrpyUW/oC8EK/7AxWaQHDlPMAJ+aWPtcH+40bBJ0r2IgIiB2dyhk6nkiQ45W9CLw4VPOqbnwMuGNTmbt4IsFEb8YKoEf/bVNTjKzc0ueB53sE1GQe59Ju562HNTdMw/S/Su4nuXPrKiPjDHobyCGfZiar0cPD4dDvWk/03U6G64JyZLsASnTjFido/qSMpd5flmMCpgRO55skHDUfTiqYWZ1WEJBKHLT542R7ZTfH0SIReV3bVPytrnlopKg5rC1vBDZO3fPkD7c7T2qW5RrlTuAzyLBQGaZhGga/flCDvzgL5VlBpncUKNJD8vYnAuzQ5wU5uE1/j1tduXhnWoo0d48DHCXItgR+1SajWunlHvfJuUFd5WSMznMwGZ3HzR/XVC88ZWLerJRvibYq60WoFZjeouKNQvlFfbT8C6LE23z7IJFtN0irshXRyoG4Wqo/1Fi37CAVeYoOPmhULUJ8WMQM0zANg19aNNGb3dgQLX9SkaLWQs6KJlB5XdQ+9QkHv3moPNwalNOS23UUyFE9vSedwXB1PGGe+m9egCbevIaM8LMKhR/nmgrjQc7qoOV1pFUCf9re/U9YqXNcraZNyTNVYgLPaT9NzcM0TMM0iLLnk9w5ifNTVNr6mH6D6Gk5hbPKP8n93q1k7h9F9X5F+3U3tVq5fGrxjBX/zQswq2TORmvl16iklaOnYudl582s2N79n1RQ+m4QyOmqNLScfLYoXEFcTs/JLXt1WMQM0zANa37pC8aistXr/PLbjZqdreX8nPwZz34amNrUFEMJrkBdR+H/0r3jTdH3SOiJ2QVlf/6kjS07t/RW4NYB/WZ+adWausiXXXhKhOm9MGeLBnbmJ4k3uxSVvb6mdultonJiHI6dnFv69rBoGaZhGga/ftHUgmMWV9c8/oyXP3vzp4mxLX6vMxv8pQ8q5mQ0hbqVoirKi6L60MTCmTX/Swtxcl7p2nDI3WNl9eJTQb8ianZozxtrUfNvIfFwduHsyk9S34PAsmvxnJtFuHl7+yCHaZiG6b8E/OKJBJ736QK+diDozfwL8JfhpdY7xeIJsr0Z9wL3ftr63tz8vwV6quYFJOjzvhScMDCrD9cSpURGmYhsGAFjByhYzN7Xn7cFmarIoQyaq0lXKrwoaHM/5mRAqnyFwxBAMcigzK0gFtU3VWy/qtnIzrsf3emPjXXlBYicqMJRaJs7uET/bNEndyueu+h/bbN/Eqihbkm+iHOedrzCqdOsygaFednejHXDXEuRt/7iLCF0tiqHAznJTaYbFCmXRPPdLXcCDlMLhVwwTt9qtFRWfjAmYPT3wJw4eGBAXFWXFuSGrxyIj2Vk9L0eTWVlc24C52qBz8BgJcPoJgfzo+JiZ2HfLRhCItG/XohAXV2izAqXg+4wiMevqANXFxeH+py/2g78GvzFWaLOD1TkbOmhLI0qb4nqmVOnz3lh2MwzdLQ2GjnIgUdFmNzzqZwGUXtYVl5ZzTDXehPiLqtrFp8kyh2IjO+GoZutyjenFs96NBZPDDOtPyCSCW9VxM8WOD2dy0r7riXwgiF2RW7uqHrVoR+v72/KSmjmFSJ61OCPVbYa9MKC/NBfE9shGcx1oKK26XDBvZVB0ug70AqH0IWex6o+8asV/Or9pXsbNb9C5LNthGg9sEaSFewnAFNbw9FV+dDCjVvf51feAaWDUippbW1kL4FchQ2TC2Y8o9tj9X5SwU+1iW6quyjygSSazxrWVnqnxrplByHcj8juqgQiWqVQJyojVXRvQXZuYeoWhdMGqm7q/6q2WFETP0vRbwkDf9lwN2QD9B9h7HzPy3x7KMf7ph/bewSc1fGu0kEGwCYD84qKnSdizUNXcSEjAyorg+MtepkODfC1SruKAK7rS0FvF6AxGilUtbd8DHyq76P8NhBZ7MIHQUICCdkxRtkP4Xsg00TYwSjfH7EjUWPkCWsHHpgcx56EmjMQrTRGngkCHZYg26g+SMgpXf2QMATetOMHHPjWVUbGSYY92FjZKSHit5RN+1STFTnOCLu3ANyfVPhBkJBGcZvDjmbsB3o1IvslT7L61caaR59pKSfWiTfG5RAR3TEwRHO8Gf8aXqJtgC8Eb1XHLwZOFGTEEDZtDHKIVfcy3//oUs8bNyS3yft+fD8LV2jbohVDAQVoZoBcUFkRk8LCjMcTQ2CoCLnwVmVwYkBw3mD5+XqA+xIXrvH92A3pXuXkuo4D6Iki5sgW4FsTIN/KySvtKrn6tXp/2atG9QlEdhVhojGcV1e36KnBCEoRlREI41HGyXDdqI7aXSynsHRIb5ZwwolJqHM9RvZzVe/hvyCJ26BHtLphAuGHk7x2eZVrGuuW5YNORyRDlDx1Rk0BOoFfYJjiGK5HZF+D3s32u8X7E6jxKRXViQuBr8PAFRpPXRvCUdHPBYz8g++vO8nzcga1YlKF35Qb4FwDkredpMN4FeeKmprEB57nDnqwXXVN4ggLl+iQA1+rLKTEIlf7ftMF6Wj35p3qpZMUOaHN3+7IyS3ttqpItjfjVbVyDsrNKDcLvFRScnxKwBcOh2ioW7KT/1Jk9GAxwvcXj8rICPeiURrWVUbGNVaV9+vWh3DIpaF24Y6ZmeH0+/lSZHRD3ZKdwuHQsHRMRYCJ0FhVPtYY6cX8Ek6uMf+xkaltHPn4bOyI3aXz78HvYwnZL7DspRocN7XkmAG9tinkui39XdwvM2BmZpje1lJjzaM7NNQu3HEo15zvM7aiJvFtkK9tD+DrQHkJnfAL32/aTWSwxtucF8K5CcjbngNNaoD8uNYP/s/33x8zGG2Ew1DjN88K4JahNXV2CYCFAc4tlX5zynwXGw8Ox5WnBHFVWSOwV1Zu6fsD2bE10churugxQBGqO6vIVrFShbBoYm73d8A1Rpfdjsj5qL45qWDWnh0LJq+NRg5y0RMBYgm5K+zqwcAhgeiiHK9sUVfgu7piYRnCYYqZKmBRXYnyuBrZVdBDFXlXEs0LuvKXNUaX3Q4QWHncEc1Vw/5AliibVfQ1iccX9uZnq/eXZqPOCYLdHxiJyLuivKI29piY8DVJDUT/skv+7MVdjbfV56dKzcTc0sJ05qExGjkY9ASFTWjwh4l5s2o7/D4L9HCgceq0OTe2DWYKh1xWVS1aIMiXEMlK3vWnTwMECbmjrRa6rjIyzoQ4T0QnqJWnJ+aXRtq2s7o6Mi3kcrKgIwPRB1tuYGjf17pl8xEyUV62xr5vVA5HzGYSm3/aldmxsSqyi4btXJA9UN1RkE1AVJEnelpjDdHIwyKc0GL1eN2KvXS3kmOfTCeQq9EvL7HI5QJfEmRnVVYI+kxXvPn4nYqFYwiHZ6nhc6juLMgmK6wIVB4JoUcB06ywVoLYXR0vzK2vWZZrHM5DZL3axAMYZ4YoewO/z8qd8deOh4aGmiX74ThloNNUxSD6rgT696l7zH1gMAPWfJ8dLYlLLHqkkM4VaeoDLsjUXh5cDcQALw0hGVj0n2GCeZ43YvVAjrfaj+/vwFWaHvAForxlhWnSe+pZFGQH0PGpa73SpOgfHEK/9zwG7KLncIZSVWlPCtDzQcelMbfvARtBdu9lnhIGajQ5t5mpj5dqA/M8L9Rr2oYrDl+hpXYmouVZ3owBBb7GaPlhKvprUXYHwkjy7K5CTNCzG+vKf5yVV3ZbX77tYqch5nyAsKsHAHsmCyPLiq6Ab2XVwttUzanADq1VVxSxKnxVRDeDFINWYUJPASu7UD/OB3CMzlJhZ1FGImJIDugEdTO+XO8v/b9sb2Z9l4LWX/pF1PkZkCtiRrQIXAucghM+BqQUwKjGjWMW08PtCILu0BCNnNf574lnsnJnVXa9y+yeDuZ8lHqs+TNQ237F6cEYOV/RypVv3P/LtiBTVf3QSMGcso0VFCf5BY6rC4FtAj6jeTSacSoi+Rg+BNqBn2vYDdHTQXZ2LMvp4uohFTlThB0V1hg1oki2os/hZt7Z8dm1tZG91NGHULOrCB9ff6VoXFTPbKxbdmVW3ox7uuKJtTxsDEe31GHdw6i5752Khb4o5ViNZOWX/bvX7RyY3YzDyW14Mw1kWpI39ol2vAHWVUfy1LU3IRwpyNjW/hrVZoEZiuSIkC/KcrE8BB1uqzaSg3A+qu8j7nEouQgjLLZTBaSG2qVlKuYu0PGChEQAxaojX1u5YtEJm2TL1zxv4AuntwDfDxX9oqSXzvCORa4TOFdgai+CfWWc4KYQ8v1Ug0oEHAc5JIE73/fXnTlQJtAqP7a3Qa5IE/hU0X86EtynOD/5WA53T/9QqBSYn44GCJwWEE8YE/qFtf0fqzFQVRk7JkC+S5tLlFMhB70pgH17Az+BuEHuT8A+gs4lxTWU1AC5wve52vN4q2f8aGunVanvaEIcqe51Bg7tsUFh+URvxlmdjmXVkWkKiwR2VNENauUFgWeBfYAvANlq5Op6v/zdyfmzFrRcdNtHtVcOQHQ9aL3TwSfjOIZVVYu+h8pZgmYA9arygqCvgx4mIp+V3k+ZbUFwdxRfRZ8UZRPoCSBTRThaVC4ELu6k8dUsyxWVWxGmo9qsKssV/izCCFGORuXLabk1RbIEftZJmON8AxjwCihFhSdtWVW9eCkqB4swPnl7u30+uVBt4+CZO5msKhsVVovKmiBwgvYaX/kUNfxdlFEKH6H6sAqvA0XADESmqOj166KRdZPyZjzVMWJ4qxN/ahTu7apyBkiWCOMFxiPsr0auboxGXlfRu4OEPDK5cMa7XUUcqxOsRZ1ykjdPjFc0iuoLAGpNY8c9ZdALBTO3Rfz9R4WnRGlW5AhBD0BS9J2IjEfZEWhUZZ1K+5N9OBxCxTwgwhhVWaPoPQKbFDkRZQ+FmaPtiBOAewYY+HaC2PdBvkBawKdrLTK/0Au9XJPSjeSqGWS8B/wgQewmkMMkNdOqI7BvwIR7fZ/zcnNZ159Act8nN0CuBgrSWNkJUfu0I+EfZtA0IUUEjhd47pIavzku6lyLaKrmzEzgO9V18cT0ktCdzU19H6vrQnV14ksW5+q00hlUNhq4ysvNeLraj+9hegcxmmDD3sXO1W9VxscIcgSpF2UpssSv9f3QRZ7Hf3oAv+5pdMxxNEwByIG9dDXelaYVcjgDGKvKeit6+e7T5/y6qSmW9LnVlM9S4ReCTFH4xroV5c9lFZWu6rOQRF8KArlq12mzn+14b966isenopyAMCIpRDllUkHZX4PA4vuPjRzJiPNQLhVhhxSPa5UJKJ3szXgbYJ2/8GeG8CMgB4Oc1hH8HMeAy3GoligkEH4P8WuyvdmNxgjJm7b5GckKEKme6BJAJw1TVAalGk4snkA0uAScBSDjBf1bVm7ZN4fAd/EeovMCax6dnFe6ttMDIfmBCGNQGhUumVww655Wc3FDTfnh6rJQkCmO6jHR6KJ/dAzM8rzZm0Oue/Wa6kXPWGSWqOxpodCgU0TEAfYVZF/X0WPra5ZdOjG/9KWOXcj2Zi5fXR25NOxyLzAe+OvE3LJvdbmnAqdYHY5rWUgvBipn5uSWvtFidh4Pci2qp6cMgMrTovaqTetNlXdAWbuUo5VVC/cRPr5q6bdTCmdfG08kaKwtf0YduVqULITsgZyv13x2tMS+Z5FZkp6P7x0HmZ/vhf6abpuexybfD89XjSWsmCNBUzxGSrHV+LUrosHN03Izo30BQN+P7R3A1aQX1bkVdGFJcXheLAZrfCak02ZhbsYfq6OJDNDzBZmYxqvnv1URH7GJ0B/28Ug76rXxDUZuGh3MsnBxOj4+i9aL2NtzvYyn05Y7zcL04tAFKypjVwtmdqq5oQolVuO3+j4/y88L/bUrvcoA77XpZm7bH6fsOWeDKPdY9JKO/1R5rseV/ObiPBE9sMW8+PpWmu5t9S8EgSWnoGyJqDyQNPcwPQjr5P4JSflDTn7ps11dGGtD4QnAvklw4BdZuTP+2qplet5xW7RZfo3o82k0dlfb4sU53pw1Cne2amSN0SXF7cxy1Yt2EpV9WgTa5gCdP9Gb3Zg0uyVv2hbLzWmNV2UtgRzb8Z/8l5VSE8vfRc19XQHf2prIzsCBLdaHlQb9z6rqpXuuq4vsua4usqc15j3gry2no4MybKhLE008kSArt+xvk/LLfhBI8zeN1eOs8E1FH0N1c8v6+jyG7ycBqu9kHTlCkJ1RbQoSckpOXhL4ALJyS98PlLsUqUttDRDDBDdn5Zf9u6tcWxMj2tp/ET1udc2i8xvrygsmFc3+t8TkO0FCTomrDFgpOd/fsNM4Ej+0yNw0gS9qCV3p9QH42gDgqq2SuEmxf09jF4kVDnZxLo9GN05It81qP35ggPwwTeBrBh51CN0R66O7VRWmF7mLwPwUNN0c66+PJv4N30/HBwu+z6iPRsfPCFQvSC+4RT8SzO3TijKW9Png3SxsIuPnin0cUr8jU4XiAL2mti5R6jhda35tFpwp81+KjG7dSLFYnKzcGU909eGGaOQLbQTUPzttvJBmqEpm0h1mX+voVwgCSyC60EEuRiRLVPsVealiX+pBezgAabl8NRF7oOPvOcWlHzVEI9UIpSm1ZfT9zpqnXdW63xO4O7Q3cLijNJQsmQU8N8kre6fj+1l5M5Y2+pE0NF2autJC/utI2EDcdrngXW0eoWRkCiDIZxCec6QLTiXBa2QoYXu0tlir5Hhz1gBrgJddx7l3bfXiC0GuF2GkovslVAroR4qHqOzS0qWargJhcvJK32iMRqLQy+0WSWvHGhs43Zawyyoq29AQjXxf4Ncg0wS5XYUfr6ld8qom+ElOQemDAzlVARlnkaaPT2BtANcVevS7ruR0b+Ra4Kw6P/brdHyAwEGWjHnAWam21eCTtRHOTNPHhyBPFRe58+P9jDOKxaDAcxdFo4ktVrgBNNVo4RHAGXHiL0PoH6m3mDgA+DaSnnqsmKsKPPeZ/s7tPh7rw+GMG9+oio13kKPT4Hh2gD37zVqqSzyi7TDKCjWovpE8HbLDyJ04Nxzq2bTaGI0cLMLRLcCyyRr7UKcmAx2BJE8IBvNRV98xOjR5IQKbtwEXG7sRJINY5NuqoEGLOt6lnX445aG/9lHdrGhdd//AvmPDne9XbIxGDq73y4+u98uP7qjVJYKAuAkWaTKqEFRGYxmQyiSavOC48zoIuajogC2GnPwZd1qCo1XtfaosB95DZT9xeaAxGnmlvjYyYEnYDs2/dpC/KNjU9qVWGLik0Av9eyCXgiF2taj+Ceg1xVshAFYY9PZ02pjo0RjAb+gQzNQD6DUF6MKSYufS+AAG2Obmuk8HuGcA0eRwUjG5cleIUJp3TbovOfDblvdTmdsGB/n+QABfW8Dfszj0fUUWCZKi51LrHcyv9shvD3wAZmrh7HVW5cGWclkY0bNWVy4+uTsAXFsb2UtFb9p2kuXxqUVzl3d5YtekA17VHhpyu/qeHtkCoO9ZZOOggV9gqlVbJs0Jn9ZJAFYsHKODmJCqTnwzJIOJjDK9sSrSKZ9s1VsLDx9CqMhQV8NdzFnOwAgfE0f0w5YFMqXT70YzgHC/+WrY2FrFXoVKVb5j0VO6+hdY84OphXPqu7AK/MRgIgYTQTi3k0APQmFETYugbJak2arvxyB4p0UDnLquOtJpza2uXFQgysSBmIfGqvKxayqX5QXYGhsz56KJE0Tt6cCvVFkPurc4et5ALSrPG/vBR7hXG/SJFlDp6UD6giF8USoh6en3Y3SjkfCtRvUvvenhRnnewV6em5tRlW47hV7oRQe9GrS3d7fG0YffJ3zDYJQcm5bPcgs3An4Kjy/YROgez2NLejxlM2y+G7g/BWWj3qI/KShw/zjQY401Cy7vzlP0EekViPU9VTs/P8+NdBU4b2LxBCZofqCNKWcXFbljdeXiX62rjXyu9cE1dZFJDf6y7ziGR1A5qEVwVAaiv+rKzzZ1+twagSpUrSD7rKxZPKcdiEYjB4F8A0CtvOnGWc0gUcLQCFS0HLkvXeeXH7hNEAs2M3QMcMBgtZ9TOHe9Vd5QJabIeA3rpW2TsBujkfG4XDjoGrA1raG/4wQzs+0BZ000shtw7IC0k4jFxLKm5XB0UmP1wo8jaX1/8SgVZojS78Tb7IK561Fea2lnqoHRk/Nmvpjjlb2Y45W9KEjcqFlg1CxwHD2hqvqhkV1s1Be3KY+cta42csTH81Lz6A7G8B1RdkmCukadwP6nf4jNU6g2IYx0XL2v7ToIuS6IzFVkjwGZcFc+b0L6l5C6zzghLcvOn12blVdWjm2+CtFKRAywy0CusX081hvCt7voEukGAEV50RCa11MkXv8BkFUi4WsU7cGPqJVGQtfm5mbU9jXa0/PCyx3CFwFVPWiWCzPY8MtD0gScVCkIoDg/9IKDXgk9Brz9dHpJ6Pa+BLskx7rDh3uUhG5z4Oc9ne8Mcsu0gowlg1VazfNytjhs+AXIku6tDPqeRb5flJ/xdHdJBC5AVuGclY1VkdMIabkKxQI7IHKWA2e190MJCKhiFV0Fem1XCcqQvM08YWWBa/QIRCY7qj9viEb2skqdMVoA+k1BJqvyoRF9KKtoxqrB2gi7F816e3XV4sdQponIRIM81hCN/Noq7zhi91TkTGDMYLVvrWKMXYLKSYjspXDGKEbsVh+NPIoyAjgdNXsPdgW37LzSfzREI8tF2BvknJXVi3dQK38Uo5NFORPpudiwir4PNCRTxWRmY3TZ5YHKSmPiT7cG8ABkF53wYX1teQTlS4iM0lD4qfpo5Heq1DvoLJDjB2KsqgoS/Ax15iKSherP19aV5yn6V4N8BviOCPmoNgboS13ns+ljqjJXhMkiZBtH/9gQjdQJukEFT2BnEBTdoCqPZRfN6PKQJqH4VsXdKgiolNbXRc5R2JBI8PQuRaXb0h3ivEOYhxQ9RUQOHKUjX6yPRu5S5QMjHAM6R1AG4uabhJV/OUbHIDIO9Oa1dcsmoTylwmmCTkfVIjQOAvB84PvhWyExFvSLtPcBrjAyuMDXph8fZmaGz36rIvZzi3yhTRBOoPC6y3sDkufneUSrfP2hg1xLm3SHZKK2REqK3Hmx2PhBHasNwPPCr/t+04lWnTtVmNRmETUBvyvMC93Z3zy/pibIzwv9qqou7gKnsa14gYJuiGOuyh9AU2f3PB+/MZyh162ojG0WzEnaroiC1it2XlFuxsvaQ+Dvx4syq6h0VSCxUlH5iSo1qt0gqmojcL9YTpzolT3SUwcn5Zc+E1j5LqpvqDBRhGscwwJBrkqmOGidwg2bZOt9g8moWDxBILEFwF2qbBRkigjzHMMCkO8D7wm6YjD7kOWVVVixl6ryiiAhQUqN8Htj+CVQJKpLGAIS1XNQfUUVa5CvOYYFBpkP7KS9mG8m5c9pBH1a0Y9EGI/IDY5hgahb3BHsA4lFLPoAqk2CFBnhFsewQFXmoroW1eYB4WvurEqQOaj+S5EJBrnJwfxLkDsEKVZ0NcrNW98zz3b1/pTiOX8Tay9W1ZeSxzsJiVCMyIGtNzqoUiOWH04tnvXLbg9Yhcf6okRU2ShCtjH8wjEsyAjZdj61nOLSj6yVmwQWAogw3Qg/Ta5FjlHhVYsMiBVkUkHpu8C3Fa1SZKIj3OwYXjfChYKMBV6UwP5qkIBnvcG92kHLW02gAi872Ms8r7P/ZbCoqQmaCd9kkhV3rEIQoP90SVw6kDU+i7zwcgs3SIsPUGCLwoMlRe6lsSG89c3zMn0jXC5QnfQGSBPwB4fQgoFIcAcILOxZEvp5MtpUPkqei6lSzFUlQwB8bU2g+V7GrYreAfpBy59rVO384rzMP2svGS/tHHE53pw14XDokrdXLH7ANXZ/tWa6Gp3Q5uj/kiBvSLB5eVclpro0+eWXPtEQjdSgfFFF91EIGyWwQoUJ7DOTi455JdFNJRMr+gpwv4iusmq7MCmYOkXvB7DwQY/98Oasaawqv9I6slgMpYi2+FXEV+wyo2a6in5RVNfFnaDLb9mWtrDidzafSUPr744G73WpeXkzn6yvjbyN4ShB97OCK9CsyN8x9kmDc0xPY3A08Z6Iu9AmL7Ot75upsOyFdXXlp6llJthpKiJGZT2WP6qRLBU90qiu3eSG453NKxaC+L2QUavCvhj1FMKGoLErfq+qilzhhm25o3KkleQFvCYZXfy+CkcpOsaI+t2g9CMWRgvywq57z+mxLNPEvBnPr61a9nXjcgSqB1lJrmtRqcTKn6aUzHqpu3v4YrE42YUzH6ivWfpvDWQ/HPZX0SwAo8RVeF2Fv00umPVqooeKO7F4ArWxX0HGchz2t2h+ixGoE2+y80ur1tRFvucIERE9VFvKN4noyxqYp3B0loU9RXhno5vRyYxlhHcter8gjTj6UY/rPq/s4frqJXWBcQ43yh4qapLj0uU2YZblFM6sGzxBzHrf3zJfGLFFcXIc4vM9b8Q7DDFN81hd78dv2kAojMrIsNj5ubkjBtzNUuiFXvb95gsTmOuA5SE2/HqwNb6uKD8v9HJtXfxHFr3BwCLYsMDzxg9oTMXWJphW5Cx4q6r5I4N804jcWJjnvsJ2oGnFoXuqKuM2AZ8PsD8qzs1MLQipq5vch2noyX8pMnr0hGQkqqq9dZfiORd15UsdpmH6X6AaP/4Hgf17FF7wT0PoYq+PPqxPCq3xm7wtmIfp/Y7D3+Z7ods+7XNb7ccvNXBqT88obE0gF5d47rOD1Q93eJsNDTXWLTtZRe4QdISKXjK1eO5Pm5uT9pBwOMSoCXpai0O1WVSWDwPfMA3TMA3T4NEw+A0VSfAquKuBElG5YGXlE9nJ4gAiGNkX1TNa3NNvWZVXhhk2TMM0TMM0eGSGWTA0lJ0/u1LF3qzIZkR2Rc2FKuYeFfkDqpchMlmVWGDlxslFZVXDHBumYRqmYRpEfWTY5zdMwzRMw7R9KRxyWVXx6I4d724cpsGj/wdIOAITayUXswAAAABJRU5ErkJggg==" alt="ستارگان آینده گلرنگ">
+    <p class="eyebrow">استراتژی برگزاری GFS دارو · نسخهٔ دارویی ستارگان آینده گلرنگ</p>
+    <h1>دانش در دسترس همه است؛ <em>تجربه</em> نه.</h1>
+    <p class="lede">دانش تئوری داروسازی امروز در کلاس، کتاب و اینترنت در دسترس همه است؛ تجربهٔ واقعی کار در صنعت دارو نه. <b>GFS دارو</b>، برنامهٔ مشترک گلرنگ ونچرز و سرمایه‌گذاری دارویی گلرنگ، این تجربه را فراهم می‌کند تا دانشجو، پیش از انتخاب شغل یا مسیرش، بفهمد واقعاً چه دوست دارد.</p>
+    <p class="byline">۴ آبان ۱۴۰۵ · پیش‌نویس ۲ برای گفت‌وگو با گلرنگ ونچرز و سرمایه‌گذاری دارویی گلرنگ</p>
+  </div>
+</header>
 
-  <section>
-    <h2>خلاصه</h2>
-    <p class="quote">دانش در دسترس همه است؛ تجربه نه.</p>
-    <p class="lead">دانش تئوری داروسازی امروز در کلاس، کتاب و اینترنت در دسترس همه است. چیزی که دانشجو به آن دسترسی ندارد، تجربهٔ واقعی کار در صنعت دارو است. <strong>GFS دارو</strong>، نسخهٔ دارویی «ستارگان آینده گلرنگ»، برنامه‌ای مشترک بین <strong>گلرنگ ونچرز</strong> و <strong>سرمایه‌گذاری دارویی گلرنگ</strong> است که این تجربه را فراهم می‌کند تا دانشجو، پیش از انتخاب شغل یا مسیرش، بفهمد واقعاً چه دوست دارد.</p>
-    <p>سه تصمیم اصلی این استراتژی:</p>
-    <ol>
-      <li><strong>تجربه، نه کلاس:</strong> دانشجو کنار یک منتور روی یک مسئلهٔ واقعی کار می‌کند؛ برنامه آموزش تئوری تکراری نمی‌دهد.</li>
-      <li><strong>اول دیدن، بعد انتخاب:</strong> دوره با یک تور ۲ تا ۳ روزه از کل زنجیرهٔ دارو شروع می‌شود و بعد دانشجو در بخشی که دوستش دارد روی یک پروژه کار می‌کند. چرخش بین چند شرکت عملیاتی نیست و کنار گذاشته شد.</li>
-      <li><strong>جذب از مسیر هلدینگ:</strong> هلدینگ دارویی همین حالا با دانشکده‌های داروسازی ارتباط دارد و فراخوان از همین مسیر منتشر می‌شود؛ کانال جدیدی لازم نیست.</li>
+<div class="page">
+<main class="wrap">
+
+  <section aria-labelledby="h-summary">
+    <h2 id="h-summary">سه تصمیم اصلی</h2>
+    <ol class="decisions">
+      <li><h3>تجربه، نه کلاس</h3><p>دانشجو کنار یک منتور روی یک مسئلهٔ واقعی کار می‌کند؛ برنامه آموزش تئوری تکراری نمی‌دهد.</p></li>
+      <li><h3>اول دیدن، بعد انتخاب</h3><p>دوره با یک تور ۲ تا ۳ روزه از کل زنجیرهٔ دارو شروع می‌شود و بعد دانشجو در بخشی که دوستش دارد روی یک پروژه کار می‌کند. چرخش بین چند شرکت عملیاتی نیست و کنار گذاشته شد.</p></li>
+      <li><h3>جذب از مسیر هلدینگ</h3><p>هلدینگ دارویی همین حالا با دانشکده‌های داروسازی ارتباط دارد و فراخوان از همین مسیر منتشر می‌شود؛ کانال جدیدی لازم نیست.</p></li>
     </ol>
-    <p><strong>موفقیت برای دانشجو یعنی:</strong> در پایان دوره بداند کدام بخش این صنعت را دوست دارد و چرا. شغل در هلدینگ و استارتاپ در شتاب‌دهنده دو نتیجهٔ ممکن این تجربه‌اند، نه شرط موفقیت آن. اگر کسی بفهمد این مسیر را دوست ندارد، آن هم نتیجهٔ موفق است: زودتر و ارزان‌تر فهمیده.</p>
+    <div class="success">
+      <h3>موفقیت برای دانشجو یعنی چه؟</h3>
+      <p>در پایان دوره بداند کدام بخش این صنعت را دوست دارد و چرا. شغل در هلدینگ و استارتاپ در شتاب‌دهنده دو نتیجهٔ ممکن این تجربه‌اند، نه شرط موفقیت آن. اگر کسی بفهمد این مسیر را دوست ندارد، آن هم نتیجهٔ موفق است: زودتر و ارزان‌تر فهمیده.</p>
+    </div>
+    <nav class="toc" aria-label="بخش‌ها">
+      <a href="#why">چرا این برنامه</a><a href="#audience">مخاطب</a><a href="#value">ارزش برای دانشجو</a><a href="#model">مدل</a><a href="#roles">نقش‌ها</a><a href="#recruit">جذب</a><a href="#kpis">معیارها</a><a href="#roadmap">نقشهٔ راه</a><a href="#risks">ریسک‌ها</a><a href="#next">تصمیم‌های باز</a>
+    </nav>
   </section>
 
-  <section>
-    <h2>چرا این برنامه</h2>
-    <p>این برنامه به پنج هدفی خدمت می‌کند که گلرنگ ونچرز و هلدینگ دارویی مشترکاً دارند. این دو از قبل هم همکاری دارند: شتاب‌دهی داروهای آهسته‌رهش و پپتیدی با واریان فارمد، و دو شرکت مشترک در سبد هر دو (ابیان فارمد و سروش مانا فارمد).</p>
+  <section id="why" aria-labelledby="h-why">
+    <h2 id="h-why">چرا این برنامه</h2>
+    <p class="sub">این برنامه به پنج هدفی خدمت می‌کند که گلرنگ ونچرز و هلدینگ دارویی مشترکاً دارند. این دو از قبل هم همکاری دارند: شتاب‌دهی داروهای آهسته‌رهش و پپتیدی با واریان فارمد، و دو شرکت مشترک در سبد هر دو (ابیان فارمد و سروش مانا فارمد).</p>
     <div class="table-wrap"><table>
       <thead><tr><th>هدف مشترک</th><th>در GFS دارو چطور پیاده می‌شود</th></tr></thead>
       <tbody>
@@ -103,9 +193,9 @@ figcaption { color: var(--muted); font-size: 0.85rem; }
     </table></div>
   </section>
 
-  <section>
-    <h2>مخاطب</h2>
-    <p>دورهٔ اول با ۲۰ تا ۳۰ دانشجو از دانشکده‌های داروسازی تهران شروع می‌شود؛ این عدد پیشنهاد است و به ظرفیت شرکت‌های میزبان بستگی دارد.</p>
+  <section id="audience" aria-labelledby="h-audience">
+    <h2 id="h-audience">مخاطب</h2>
+    <p class="sub">دورهٔ اول با ۲۰ تا ۳۰ دانشجو از دانشکده‌های داروسازی تهران شروع می‌شود؛ این عدد پیشنهاد است و به ظرفیت شرکت‌های میزبان بستگی دارد. کنجکاوی و انگیزه برای تجربه مهم‌تر از معدل است و حداقل معدل تعیین نمی‌شود. دوره حضوری است، پس دورهٔ اول به دانشجویان نزدیک به سایت‌های شرکت‌ها محدود است.</p>
     <div class="table-wrap"><table>
       <thead><tr><th>اولویت</th><th>رشته و مقطع</th><th>تجربه‌ای که بیشتر به کارش می‌آید</th></tr></thead>
       <tbody>
@@ -115,23 +205,18 @@ figcaption { color: var(--muted); font-size: 0.85rem; }
         <tr><td class="num">۳</td><td>مدیریت، اقتصاد، مهندسی صنایع</td><td>فقط در تیم‌های میان‌رشته‌ای مسیر نوآوری</td></tr>
       </tbody>
     </table></div>
-    <ul>
-      <li><strong>شرط ورود:</strong> کنجکاوی و انگیزه برای تجربه مهم‌تر از معدل است؛ حداقل معدل تعیین نمی‌شود.</li>
-      <li><strong>جغرافیا:</strong> دوره حضوری است، پس دورهٔ اول به دانشجویان نزدیک به سایت‌های شرکت‌ها محدود است.</li>
-    </ul>
   </section>
 
-  <section>
-    <h2>ارزش پیشنهادی برای دانشجو</h2>
+  <section id="value" aria-labelledby="h-value">
+    <h2 id="h-value">ارزش برای دانشجو</h2>
     <p class="quote">«پیش از انتخاب، تجربه کن: مسیر یک دارو را از مولکول تا قفسهٔ داروخانه ببین و بفهم کدام بخشش را دوست داری.»</p>
-    <p>دانشجو چهار چیز می‌گیرد:</p>
-    <ol>
-      <li><strong>دید کل زنجیره:</strong> با تور ۲ تا ۳ روزه از مادهٔ اولیه، فرمولاسیون، کنترل کیفیت و ثبت دارو تا پخش.</li>
-      <li><strong>کار واقعی کنار منتور:</strong> یک مسئلهٔ واقعی از شرکت‌های هلدینگ و یک منتور که هر هفته وقت می‌گذارد.</li>
-      <li><strong>کشف علاقه:</strong> در پایان دوره می‌داند کدام بخش را دوست دارد. برترها بورسیه، پیشنهاد کار یا ورود به شتاب‌دهنده می‌گیرند.</li>
-      <li><strong>کمک‌هزینه در طول دوره</strong> (مبلغ باید تصمیم گرفته شود).</li>
+    <ol class="gets">
+      <li><h3>دید کل زنجیره</h3><p>با تور ۲ تا ۳ روزه از مادهٔ اولیه، فرمولاسیون، کنترل کیفیت و ثبت دارو تا پخش.</p></li>
+      <li><h3>کار واقعی کنار منتور</h3><p>یک مسئلهٔ واقعی از شرکت‌های هلدینگ و یک منتور که هر هفته وقت می‌گذارد.</p></li>
+      <li class="key"><h3>کشف علاقه</h3><p>در پایان دوره می‌داند کدام بخش را دوست دارد. برترها بورسیه، پیشنهاد کار یا ورود به شتاب‌دهنده می‌گیرند.</p></li>
+      <li><h3>کمک‌هزینه در طول دوره</h3><p>مبلغ باید تصمیم گرفته شود.</p></li>
     </ol>
-    <p><strong>تمایز با گزینه‌های دیگر دانشجو:</strong></p>
+    <h3>تمایز با گزینه‌های دیگر دانشجو</h3>
     <div class="table-wrap"><table>
       <thead><tr><th>گزینه</th><th>چیزی که کم دارد</th><th>چیزی که GFS دارو اضافه می‌کند</th></tr></thead>
       <tbody>
@@ -143,74 +228,92 @@ figcaption { color: var(--muted); font-size: 0.85rem; }
     </table></div>
   </section>
 
-  <section>
-    <h2>مدل برنامه</h2>
-    <p>برنامه سه حرکت دارد: <strong>تجربه</strong>، <strong>کشف</strong>، <strong>انتخاب</strong>. دانشجو از رویداد معرفی وارد می‌شود، در دوره تجربه می‌کند و در روز نمایش با چیزی که کشف کرده مسیرش را انتخاب می‌کند. فارغ‌التحصیلان هر دوره سفیر و منتور دورهٔ بعد می‌شوند.</p>
+  <section id="model" aria-labelledby="h-model">
+    <h2 id="h-model">مدل برنامه: تجربه، کشف، انتخاب</h2>
+    <p class="sub">دانشجو از رویداد معرفی وارد می‌شود، در دوره تجربه می‌کند و در روز نمایش با چیزی که کشف کرده مسیرش را انتخاب می‌کند. هر سه نتیجه، از جمله انتخاب آگاهانهٔ مسیری دیگر، موفقیت است.</p>
     <figure>
       <div class="fig-wrap">
-        <svg viewBox="0 0 760 312" role="img" aria-label="تجربه، کشف، انتخاب" direction="rtl" font-size="13">
-          <defs><marker id="gfs-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--line-strong)"/></marker></defs>
-          <text x="732" y="34" font-size="15" font-weight="700" style="fill:var(--ink)">تجربه، کشف، انتخاب: از رویداد معرفی تا مسیری که دانشجو خودش انتخاب می‌کند</text>
-          <g fill="none" stroke-width="1.25" style="stroke:var(--line-strong)">
-            <path d="M580 108H548" marker-end="url(#gfs-arrow)"/>
-            <path d="M396 108H364" marker-end="url(#gfs-arrow)"/>
-            <path d="M212 108H180" marker-end="url(#gfs-arrow)"/>
-            <path d="M104 152V200" marker-end="url(#gfs-arrow)"/>
-            <path d="M104 152V176H408V200" marker-end="url(#gfs-arrow)"/>
-            <path d="M524 244H700V152" marker-end="url(#gfs-arrow)"/>
+        <svg viewBox="0 0 760 380" role="img" aria-label="تجربه در مرکز برنامه است و به سه انتخاب آگاهانه می‌رسد" direction="rtl" font-size="13">
+          <defs><marker id="m-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="svg-arrow"/></marker></defs>
+          <text x="736" y="34" font-size="15" font-weight="700" class="svg-ink">تجربه در مرکز است؛ هر سه خروجی، انتخابی آگاهانه‌اند</text>
+          <g text-anchor="middle" font-size="11.5" font-weight="700" class="svg-lime">
+            <text x="656" y="66">ورود</text>
+            <text x="288" y="66">تجربه</text>
+            <text x="104" y="66">کشف</text>
+          </g>
+          <g class="svg-line">
+            <path d="M580 124H552" marker-end="url(#m-arrow)"/>
+            <path d="M396 124H368" marker-end="url(#m-arrow)"/>
+            <path d="M212 124H184" marker-end="url(#m-arrow)"/>
+            <path d="M104 168V196H584V224" marker-end="url(#m-arrow)"/>
+            <path d="M344 196V224" marker-end="url(#m-arrow)"/>
+            <path d="M104 196V224" marker-end="url(#m-arrow)"/>
+            <path d="M584 320V340H748V124H736" marker-end="url(#m-arrow)"/>
           </g>
           <g text-anchor="middle">
-            <rect x="580" y="64" width="152" height="88" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)"/>
-            <text x="656" y="88" font-weight="700" style="fill:var(--ink)">رویداد معرفی</text>
-            <text x="656" y="108" font-size="11.5" style="fill:var(--muted)">۳ ساعت در دانشکده‌ها</text>
-            <text x="656" y="124" font-size="11.5" style="fill:var(--muted)">فراخوان از مسیر هلدینگ</text>
+            <rect x="580" y="80" width="152" height="88" rx="8" class="svg-box"/>
+            <text x="656" y="108" font-weight="700" class="svg-ink">رویداد معرفی</text>
+            <text x="656" y="128" font-size="11.5" class="svg-muted">۳ ساعت در دانشکده‌ها</text>
+            <text x="656" y="144" font-size="11.5" class="svg-muted">فراخوان از مسیر هلدینگ</text>
 
-            <rect x="396" y="64" width="152" height="88" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)"/>
-            <text x="472" y="88" font-weight="700" style="fill:var(--ink)">انتخاب</text>
-            <text x="472" y="108" font-size="11.5" style="fill:var(--muted)">انگیزه‌نامه</text>
-            <text x="472" y="124" font-size="11.5" style="fill:var(--muted)">حل یک مسئلهٔ دارویی</text>
-            <text x="472" y="140" font-size="11.5" style="fill:var(--muted)">مصاحبه</text>
+            <rect x="396" y="80" width="152" height="88" rx="8" class="svg-box"/>
+            <text x="472" y="108" font-weight="700" class="svg-ink">انتخاب شرکت‌کننده</text>
+            <text x="472" y="128" font-size="11.5" class="svg-muted">انگیزه‌نامه، یک مسئلهٔ</text>
+            <text x="472" y="144" font-size="11.5" class="svg-muted">دارویی، مصاحبه</text>
 
-            <rect x="212" y="64" width="152" height="88" rx="8" stroke-width="2" style="fill:var(--accent-soft);stroke:var(--accent)"/>
-            <text x="288" y="88" font-weight="700" style="fill:var(--ink)">دورهٔ تجربه‌محور</text>
-            <text x="288" y="108" font-size="11.5" style="fill:var(--ink)">تیر و مرداد</text>
-            <text x="288" y="124" font-size="11.5" style="fill:var(--ink)">تور ۲ تا ۳ روزهٔ زنجیره</text>
-            <text x="288" y="140" font-size="11.5" style="fill:var(--ink)">سپس ۸ هفته پروژه</text>
+            <rect x="212" y="80" width="152" height="88" rx="8" class="svg-key"/>
+            <text x="288" y="108" font-weight="800" class="svg-ink">دورهٔ تجربه‌محور</text>
+            <text x="288" y="128" font-size="11.5" class="svg-ink">تور ۲ تا ۳ روزهٔ زنجیره</text>
+            <text x="288" y="144" font-size="11.5" class="svg-ink">سپس ۸ هفته پروژه</text>
 
-            <rect x="28" y="64" width="152" height="88" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)"/>
-            <text x="104" y="88" font-weight="700" style="fill:var(--ink)">روز نمایش</text>
-            <text x="104" y="108" font-size="11.5" style="fill:var(--muted)">ارائهٔ تجربه و خروجی</text>
-            <text x="104" y="124" font-size="11.5" style="fill:var(--muted)">به هلدینگ و مرکز نوآوری</text>
-
-            <rect x="292" y="200" width="232" height="88" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)"/>
-            <text x="408" y="224" font-weight="700" style="fill:var(--ink)">مسیر شغلی</text>
-            <text x="408" y="244" font-size="11.5" style="fill:var(--ink)">بورسیه یا پیشنهاد کار</text>
-            <text x="408" y="260" font-size="11.5" style="fill:var(--ink)">در شرکت‌های زیرمجموعه</text>
-            <text x="408" y="276" font-size="11.5" style="fill:var(--muted)">مالک: هلدینگ دارویی</text>
-
-            <rect x="28" y="200" width="232" height="88" rx="8" stroke-width="2" style="fill:var(--venture-soft);stroke:var(--venture)"/>
-            <text x="144" y="224" font-weight="700" style="fill:var(--ink)">مسیر کارآفرینی</text>
-            <text x="144" y="244" font-size="11.5" style="fill:var(--ink)">شتاب‌دهندهٔ دارویی</text>
-            <text x="144" y="260" font-size="11.5" style="fill:var(--ink)">و مرکز نوآوری</text>
-            <text x="144" y="276" font-size="11.5" style="fill:var(--muted)">مالک: گلرنگ ونچرز</text>
-
-            <text x="612" y="268" font-size="11.5" style="fill:var(--muted)">فارغ‌التحصیلان</text>
-            <text x="612" y="284" font-size="11.5" style="fill:var(--muted)">سفیر و منتور دورهٔ بعد</text>
+            <rect x="28" y="80" width="152" height="88" rx="8" class="svg-box"/>
+            <text x="104" y="108" font-weight="700" class="svg-ink">روز نمایش</text>
+            <text x="104" y="128" font-size="11.5" class="svg-muted">ارائهٔ تجربه و خروجی</text>
+            <text x="104" y="144" font-size="11.5" class="svg-muted">به هلدینگ و مرکز نوآوری</text>
           </g>
+          <text x="736" y="216" font-size="11.5" font-weight="700" class="svg-lime">انتخاب</text>
+          <g text-anchor="middle">
+            <rect x="500" y="224" width="168" height="96" rx="8" class="svg-other"/>
+            <text x="584" y="252" font-weight="700" class="svg-ink">مسیری دیگر</text>
+            <text x="584" y="272" font-size="11.5" class="svg-muted">انتخاب آگاهانه، با تجربه</text>
+            <text x="584" y="288" font-size="11.5" class="svg-muted">«فهمیدم این را نمی‌خواهم»</text>
+
+            <rect x="260" y="224" width="168" height="96" rx="8" class="svg-out"/>
+            <text x="344" y="252" font-weight="700" class="svg-ink">مسیر شغلی</text>
+            <text x="344" y="272" font-size="11.5" class="svg-ink">بورسیه یا پیشنهاد کار</text>
+            <text x="344" y="288" font-size="11.5" class="svg-ink">در شرکت‌های زیرمجموعه</text>
+            <text x="344" y="306" font-size="11.5" class="svg-muted">مالک: هلدینگ دارویی</text>
+
+            <rect x="20" y="224" width="168" height="96" rx="8" class="svg-out"/>
+            <text x="104" y="252" font-weight="700" class="svg-ink">مسیر کارآفرینی</text>
+            <text x="104" y="272" font-size="11.5" class="svg-ink">شتاب‌دهندهٔ دارویی</text>
+            <text x="104" y="288" font-size="11.5" class="svg-ink">و مرکز نوآوری</text>
+            <text x="104" y="306" font-size="11.5" class="svg-muted">مالک: گلرنگ ونچرز</text>
+          </g>
+          <text x="736" y="362" font-size="11.5" class="svg-muted">فارغ‌التحصیلان، سفیر و منتور دورهٔ بعد</text>
         </svg>
       </div>
-      <figcaption>مدل GFS دارو · تجربه در مرکز است؛ دو مسیر خروج نتیجه‌های ممکن آن‌اند، و انتخاب آگاهانهٔ مسیری دیگر هم موفقیت است</figcaption>
+      <figcaption>مدل GFS دارو · تجربه در مرکز، سه خروجی آگاهانه، و فارغ‌التحصیلانی که دورهٔ بعد را می‌آورند</figcaption>
     </figure>
-    <p>هر دو مسیر داخل دوره با تور کل زنجیره شروع می‌شوند و دانشجو بعد از تور، با چیزی که دیده، مسیرش را انتخاب می‌کند:</p>
-    <ul>
-      <li><strong>مسیر صنعت:</strong> پروژه در یک شرکت میزبان، در بخشی که دانشجو بعد از تور انتخاب کرده؛ کار عملی در کنترل کیفیت یا تحقیق و توسعه، کنار یک منتور. خروجی: تجربهٔ کار، و برای برترها پیشنهاد کار.</li>
-      <li><strong>مسیر نوآوری:</strong> تیم‌های ۳ تا ۴ نفرهٔ میان‌رشته‌ای روی یک مسئلهٔ واقعی هلدینگ، مثلاً در حوزهٔ رهایش کنترل‌شده یا پپتید که اولویت‌های فعلی‌اند. خروجی: تجربهٔ ساختن، و طرح خوب به شتاب‌دهنده.</li>
-    </ul>
+    <div class="tracks">
+      <div class="track">
+        <span class="kicker">مسیر صنعت</span>
+        <h3>پروژه در یک شرکت میزبان</h3>
+        <p>در بخشی که دانشجو بعد از تور انتخاب کرده؛ کار عملی در کنترل کیفیت یا تحقیق و توسعه، کنار یک منتور.</p>
+        <p class="out">خروجی: تجربهٔ کار؛ برترها پیشنهاد کار</p>
+      </div>
+      <div class="track">
+        <span class="kicker">مسیر نوآوری</span>
+        <h3>تیم‌های ۳ تا ۴ نفرهٔ میان‌رشته‌ای</h3>
+        <p>روی یک مسئلهٔ واقعی هلدینگ، مثلاً در حوزهٔ رهایش کنترل‌شده یا پپتید که اولویت‌های فعلی‌اند.</p>
+        <p class="out">خروجی: تجربهٔ ساختن؛ طرح خوب به شتاب‌دهنده</p>
+      </div>
+    </div>
   </section>
 
-  <section>
-    <h2>نقش‌ها و حاکمیت</h2>
-    <p>یک کمیتهٔ راهبری دونفره (یک نفر از هر طرف) تصمیم‌های اصلی را می‌گیرد؛ اجرای روزانه با تیم GFS در گلرنگ ونچرز است.</p>
+  <section id="roles" aria-labelledby="h-roles">
+    <h2 id="h-roles">نقش‌ها و حاکمیت</h2>
+    <p class="sub">یک کمیتهٔ راهبری دونفره (یک نفر از هر طرف) تصمیم‌های اصلی را می‌گیرد؛ اجرای روزانه با تیم GFS در گلرنگ ونچرز است. مالکیت فکری طرح‌های دانشجویی باید قبل از شروع دوره مکتوب شود.</p>
     <div class="table-wrap"><table>
       <thead><tr><th>بازیگر</th><th>مسئولیت</th></tr></thead>
       <tbody>
@@ -222,12 +325,16 @@ figcaption { color: var(--muted); font-size: 0.85rem; }
         <tr><td>دانشکده‌های داروسازی</td><td>اطلاع‌رسانی فراخوان، از طریق ارتباط هلدینگ</td></tr>
       </tbody>
     </table></div>
-    <p>تصمیم مهم این بخش: مالکیت طرح‌های دانشجویی (مالکیت فکری) باید قبل از شروع دوره مکتوب شود.</p>
   </section>
 
-  <section>
-    <h2>جذب و ارتباطات</h2>
-    <p>کانال اصلی، ارتباطی است که هلدینگ دارویی همین حالا با دانشکده‌های داروسازی دارد؛ برای جذب به کانال یا رویداد بیرونی تازه‌ای نیاز نیست.</p>
+  <section id="recruit" aria-labelledby="h-recruit">
+    <h2 id="h-recruit">جذب و ارتباطات</h2>
+    <div class="message">
+      <span class="kicker">پیام اصلی</span>
+      <strong>«پیش از انتخاب، تجربه کن.»</strong>
+      <p>پیام اصلی تجربه است، نه وعدهٔ استخدام. فرصت بورسیه، کار و شتاب‌دهی برای برترها هم گفته می‌شود، ولی تیتر پیام نیست.</p>
+    </div>
+    <p class="sub">کانال اصلی، ارتباطی است که هلدینگ دارویی همین حالا با دانشکده‌های داروسازی دارد؛ برای جذب به کانال یا رویداد بیرونی تازه‌ای نیاز نیست.</p>
     <div class="table-wrap"><table>
       <thead><tr><th>کانال</th><th>نقش در جذب</th></tr></thead>
       <tbody>
@@ -238,100 +345,101 @@ figcaption { color: var(--muted); font-size: 0.85rem; }
         <tr><td>رسانه‌های دارویی و اقتصادی</td><td>خبر شروع و اختتامیه</td></tr>
       </tbody>
     </table></div>
-    <p><strong>پیام اصلی تجربه است، نه وعدهٔ استخدام:</strong> «پیش از انتخاب، تجربه کن.» فرصت بورسیه، کار و شتاب‌دهی برای برترها هم گفته می‌شود، ولی تیتر پیام نیست.</p>
   </section>
 
-  <section>
-    <h2>معیارهای موفقیت</h2>
-    <p>معیار اصلی این است که دانشجو با این تجربه بفهمد واقعاً چه دوست دارد؛ این را با یک پرسش‌نامهٔ کوتاه پیش و پس از دوره می‌سنجیم. بورسیه و پیشنهاد کار هم کنارش سنجیده می‌شود، چون هدف هلدینگ تأمین نیروست. عددها پیشنهاد برای دورهٔ اول است و باید در کمیتهٔ راهبری تأیید شود.</p>
+  <section id="kpis" aria-labelledby="h-kpis">
+    <h2 id="h-kpis">معیارهای موفقیت</h2>
+    <p class="sub">معیار اصلی این است که دانشجو با این تجربه بفهمد واقعاً چه دوست دارد؛ آن را با یک پرسش‌نامهٔ کوتاه پیش و پس از دوره می‌سنجیم. بورسیه و پیشنهاد کار هم کنارش سنجیده می‌شود، چون هدف هلدینگ تأمین نیروست. همهٔ عددها پیشنهاد برای دورهٔ اول است و باید در کمیتهٔ راهبری تأیید شود.</p>
+    <div class="stats">
+      <div class="stat key"><span class="n">۸۰٪</span><span class="l">می‌دانند چه دوست دارند</span><span class="s">معیار اصلی · پرسش‌نامهٔ پیش و پس از دوره</span></div>
+      <div class="stat"><span class="n">۳۰٪</span><span class="l">بورسیه یا پیشنهاد کار</span><span class="s">تأمین نیرو</span></div>
+      <div class="stat"><span class="n">۳</span><span class="l">طرح به شتاب‌دهنده</span><span class="s">پژوهش به کسب‌وکار</span></div>
+      <div class="stat"><span class="n">۵</span><span class="l">مسئلهٔ واقعی از هلدینگ</span><span class="s">هم‌افزایی با زنجیره</span></div>
+    </div>
     <div class="table-wrap"><table>
       <thead><tr><th>معیار</th><th>هدف دورهٔ اول (پیشنهادی)</th><th>چه چیزی را می‌سنجد</th></tr></thead>
       <tbody>
-        <tr><td><strong>می‌دانند چه دوست دارند (پرسش‌نامهٔ پیش و پس)</strong></td><td class="num"><strong>۸۰ درصد</strong></td><td><strong>معیار اصلی: کشف علاقه</strong></td></tr>
         <tr><td>هر دانشجو یک مسئلهٔ واقعی و یک منتور</td><td class="num">۱۰۰ درصد</td><td>کیفیت تجربه</td></tr>
-        <tr><td>بورسیه یا پیشنهاد کار</td><td class="num">۳۰ درصد فارغ‌التحصیلان</td><td>تأمین نیرو</td></tr>
-        <tr><td>طرح راه‌یافته به مرکز نوآوری یا شتاب‌دهنده</td><td class="num">۳ طرح</td><td>تبدیل پژوهش به کسب‌وکار</td></tr>
-        <tr><td>مسئله‌های واقعی از شرکت‌های هلدینگ</td><td class="num">۵ مسئله</td><td>هم‌افزایی با زنجیرهٔ ارزش</td></tr>
+        <tr><td>تکمیل دوره</td><td class="num">۸۵ درصد</td><td>کیفیت تجربه</td></tr>
+        <tr><td>رضایت شرکت‌کنندگان</td><td class="num">۴ از ۵</td><td>کیفیت تجربه</td></tr>
         <tr><td>ثبت‌نام</td><td class="num">۳۰۰ نفر</td><td>تغییر تصویر گلرنگ</td></tr>
         <tr><td>دانشکده‌های تحت پوشش</td><td class="num">۵ دانشکده</td><td>تغییر تصویر گلرنگ</td></tr>
         <tr><td>پذیرفته‌شدگان</td><td class="num">۲۰ تا ۳۰ نفر</td><td>ظرفیت</td></tr>
-        <tr><td>تکمیل دوره</td><td class="num">۸۵ درصد</td><td>کیفیت تجربه</td></tr>
-        <tr><td>رضایت شرکت‌کنندگان</td><td class="num">۴ از ۵</td><td>کیفیت تجربه</td></tr>
       </tbody>
     </table></div>
-    <p>معیار بلندمدت: دو سال بعد، چند نفر در مسیری‌اند که با این تجربه انتخاب کردند، و چند نفرشان در گلرنگ.</p>
+    <p class="longterm">معیار بلندمدت: دو سال بعد، چند نفر در مسیری‌اند که با این تجربه انتخاب کردند، و چند نفرشان در گلرنگ.</p>
   </section>
 
-  <section>
-    <h2>نقشهٔ راه دورهٔ اول</h2>
-    <p>دورهٔ اول یک سال تحصیلی طول می‌کشد: آماده‌سازی از مهر، جذب در اسفند و فروردین، انتخاب تا خرداد، دوره در تیر و مرداد که دانشجوها آزادند، و تصمیم دربارهٔ دورهٔ دوم در شهریور.</p>
+  <section id="roadmap" aria-labelledby="h-roadmap">
+    <h2 id="h-roadmap">نقشهٔ راه دورهٔ اول</h2>
+    <p class="sub">دورهٔ اول یک سال تحصیلی طول می‌کشد. بدون عبور از دروازهٔ ۱ هیچ فراخوانی منتشر نمی‌شود: تا برای هر دانشجو یک مسئلهٔ واقعی و یک منتور نباشد، تجربه‌ای در کار نیست. زمان‌بندی پیشنهادی است.</p>
     <figure>
       <div class="fig-wrap">
-        <svg viewBox="0 0 760 264" role="img" aria-label="دورهٔ اول در یک سال تحصیلی" direction="rtl" font-size="13">
-          <defs><marker id="rm-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--line-strong)"/></marker></defs>
-          <text x="736" y="34" font-size="15" font-weight="700" style="fill:var(--ink)">دورهٔ اول در یک سال تحصیلی: جذب در اسفند و فروردین، دوره در تابستان</text>
+        <svg viewBox="0 0 760 264" role="img" aria-label="دورهٔ اول در یک سال تحصیلی: جذب در اسفند و فروردین، دوره در تابستان" direction="rtl" font-size="13">
+          <defs><marker id="rm-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="svg-arrow"/></marker></defs>
+          <text x="736" y="34" font-size="15" font-weight="700" class="svg-ink">جذب در اسفند و فروردین، تجربه در تابستان که دانشجوها آزادند</text>
           <g text-anchor="middle">
-            <rect x="600" y="64" width="136" height="112" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)"/>
-            <text x="668" y="88" font-weight="700" style="fill:var(--ink)">آماده‌سازی</text>
-            <text x="668" y="106" font-size="11.5" style="fill:var(--muted)">مهر تا بهمن</text>
-            <text x="668" y="128" font-size="11.5" style="fill:var(--ink)">توافق دو طرف</text>
-            <text x="668" y="144" font-size="11.5" style="fill:var(--ink)">انتخاب میزبان‌ها</text>
-            <text x="668" y="160" font-size="11.5" style="fill:var(--ink)">مسئله‌ها و منتورها</text>
+            <rect x="600" y="64" width="136" height="112" rx="8" class="svg-box"/>
+            <text x="668" y="88" font-weight="700" class="svg-ink">آماده‌سازی</text>
+            <text x="668" y="106" font-size="11.5" class="svg-muted">مهر تا بهمن</text>
+            <text x="668" y="128" font-size="11.5" class="svg-ink">توافق دو طرف</text>
+            <text x="668" y="144" font-size="11.5" class="svg-ink">انتخاب میزبان‌ها</text>
+            <text x="668" y="160" font-size="11.5" class="svg-ink">مسئله‌ها و منتورها</text>
 
-            <rect x="456" y="64" width="136" height="112" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)"/>
-            <text x="524" y="88" font-weight="700" style="fill:var(--ink)">جذب</text>
-            <text x="524" y="106" font-size="11.5" style="fill:var(--muted)">اسفند و فروردین</text>
-            <text x="524" y="128" font-size="11.5" style="fill:var(--ink)">فراخوان از مسیر هلدینگ</text>
-            <text x="524" y="144" font-size="11.5" style="fill:var(--ink)">رویداد در دانشکده‌ها</text>
+            <rect x="456" y="64" width="136" height="112" rx="8" class="svg-box"/>
+            <text x="524" y="88" font-weight="700" class="svg-ink">جذب</text>
+            <text x="524" y="106" font-size="11.5" class="svg-muted">اسفند و فروردین</text>
+            <text x="524" y="128" font-size="11.5" class="svg-ink">فراخوان از مسیر هلدینگ</text>
+            <text x="524" y="144" font-size="11.5" class="svg-ink">رویداد در دانشکده‌ها</text>
 
-            <rect x="312" y="64" width="136" height="112" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)"/>
-            <text x="380" y="88" font-weight="700" style="fill:var(--ink)">انتخاب</text>
-            <text x="380" y="106" font-size="11.5" style="fill:var(--muted)">اردیبهشت و خرداد</text>
-            <text x="380" y="128" font-size="11.5" style="fill:var(--ink)">انگیزه‌نامه</text>
-            <text x="380" y="144" font-size="11.5" style="fill:var(--ink)">مسئلهٔ دارویی</text>
-            <text x="380" y="160" font-size="11.5" style="fill:var(--ink)">مصاحبه</text>
+            <rect x="312" y="64" width="136" height="112" rx="8" class="svg-box"/>
+            <text x="380" y="88" font-weight="700" class="svg-ink">انتخاب</text>
+            <text x="380" y="106" font-size="11.5" class="svg-muted">اردیبهشت و خرداد</text>
+            <text x="380" y="128" font-size="11.5" class="svg-ink">انگیزه‌نامه</text>
+            <text x="380" y="144" font-size="11.5" class="svg-ink">مسئلهٔ دارویی</text>
+            <text x="380" y="160" font-size="11.5" class="svg-ink">مصاحبه</text>
 
-            <rect x="168" y="64" width="136" height="112" rx="8" stroke-width="2" style="fill:var(--accent-soft);stroke:var(--accent)"/>
-            <text x="236" y="88" font-weight="700" style="fill:var(--ink)">دورهٔ تجربه‌محور</text>
-            <text x="236" y="106" font-size="11.5" style="fill:var(--muted)">تیر و مرداد</text>
-            <text x="236" y="128" font-size="11.5" style="fill:var(--ink)">تور زنجیره</text>
-            <text x="236" y="144" font-size="11.5" style="fill:var(--ink)">سپس ۸ هفته پروژه</text>
+            <rect x="168" y="64" width="136" height="112" rx="8" class="svg-key"/>
+            <text x="236" y="88" font-weight="800" class="svg-ink">دورهٔ تجربه‌محور</text>
+            <text x="236" y="106" font-size="11.5" class="svg-lime">تیر و مرداد</text>
+            <text x="236" y="128" font-size="11.5" class="svg-ink">تور زنجیره</text>
+            <text x="236" y="144" font-size="11.5" class="svg-ink">سپس ۸ هفته پروژه</text>
 
-            <rect x="24" y="64" width="136" height="112" rx="8" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)"/>
-            <text x="92" y="88" font-weight="700" style="fill:var(--ink)">خروج و ارزیابی</text>
-            <text x="92" y="106" font-size="11.5" style="fill:var(--muted)">شهریور</text>
-            <text x="92" y="128" font-size="11.5" style="fill:var(--ink)">روز نمایش</text>
-            <text x="92" y="144" font-size="11.5" style="fill:var(--ink)">پرسش‌نامهٔ پس از دوره</text>
-            <text x="92" y="160" font-size="11.5" style="fill:var(--ink)">بورسیه و کار برای برترها</text>
+            <rect x="24" y="64" width="136" height="112" rx="8" class="svg-box"/>
+            <text x="92" y="88" font-weight="700" class="svg-ink">خروج و ارزیابی</text>
+            <text x="92" y="106" font-size="11.5" class="svg-muted">شهریور</text>
+            <text x="92" y="128" font-size="11.5" class="svg-ink">روز نمایش</text>
+            <text x="92" y="144" font-size="11.5" class="svg-ink">پرسش‌نامهٔ پس از دوره</text>
+            <text x="92" y="160" font-size="11.5" class="svg-ink">بورسیه و کار برای برترها</text>
           </g>
-          <path d="M736 192H40" fill="none" stroke-width="1.25" style="stroke:var(--line-strong)" marker-end="url(#rm-arrow)"/>
-          <g style="fill:var(--line-strong)">
-            <path d="M596 184l8 8l-8 8l-8 -8z"/>
-            <path d="M308 184l8 8l-8 8l-8 -8z"/>
-            <path d="M92 184l8 8l-8 8l-8 -8z"/>
-          </g>
+          <path d="M736 192H40" class="svg-line" marker-end="url(#rm-arrow)"/>
+          <path d="M596 182l10 10l-10 10l-10 -10z" class="svg-gate key"/>
+          <path d="M308 184l8 8l-8 8l-8 -8z" class="svg-gate"/>
+          <path d="M92 184l8 8l-8 8l-8 -8z" class="svg-gate"/>
           <g text-anchor="middle" font-size="11.5">
-            <text x="596" y="220" font-weight="700" style="fill:var(--ink)">دروازهٔ ۱</text>
-            <text x="596" y="236" style="fill:var(--muted)">تعهد میزبان‌ها، مسئله‌ها و منتورها</text>
-            <text x="308" y="220" font-weight="700" style="fill:var(--ink)">دروازهٔ ۲</text>
-            <text x="308" y="236" style="fill:var(--muted)">۲۰ تا ۳۰ نفر پذیرفته شدند</text>
-            <text x="92" y="220" font-weight="700" style="fill:var(--ink)">دروازهٔ ۳</text>
-            <text x="92" y="236" style="fill:var(--muted)">تصمیم دورهٔ دوم</text>
+            <text x="596" y="222" font-weight="700" class="svg-ink">دروازهٔ ۱</text>
+            <text x="596" y="238" class="svg-muted">تعهد میزبان‌ها، مسئله‌ها و منتورها</text>
+            <text x="308" y="222" font-weight="700" class="svg-ink">دروازهٔ ۲</text>
+            <text x="308" y="238" class="svg-muted">۲۰ تا ۳۰ نفر پذیرفته شدند</text>
+            <text x="92" y="222" font-weight="700" class="svg-ink">دروازهٔ ۳</text>
+            <text x="92" y="238" class="svg-muted">تصمیم دورهٔ دوم</text>
           </g>
         </svg>
       </div>
-      <figcaption>نقشهٔ راه دورهٔ اول · ۵ فاز، ۳ دروازه</figcaption>
+      <figcaption>نقشهٔ راه دورهٔ اول · ۵ فاز، ۳ دروازه؛ دروازهٔ ۱ مهم‌ترین است</figcaption>
     </figure>
-    <p>بدون عبور از دروازهٔ ۱ هیچ فراخوانی منتشر نمی‌شود: تا برای هر دانشجو یک مسئلهٔ واقعی و یک منتور نباشد، تجربه‌ای در کار نیست. زمان‌بندی پیشنهادی است.</p>
   </section>
 
-  <section>
-    <h2>ریسک‌ها و راهکارها</h2>
-    <p>بزرگ‌ترین ریسک این است که دوره به یک کلاس دیگر یا کارآموزی تکراری تبدیل شود و دانشجو تجربهٔ واقعی نگیرد؛ آن‌وقت اصل برنامه از دست رفته.</p>
+  <section id="risks" aria-labelledby="h-risks">
+    <h2 id="h-risks">ریسک‌ها و راهکارها</h2>
+    <div class="risk-top">
+      <span class="kicker">بزرگ‌ترین ریسک</span>
+      <div><h3>دوره به کلاس یا کارآموزی تکراری تبدیل شود</h3><p>دانشجو تجربهٔ واقعی نمی‌گیرد و اصل برنامه از دست می‌رود.</p></div>
+      <div class="fix"><b>راهکار</b><p>هر دانشجو یک مسئلهٔ واقعی و یک منتور؛ بدون این دو، پذیرشی نیست.</p></div>
+    </div>
     <div class="table-wrap"><table>
       <thead><tr><th>ریسک</th><th>راهکار</th></tr></thead>
       <tbody>
-        <tr><td>دوره به کلاس یا کارآموزی تکراری تبدیل شود</td><td>هر دانشجو یک مسئلهٔ واقعی و یک منتور؛ بدون این دو، پذیرشی نیست</td></tr>
         <tr><td>برترها پیشنهاد کار یا بورسیه نگیرند</td><td>حداقل بورسیه و پیشنهاد کار، پیش از فراخوان از هلدینگ تعهد گرفته شود</td></tr>
         <tr><td>محیط‌های GMP اجازهٔ کار عملی به دانشجو ندهند</td><td>نقش ناظر در خط تولید، کار عملی در آزمایشگاه کنترل کیفیت و تحقیق و توسعه</td></tr>
         <tr><td>چرخهٔ آزمایشگاهی از ۸ هفته طولانی‌تر است</td><td>مسئله‌هایی که در ۸ هفته به یک خروجی می‌رسند؛ ادامه در قالب پایان‌نامه یا شتاب‌دهنده</td></tr>
@@ -343,18 +451,18 @@ figcaption { color: var(--muted); font-size: 0.85rem; }
     </table></div>
   </section>
 
-  <section>
-    <h2>تصمیم‌های باز و گام‌های بعدی</h2>
-    <p>پنج تصمیم باید قبل از هر اعلام عمومی گرفته شود:</p>
+  <section id="next" aria-labelledby="h-next">
+    <h2 id="h-next">تصمیم‌های باز و گام‌های بعدی</h2>
+    <p class="sub">پنج تصمیم باید قبل از هر اعلام عمومی گرفته شود؛ مهم‌ترینش اولی است.</p>
     <ul class="checklist">
-      <li>شرکت‌های هلدینگ برای هر دانشجو یک مسئلهٔ واقعی و یک منتور تعهد می‌کنند؟</li>
+      <li class="key">شرکت‌های هلدینگ برای هر دانشجو یک مسئلهٔ واقعی و یک منتور تعهد می‌کنند؟</li>
       <li>کدام شرکت‌های زیرمجموعه میزبان تور و پروژه‌ها می‌شوند و سایت‌هایشان کجاست؟</li>
       <li>وزن دو مسیر: کمبود نیروی هلدینگ بیشتر در تحقیق و توسعه است یا در تولید و کیفیت؟</li>
       <li>بودجه و کمک‌هزینهٔ دانشجو، سهم هر طرف، و تعداد بورسیه یا پیشنهاد کار برای برترها</li>
       <li>شرایط مالکیت فکری طرح‌های مسیر نوآوری چیست؟</li>
     </ul>
-    <p>گام‌های بعدی:</p>
-    <ol>
+    <h3>گام‌های بعدی</h3>
+    <ol class="steps">
       <li>جلسهٔ مشترک گلرنگ ونچرز و هلدینگ دارویی برای تأیید ذهنیت برنامه و این پنج تصمیم.</li>
       <li>تشکیل کمیتهٔ راهبری و معرفی مالک اجرایی.</li>
       <li>هماهنگی با مسئول ارتباط هلدینگ با دانشگاه‌ها برای انتشار فراخوان.</li>
@@ -362,9 +470,8 @@ figcaption { color: var(--muted); font-size: 0.85rem; }
     </ol>
   </section>
 
-  <section class="sources">
-    <h2>منابع</h2>
-    <p class="note">از نتایج جست‌وجو گردآوری شده؛ صفحه‌ها مستقیم باز نشدند و باید پیش از استناد تأیید شوند.</p>
+  <footer>
+    <p>منابع از نتایج جست‌وجو گردآوری شده‌اند؛ صفحه‌ها مستقیم باز نشدند و باید پیش از استناد تأیید شوند.</p>
     <ul>
       <li><a href="https://golrangcvc.com/mission-and-vision/">ماموریت و چشم‌انداز صندوق گلرنگ</a></li>
       <li><a href="https://golrangpi.com/">سرمایه‌گذاری دارویی گلرنگ</a></li>
@@ -376,5 +483,8 @@ figcaption { color: var(--muted); font-size: 0.85rem; }
       <li><a href="https://quera.org/events/golrang-0309">مسابقهٔ ستارگان آینده گلرنگ – کوئرا</a></li>
       <li><a href="https://www.asriran.com/fa/news/1195123/">فکورژن – عصر ایران</a></li>
     </ul>
-  </section>
+  </footer>
+
 </main>
+</div>
+</div>

@@ -3,7 +3,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800;900&display=swap">
-<style>
+<style id="pg-style">
 /* Layout: alternating night (navy) and paper bands, like the GFS deck; each band carries one animated exhibit (molecule to capsule, overlap, rings, chain, flow, hub, timeline). Experience = lime; outcomes = cyan; everything else quiet. */
 :root {
   --night: #0b1530;        /* navy bands, both themes */
@@ -232,9 +232,20 @@ a:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
-</style>
 
-<div dir="rtl" lang="fa">
+/* in-place editing */
+.pg-bar { position: fixed; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); left: calc(16px + env(safe-area-inset-left, 0px)); z-index: 20; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; max-width: calc(100vw - 32px); background: var(--night); color: var(--night-ink); border: 1px solid var(--night-line); border-radius: 999px; padding: 6px; box-shadow: 0 12px 32px rgb(0 0 0 / .3); font-family: var(--font); direction: rtl; }
+.pg-bar button { font: inherit; font-size: .9rem; font-weight: 800; border: 0; border-radius: 999px; padding: 8px 18px; cursor: pointer; background: transparent; color: var(--night-ink); }
+.pg-bar #pg-edit, .pg-bar #pg-save { background: var(--lime); color: #0b1530; }
+.pg-bar button:disabled { opacity: .5; cursor: default; }
+.pg-bar button:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+#pg-msg { font-size: .82rem; color: var(--night-muted); padding-inline: 8px; }
+#pg-msg:empty { display: none; }
+.editing [data-k] { outline: 1.5px dashed var(--lime); outline-offset: 3px; border-radius: 4px; cursor: text; }
+.editing [data-k]:focus { outline: 2.5px solid var(--lime); }
+</style>
+<div id="app"></div>
+<template id="pg-doc"><div dir="rtl" lang="fa">
 
 <!-- HERO -->
 <header class="band night hero">
@@ -737,24 +748,141 @@ a:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
     </ul>
   </div>
 </footer>
-</div>
+</div></template>
+<script id="pg-script">(() => {
+  const SEL = 'h1,h2,h3,p,li,td,th,.stations b,.stations span,.goals b,.goals span,.prio b,.prio span,.stat span,.count .big';
+  const HEAD = '<title>استراتژی GFS دارو</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800;900&display=swap">\n';
+  const RESET = ':root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}';
+  const CSS = document.getElementById('pg-style').textContent;
+  const JS = document.getElementById('pg-script').textContent;
+  const tpl = document.getElementById('pg-doc');
+  const app = document.getElementById('app');
+  const reduce = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const FA = '۰۱۲۳۴۵۶۷۸۹';
+  const fa = n => String(n).replace(/\d/g, d => FA[d]);
+  let editing = false;
+  const dirty = new Set();
 
-<script>
-(() => {
-  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce) { document.querySelectorAll('svg').forEach(s => { try { s.pauseAnimations(); } catch (e) {} }); return; }
-  const fa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
-  const els = document.querySelectorAll('[data-count]');
-  if (!('IntersectionObserver' in window)) return;
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (!en.isIntersecting) return;
+  // Number the editable leaves of the page source so the live copy and the source line up.
+  let i = 0;
+  tpl.content.querySelectorAll(SEL).forEach(el => {
+    if (el.closest('svg') || el.querySelector(SEL)) return;
+    el.setAttribute('data-k', 'k' + (i++));
+  });
+
+  let io = null;
+  function countUp() {
+    if (reduce || !('IntersectionObserver' in window)) return;
+    io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (!en.isIntersecting || editing) return;
       io.unobserve(en.target);
-      const el = en.target, end = +el.dataset.count, suf = el.dataset.suffix || '', t0 = performance.now(), dur = 1100;
-      const step = t => { const k = Math.min(1, (t - t0) / dur), v = Math.round(end * (1 - Math.pow(1 - k, 3))); el.textContent = fa(v) + suf; if (k < 1) requestAnimationFrame(step); };
+      const el = en.target, txt = el.textContent, m = txt.match(/[۰-۹0-9]+/);
+      if (!m) return;
+      const end = +m[0].replace(/[۰-۹]/g, d => FA.indexOf(d)), pre = txt.slice(0, m.index), suf = txt.slice(m.index + m[0].length);
+      const t0 = performance.now(), dur = 1100;
+      const step = t => {
+        if (editing) { el.textContent = txt; return; }
+        const k = Math.min(1, (t - t0) / dur);
+        el.textContent = pre + fa(Math.round(end * (1 - Math.pow(1 - k, 3)))) + suf;
+        if (k < 1) requestAnimationFrame(step);
+      };
       requestAnimationFrame(step);
+    }), { threshold: .6 });
+    app.querySelectorAll('.stat .n').forEach(el => io.observe(el));
+  }
+
+  function render() {
+    if (io) io.disconnect();
+    app.replaceChildren(tpl.content.cloneNode(true));
+    if (reduce) app.querySelectorAll('svg').forEach(s => { try { s.pauseAnimations(); } catch (e) {} });
+    countUp();
+  }
+  render();
+
+  // Keep only simple inline markup from edited text.
+  function clean(el) {
+    const t = document.createElement('template');
+    t.innerHTML = el.innerHTML;
+    const walk = n => [...n.childNodes].forEach(c => {
+      if (c.nodeType === 8) { c.remove(); return; }
+      if (c.nodeType !== 1) return;
+      walk(c);
+      const tag = c.tagName;
+      if (tag === 'B' || tag === 'STRONG' || tag === 'EM' || tag === 'BR' || tag === 'A') {
+        const href = tag === 'A' ? c.getAttribute('href') : null;
+        [...c.attributes].forEach(a => c.removeAttribute(a.name));
+        if (href && /^https?:\/\//i.test(href)) c.setAttribute('href', href);
+      } else {
+        c.replaceWith(...c.childNodes);
+      }
     });
-  }, { threshold: .6 });
-  els.forEach(el => io.observe(el));
+    walk(t.content);
+    const box = document.createElement('div');
+    box.append(t.content);
+    return box.innerHTML.replace(/ /g, ' ').trim();
+  }
+
+  function buildPage() {
+    const src = tpl.content.cloneNode(true);
+    src.querySelectorAll('[data-k]').forEach(el => el.removeAttribute('data-k'));
+    const box = document.createElement('div');
+    box.append(src);
+    return '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>' + RESET + '</style></head><body>'
+      + HEAD + '<style id="pg-style">' + CSS + '</style>\n<div id="app"></div>\n<template id="pg-doc">' + box.innerHTML + '</' + 'template>\n<script id="pg-script">' + JS + '</' + 'script>\n</body></html>';
+  }
+
+  const cl = window.claude;
+  if (!cl || typeof cl.use !== 'function') return;
+  cl.use('artifact').then(art => {
+    if (!art) return;
+    const bar = document.createElement('div');
+    bar.className = 'pg-bar';
+    bar.innerHTML = '<button type="button" id="pg-edit">ویرایش متن</button><button type="button" id="pg-save" hidden>ذخیره</button><button type="button" id="pg-cancel" hidden>انصراف</button><span id="pg-msg" role="status"></span>';
+    document.body.append(bar);
+    const bEdit = bar.querySelector('#pg-edit'), bSave = bar.querySelector('#pg-save'), bCancel = bar.querySelector('#pg-cancel'), msg = bar.querySelector('#pg-msg');
+    const plain = (() => { const d = document.createElement('div'); d.contentEditable = 'plaintext-only'; return d.contentEditable === 'plaintext-only'; })();
+    const say = t => { msg.textContent = t; };
+    const setMode = on => {
+      editing = on;
+      app.classList.toggle('editing', on);
+      app.querySelectorAll('[data-k]').forEach(el => { if (on) el.contentEditable = plain ? 'plaintext-only' : 'true'; else el.removeAttribute('contenteditable'); });
+      bEdit.hidden = on; bSave.hidden = !on; bCancel.hidden = !on;
+      if (on) { app.querySelectorAll('.stat .n').forEach(el => { const s = tpl.content.querySelector('[data-k="' + el.dataset.k + '"]'); if (s) el.textContent = s.textContent; }); say('روی هر متنی کلیک کنید و تغییرش دهید.'); }
+    };
+    app.addEventListener('click', e => { if (editing && e.target.closest('a')) e.preventDefault(); }, true);
+    app.addEventListener('keydown', e => { if (editing && e.key === 'Enter') e.preventDefault(); });
+    app.addEventListener('paste', e => {
+      if (!editing || plain) return;
+      e.preventDefault();
+      document.execCommand('insertText', false, (e.clipboardData || window.clipboardData).getData('text/plain'));
+    });
+    app.addEventListener('input', e => {
+      const el = e.target.closest && e.target.closest('[data-k]');
+      if (!el) return;
+      dirty.add(el.dataset.k);
+      say(fa(dirty.size) + ' متن تغییر کرده؛ ذخیره نشده.');
+    });
+    bEdit.addEventListener('click', () => setMode(true));
+    bCancel.addEventListener('click', () => { dirty.clear(); setMode(false); render(); say(''); });
+    bSave.addEventListener('click', async () => {
+      if (!dirty.size) { setMode(false); say(''); return; }
+      dirty.forEach(k => {
+        const live = app.querySelector('[data-k="' + k + '"]'), src = tpl.content.querySelector('[data-k="' + k + '"]');
+        if (live && src) src.innerHTML = clean(live);
+      });
+      bSave.disabled = true; bCancel.disabled = true; say('در حال ذخیره…');
+      try {
+        await art.publish(buildPage());
+        say('ذخیره شد.');
+      } catch (err) {
+        const code = err && err.code;
+        bSave.disabled = false; bCancel.disabled = false;
+        if (code === 'conflict') say('نسخهٔ جدیدتری ذخیره شده بود؛ صفحه به آن نسخه برمی‌گردد.');
+        else if (code === 'not_writer' || code === 'not_granted' || code === 'not_declared' || code === 'consent_required' || code === 'capability_disabled') { say('این نسخه فقط‌خواندنی است؛ برای ذخیره باید دسترسی ویرایش داشته باشید.'); bSave.hidden = true; }
+        else if (code === 'too_large') say('صفحه برای ذخیره بیش از حد بزرگ شده است.');
+        else say('ذخیره نشد. چند لحظه بعد دوباره «ذخیره» را بزنید.');
+      }
+    });
+  });
 })();
 </script>

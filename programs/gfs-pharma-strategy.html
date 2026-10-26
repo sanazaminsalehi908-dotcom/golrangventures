@@ -4,221 +4,417 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800;900&display=swap">
 <style>
-/* Layout: navy GFS header band carrying the core idea, then one RTL reading column. Experience is the accent (lime); the two exits are quiet outcomes. Brand: navy, lime, cyan. */
+/* Layout: alternating night (navy) and paper bands, like the GFS deck; each band carries one animated exhibit (molecule to capsule, overlap, rings, chain, flow, hub, timeline). Experience = lime; outcomes = cyan; everything else quiet. */
 :root {
-  --bg: #f4f6ef;
-  --surface: #ffffff;
+  --night: #0b1530;        /* navy bands, both themes */
+  --night-2: #13224a;      /* cards on navy */
+  --night-line: #24396e;
+  --night-ink: #f2f4ea;
+  --night-muted: #b5c0d8;
+  --paper: #f2f4ea;        /* light bands */
+  --card: #fbfcf6;
   --ink: #0b1530;
   --muted: #4a5570;
-  --line: #dde1d3;
-  --band: #0b1530;          /* header band, same in both themes */
-  --band-ink: #f2f4ea;
-  --band-muted: #b5c0d8;
-  --band-line: #24396e;
+  --line: #d6dbc4;
   --lime: #cedc45;
-  --lime-ink: #5f6e0a;      /* lime as text on light surfaces */
-  --lime-soft: #f0f4cf;
-  --accent: #1a6e86;
-  --accent-soft: #e1f1f4;
-  --edge: #9aa2b8;
+  --lime-ink: #5f6e0a;
+  --lime-soft: #eef3c9;
+  --cyan: #3fd6e8;
+  --teal: #1a6e86;
+  --teal-soft: #dff1f4;
+  --edge: #8e98b0;
   --font: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0b1530; --surface: #13224a; --ink: #f2f4ea; --muted: #b5c0d8; --line: #24396e;
-    --band: #060d22; --lime-ink: #cedc45; --lime-soft: #2a3424; --accent: #3fd6e8; --accent-soft: #16304d; --edge: #6d7794;
+    --night: #060d22; --night-2: #101d40; --night-line: #22356a;
+    --paper: #0b1530; --card: #13224a; --ink: #f2f4ea; --muted: #b5c0d8; --line: #24396e;
+    --lime-ink: #cedc45; --lime-soft: #2a3424; --teal: #3fd6e8; --teal-soft: #16304d; --edge: #6d7794;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0b1530; --surface: #13224a; --ink: #f2f4ea; --muted: #b5c0d8; --line: #24396e;
-  --band: #060d22; --lime-ink: #cedc45; --lime-soft: #2a3424; --accent: #3fd6e8; --accent-soft: #16304d; --edge: #6d7794;
+  --night: #060d22; --night-2: #101d40; --night-line: #22356a;
+  --paper: #0b1530; --card: #13224a; --ink: #f2f4ea; --muted: #b5c0d8; --line: #24396e;
+  --lime-ink: #cedc45; --lime-soft: #2a3424; --teal: #3fd6e8; --teal-soft: #16304d; --edge: #6d7794;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.85; }
-.band { background: var(--band); color: var(--band-ink); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 36px 44px; }
-.band-inner { max-width: 960px; margin-inline: auto; display: grid; gap: 16px; }
-.logo { width: 260px; max-width: 70%; height: auto; display: block; }
-.eyebrow { margin: 0; font-size: .85rem; color: var(--lime); font-weight: 700; }
-.band h1 { margin: 0; font-weight: 900; font-size: clamp(2.1rem, 6.4vw, 3.6rem); line-height: 1.3; text-wrap: balance; }
-.band h1 em { font-style: normal; color: var(--lime); }
-.band .lede { margin: 0; max-width: 64ch; color: var(--band-muted); font-size: 1.08rem; }
-.band .lede b { color: var(--band-ink); font-weight: 700; }
-.byline { margin: 0; color: var(--band-muted); font-size: .85rem; border-top: 1px solid var(--band-line); padding-top: 14px; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.85; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { text-wrap: balance; }
 
-.page { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 36px 72px; }
-.wrap { max-width: 960px; margin-inline: auto; display: grid; gap: 56px; }
-h2, h3 { margin: 0; text-wrap: balance; }
-h2 { font-weight: 800; font-size: 1.6rem; line-height: 1.4; }
-h3 { font-size: 1.05rem; font-weight: 700; }
-p { margin: 0; }
-section { display: grid; gap: 18px; min-width: 0; }
-.sub { max-width: 70ch; color: var(--muted); }
-.kicker { font-size: .82rem; font-weight: 700; color: var(--accent); }
+.band { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 72px; }
+.band.night { background: var(--night); color: var(--night-ink); }
+.band.paper { background: var(--paper); color: var(--ink); }
+.band.lime { background: var(--lime); color: #0b1530; padding-block: 56px; }
+.inner { max-width: 1120px; margin-inline: auto; display: grid; gap: 28px; min-width: 0; }
+.eyebrow { font-size: .9rem; font-weight: 700; letter-spacing: .01em; color: var(--teal); }
+.night .eyebrow { color: var(--cyan); }
+h2 { font-size: clamp(1.8rem, 4.4vw, 3rem); font-weight: 800; line-height: 1.25; }
+h3 { font-size: 1.15rem; font-weight: 800; line-height: 1.5; }
+.lead { max-width: 64ch; color: var(--muted); font-size: 1.05rem; }
+.night .lead { color: var(--night-muted); }
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+.art svg { display: block; width: 100%; height: auto; }
 
-nav.toc { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .9rem; }
-nav.toc a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); }
-nav.toc a:hover, nav.toc a:focus-visible { color: var(--accent); border-color: var(--accent); outline: none; }
+/* hero */
+.hero { padding-block: 48px 64px; background: radial-gradient(circle at 20% 45%, #1b2f66 0%, var(--night) 62%); }
+.hero .inner { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); align-items: center; gap: 24px 48px; }
+.hero-text { display: grid; gap: 18px; }
+.logo { width: 250px; max-width: 70%; height: auto; display: block; }
+.hero h1 { font-size: clamp(2.4rem, 7vw, 4.4rem); font-weight: 900; line-height: 1.12; letter-spacing: -.01em; }
+.hero h1 em { font-style: normal; color: var(--lime); }
+.hero .lead b { color: var(--night-ink); }
+.byline { font-size: .85rem; color: var(--night-muted); border-top: 1px solid var(--night-line); padding-top: 14px; }
+.rise { animation: rise .8s cubic-bezier(.2,.8,.2,1) both; }
+.rise.d1 { animation-delay: .12s; } .rise.d2 { animation-delay: .24s; } .rise.d3 { animation-delay: .36s; }
+@keyframes rise { from { transform: translateY(18px); opacity: .001; } to { transform: none; opacity: 1; } }
 
-.decisions { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; counter-reset: d; }
-.decisions li { counter-increment: d; background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--lime); border-radius: 14px; padding: 18px; display: grid; gap: 6px; align-content: start; }
-.decisions li::before { content: "تصمیم " counter(d, persian); font-size: .8rem; font-weight: 700; color: var(--lime-ink); }
-.decisions p { color: var(--muted); font-size: .93rem; }
+/* decisions */
+.decisions { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; counter-reset: d; }
+.decisions li { counter-increment: d; background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 28px; display: grid; gap: 10px; align-content: start; box-shadow: 0 12px 32px rgb(11 21 48 / .06); transition: transform .25s, box-shadow .25s; }
+.decisions li:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgb(11 21 48 / .1); }
+.decisions li::before { content: "تصمیم " counter(d, persian); justify-self: start; font-size: .82rem; font-weight: 800; color: #0b1530; background: var(--lime); border-radius: 999px; padding: 2px 14px; }
+.decisions h3 { font-size: 1.45rem; }
+.decisions p { color: var(--muted); }
 
-.success { background: var(--lime-soft); border-radius: 14px; padding: 20px 22px; display: grid; gap: 8px; }
-.success h3 { font-size: 1.15rem; font-weight: 800; }
-.success p { max-width: 74ch; }
+/* statement band */
+.statement { font-size: clamp(1.4rem, 3.6vw, 2.3rem); font-weight: 900; line-height: 1.45; max-width: 30ch; }
+.statement-sub { max-width: 70ch; font-weight: 500; }
+.lime .inner { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 24px 40px; }
+.lime .star-wrap { width: 132px; }
 
-.quote { margin: 0; padding: 18px 22px; border-inline-start: 4px solid var(--lime); background: var(--surface); border-radius: 0 12px 12px 0; font-weight: 700; font-size: 1.1rem; line-height: 1.7; }
+/* lists on night */
+.goals { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; counter-reset: g; }
+.goals li { counter-increment: g; display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 2px 16px; align-items: start; }
+.goals li::before { content: counter(g, persian); grid-row: span 2; width: 48px; height: 48px; border-radius: 50%; background: var(--lime); color: #0b1530; font-weight: 900; font-size: 1.2rem; display: grid; place-items: center; line-height: 1; }
+.goals b { font-size: 1.1rem; }
+.goals span { color: var(--night-muted); font-size: .95rem; }
+.note-strip { color: var(--night-muted); font-size: .92rem; border-top: 1px solid var(--night-line); padding-top: 14px; }
 
-.gets { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; counter-reset: g; }
-.gets li { counter-increment: g; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 2px 12px; }
-.gets li::before { content: counter(g, persian); grid-row: span 2; width: 36px; height: 36px; border-radius: 50%; background: var(--band); color: var(--lime); font-weight: 800; display: grid; place-items: center; line-height: 1; }
-.gets li.key { background: var(--lime-soft); border-color: transparent; }
-.gets p { color: var(--muted); font-size: .93rem; }
+/* audience */
+.prio { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.prio li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 0 16px; align-items: center; }
+.dot { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--ink); grid-row: span 2; }
+.dot.p1 { background: var(--lime); } .dot.p2 { background: var(--cyan); border-color: var(--teal); } .dot.p3 { background: var(--line); border-color: var(--muted); }
+.prio b { font-size: 1.1rem; } .prio span { color: var(--muted); font-size: .95rem; }
+.count { display: flex; gap: 20px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 18px 24px; }
+.count .big { font-size: clamp(2.4rem, 6vw, 3.6rem); font-weight: 900; line-height: 1; white-space: nowrap; }
+.count p { color: var(--muted); }
 
-.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
-table { border-collapse: collapse; width: 100%; min-width: 600px; font-size: .93rem; line-height: 1.8; }
-th, td { text-align: start; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+/* chain */
+.stations { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; text-align: center; }
+.stations b { display: block; font-size: 1.1rem; } .stations span { color: var(--night-muted); font-size: .9rem; }
+.quote { font-size: clamp(1.2rem, 2.8vw, 1.6rem); font-weight: 800; line-height: 1.6; border-inline-start: 6px solid var(--lime); padding-inline-start: 20px; max-width: 46ch; }
+.gets { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.gets li { background: var(--night-2); border: 1px solid var(--night-line); border-radius: 22px; padding: 22px; display: grid; gap: 8px; align-content: start; transition: transform .25s, border-color .25s; }
+.gets li:hover { transform: translateY(-4px); border-color: var(--lime); }
+.gets svg { width: 40px; height: 40px; justify-self: start; }
+.gets p { color: var(--night-muted); font-size: .93rem; }
+.gets li.key { background: var(--lime); border-color: var(--lime); color: #0b1530; }
+.gets li.key p { color: #2a3424; }
+
+/* tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; background: var(--card); }
+table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: .95rem; line-height: 1.8; }
+th, td { text-align: start; vertical-align: top; padding: 12px 18px; border-bottom: 1px solid var(--line); }
 tr:last-child td { border-bottom: 0; }
-thead th { font-size: .82rem; color: var(--muted); font-weight: 700; background: var(--bg); }
-td:first-child { font-weight: 500; }
+thead th { background: var(--ink); color: var(--paper); font-size: .85rem; font-weight: 700; }
+thead th:first-child { color: var(--lime); }
+td:first-child { font-weight: 700; }
 td.num { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.night .table-wrap { background: var(--night-2); border-color: var(--night-line); }
+.night thead th { background: #060d22; color: var(--night-ink); }
+.night thead th:first-child { color: var(--lime); }
+.night td { border-color: var(--night-line); }
+.night td:first-child { color: var(--night-ink); }
+.night td:not(:first-child) { color: var(--night-muted); }
 
-figure { margin: 0; display: grid; gap: 8px; }
-.fig-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 8px; }
-.fig-wrap svg { display: block; width: 100%; min-width: 640px; height: auto; font-family: var(--font); }
-figcaption { color: var(--muted); font-size: .85rem; }
-.svg-ink { fill: var(--ink); } .svg-muted { fill: var(--muted); } .svg-lime { fill: var(--lime-ink); }
-.svg-box { fill: none; stroke: var(--edge); stroke-width: 1.25; }
-.svg-key { fill: var(--lime-soft); stroke: var(--lime); stroke-width: 2.5; }
-.svg-out { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
-.svg-other { fill: none; stroke: var(--edge); stroke-width: 1.25; stroke-dasharray: 5 4; }
-.svg-line { fill: none; stroke: var(--edge); stroke-width: 1.25; }
-.svg-arrow { fill: var(--edge); }
-.svg-gate { fill: var(--edge); } .svg-gate.key { fill: var(--lime); stroke: var(--lime-ink); stroke-width: 1; }
+/* diagrams */
+.fig { overflow-x: auto; border-radius: 24px; }
+.fig svg { display: block; width: 100%; min-width: 640px; height: auto; font-family: var(--font); }
+.t-ink { fill: var(--night-ink); } .t-muted { fill: var(--night-muted); } .t-lime { fill: var(--lime); } .t-dark { fill: #0b1530; }
+.p-ink { fill: var(--ink); } .p-muted { fill: var(--muted); } .p-lime { fill: var(--lime-ink); }
+.b-box { fill: var(--night-2); stroke: #3a4f86; stroke-width: 2; }
+.b-key { fill: var(--lime); stroke: var(--lime); stroke-width: 2; }
+.b-out { fill: #16304d; stroke: var(--cyan); stroke-width: 2; }
+.b-other { fill: none; stroke: #6c7faf; stroke-width: 2; stroke-dasharray: 7 6; }
+.ln { fill: none; stroke: #4a5f96; stroke-width: 2; }
+.ln-flow { fill: none; stroke: var(--cyan); stroke-width: 3; stroke-dasharray: 3 12; animation: flow 1.2s linear infinite; }
+.arrowhead { fill: #6c7faf; }
+@keyframes flow { to { stroke-dashoffset: -15; } }
+.glow { animation: glow 2.6s ease-in-out infinite; }
+@keyframes glow { 0%, 100% { opacity: .15; } 50% { opacity: .55; } }
 
-.tracks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.track { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
-.track .out { font-size: .9rem; color: var(--ink); font-weight: 500; border-top: 1px solid var(--line); padding-top: 8px; }
-.track p { color: var(--muted); font-size: .93rem; }
+.tracks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.track { background: var(--night-2); border: 1px solid var(--night-line); border-top: 6px solid var(--cyan); border-radius: 22px; padding: 24px; display: grid; gap: 8px; align-content: start; }
+.track.inno { border-top-color: var(--lime); }
+.track .tag { font-size: .85rem; font-weight: 800; color: var(--cyan); } .track.inno .tag { color: var(--lime); }
+.track p { color: var(--night-muted); }
+.track .out { color: var(--night-ink); font-weight: 700; border-top: 1px solid var(--night-line); padding-top: 10px; }
 
-.message { background: var(--band); color: var(--band-ink); border-radius: 14px; padding: 18px 22px; display: grid; gap: 6px; }
-.message .kicker { color: var(--lime); }
-.message p { color: var(--band-muted); }
-.message strong { color: var(--band-ink); font-size: 1.2rem; font-weight: 800; }
+/* message */
+.message { display: grid; gap: 12px; }
+.message strong { font-size: clamp(2rem, 6vw, 3.8rem); font-weight: 900; line-height: 1.2; color: var(--lime-ink); }
 
-.stats { display: grid; grid-template-columns: 1.3fr repeat(3, minmax(0, 1fr)); gap: 12px; }
-.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; display: grid; gap: 2px; align-content: start; }
-.stat .n { font-size: 2.4rem; font-weight: 900; line-height: 1.2; font-variant-numeric: tabular-nums; }
-.stat .l { font-weight: 700; }
-.stat .s { color: var(--muted); font-size: .85rem; }
-.stat.key { background: var(--band); border-color: var(--band); color: var(--band-ink); }
-.stat.key .n { color: var(--lime); font-size: 3.2rem; }
-.stat.key .s { color: var(--band-muted); }
-.longterm { background: var(--lime-soft); border-radius: 12px; padding: 14px 18px; font-weight: 700; }
+/* kpis */
+.stats { display: grid; grid-template-columns: 1.4fr repeat(3, minmax(0, 1fr)); gap: 14px; }
+.stat { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 24px; display: grid; gap: 4px; align-content: start; }
+.stat .n { font-size: clamp(2.6rem, 5.5vw, 4rem); font-weight: 900; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat .l { font-weight: 800; } .stat .s { color: var(--muted); font-size: .88rem; }
+.stat.key { background: var(--night); border-color: var(--night); color: var(--night-ink); box-shadow: 0 20px 48px rgb(11 21 48 / .25); }
+.stat.key .n { color: var(--lime); font-size: clamp(3.4rem, 8vw, 6rem); }
+.stat.key .s { color: var(--night-muted); }
+.longterm { background: var(--lime); color: #0b1530; border-radius: 20px; padding: 18px 24px; font-weight: 800; font-size: 1.1rem; }
 
-.risk-top { background: var(--band); color: var(--band-ink); border-radius: 14px; padding: 20px 22px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px 28px; }
-.risk-top .kicker { color: var(--lime); grid-column: 1 / -1; }
-.risk-top h3 { font-size: 1.25rem; font-weight: 800; }
-.risk-top p { color: var(--band-muted); }
-.risk-top .fix { border-inline-start: 2px solid var(--band-line); padding-inline-start: 20px; display: grid; gap: 4px; }
-.risk-top .fix b { color: var(--lime); font-size: .82rem; }
-.risk-top .fix p { color: var(--band-ink); font-weight: 700; }
+/* risks */
+.risk-top { background: var(--night); color: var(--night-ink); border-radius: 28px; padding: 32px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px 36px; box-shadow: 0 24px 56px rgb(11 21 48 / .25); }
+.risk-top .tag { grid-column: 1 / -1; color: var(--lime); font-weight: 800; font-size: .9rem; }
+.risk-top h3 { font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.4; }
+.risk-top p { color: var(--night-muted); }
+.risk-top .fix { border-inline-start: 2px solid var(--night-line); padding-inline-start: 28px; display: grid; gap: 6px; align-content: center; }
+.risk-top .fix b { color: var(--lime); font-size: .85rem; }
+.risk-top .fix p { color: var(--night-ink); font-weight: 800; font-size: 1.15rem; }
 
-.checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
-.checklist li { display: flex; gap: 10px; align-items: baseline; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; }
-.checklist li::before { content: ""; flex: none; width: 14px; height: 14px; border: 1.5px solid var(--edge); border-radius: 4px; transform: translateY(2px); }
-.checklist li.key { background: var(--lime-soft); border-color: transparent; font-weight: 700; }
-ol.steps { margin: 0; padding-inline-start: 1.4em; display: grid; gap: 6px; }
+/* next */
+.asks { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; counter-reset: a; }
+.asks li { counter-increment: a; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 16px; align-items: center; font-weight: 700; font-size: 1.08rem; }
+.asks li::before { content: counter(a, persian); width: 56px; height: 56px; border-radius: 50%; background: #0b1530; color: var(--lime); font-weight: 900; font-size: 1.3rem; display: grid; place-items: center; line-height: 1; }
+.cta { background: #0b1530; color: var(--lime); border-radius: 999px; padding: 18px 32px; font-weight: 800; font-size: 1.1rem; justify-self: start; }
+.steps { margin: 0; padding-inline-start: 1.3em; display: grid; gap: 4px; }
+.ask-grid { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 24px 40px; align-items: start; }
 
-footer { color: var(--muted); font-size: .88rem; border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 8px; }
-footer ul { margin: 0; padding-inline-start: 1.2em; display: grid; gap: 2px; }
-footer a { color: var(--accent); }
+footer { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 32px 56px; background: var(--night); color: var(--night-muted); font-size: .88rem; }
+footer .inner { gap: 10px; }
+footer ul { margin: 0; padding-inline-start: 1.2em; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 24px; }
+footer a { color: var(--cyan); }
 
-@media (max-width: 760px) {
-  .decisions, .gets, .tracks, .risk-top { grid-template-columns: minmax(0, 1fr); }
-  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+nav.toc { display: flex; flex-wrap: wrap; gap: 8px; }
+nav.toc a { font-size: .88rem; color: var(--ink); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 4px 14px; background: var(--card); transition: background .2s, border-color .2s; }
+nav.toc a:hover, nav.toc a:focus-visible { border-color: var(--lime-ink); background: var(--lime-soft); outline: none; }
+a:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+
+/* ambient svg motion */
+.spin-slow { animation: spin 30s linear infinite; }
+.spin-star { animation: spin 14s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.twinkle { animation: tw 3.2s ease-in-out infinite; }
+@keyframes tw { 0%, 100% { opacity: .15; } 50% { opacity: .9; } }
+.pulse { animation: pu 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes pu { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.4); } }
+.float { animation: fl 5s ease-in-out infinite; }
+@keyframes fl { 0%, 100% { transform: translateY(0) rotate(-28deg); } 50% { transform: translateY(-22px) rotate(-20deg); } }
+.dash { stroke-dasharray: 6 16; animation: da 1.6s linear infinite; }
+@keyframes da { to { stroke-dashoffset: -44; } }
+.ripple { animation: rip 3.6s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes rip { 0% { transform: scale(.4); opacity: .7; } 100% { transform: scale(1.05); opacity: 0; } }
+.ping { animation: ping 6s ease-out infinite; transform-box: fill-box; transform-origin: center; opacity: 0; }
+@keyframes ping { 0% { transform: scale(1); opacity: .9; } 18% { transform: scale(1.7); opacity: 0; } 100% { opacity: 0; } }
+.slide-l { animation: sl 1.6s cubic-bezier(.2,.8,.2,1) both; } .slide-r { animation: sr 1.6s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes sl { from { transform: translateX(-90px); } to { transform: none; } }
+@keyframes sr { from { transform: translateX(90px); } to { transform: none; } }
+.breath { animation: br 3s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes br { 0%, 100% { transform: scale(1); opacity: .35; } 50% { transform: scale(1.12); opacity: .08; } }
+
+@media (max-width: 860px) {
+  .hero .inner, .split, .lime .inner, .ask-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero .art { max-width: 340px; justify-self: center; }
+  .decisions, .tracks, .risk-top { grid-template-columns: minmax(0, 1fr); }
+  .gets, .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .stat.key { grid-column: 1 / -1; }
-  .risk-top .fix { border-inline-start: 0; padding-inline-start: 0; border-top: 1px solid var(--band-line); padding-top: 10px; }
+  .stations { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .risk-top .fix { border-inline-start: 0; padding-inline-start: 0; border-top: 1px solid var(--night-line); padding-top: 14px; }
+  footer ul { grid-template-columns: minmax(0, 1fr); }
+  .band { padding-block: 56px; }
 }
-@media (prefers-reduced-motion: no-preference) {
-  nav.toc a { transition: color .15s, border-color .15s; }
+@media (max-width: 480px) { .gets { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 </style>
 
 <div dir="rtl" lang="fa">
-<header class="band">
-  <div class="band-inner">
-    <img class="logo" src="data:image/png;base64,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" alt="ستارگان آینده گلرنگ">
-    <p class="eyebrow">استراتژی برگزاری GFS دارو · نسخهٔ دارویی ستارگان آینده گلرنگ</p>
-    <h1>دانش در دسترس همه است؛ <em>تجربه</em> نه.</h1>
-    <p class="lede">دانش تئوری داروسازی امروز در کلاس، کتاب و اینترنت در دسترس همه است؛ تجربهٔ واقعی کار در صنعت دارو نه. <b>GFS دارو</b>، برنامهٔ مشترک گلرنگ ونچرز و سرمایه‌گذاری دارویی گلرنگ، این تجربه را فراهم می‌کند تا دانشجو، پیش از انتخاب شغل یا مسیرش، بفهمد واقعاً چه دوست دارد.</p>
-    <p class="byline">۴ آبان ۱۴۰۵ · پیش‌نویس ۲ برای گفت‌وگو با گلرنگ ونچرز و سرمایه‌گذاری دارویی گلرنگ</p>
+
+<!-- HERO -->
+<header class="band night hero">
+  <div class="inner">
+    <div class="hero-text">
+      <img class="logo rise" src="data:image/png;base64,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" alt="ستارگان آینده گلرنگ">
+      <p class="eyebrow rise d1">استراتژی برگزاری GFS دارو · نسخهٔ دارویی ستارگان آینده گلرنگ</p>
+      <h1 class="rise d1">دانش در دسترس همه است؛ <em>تجربه</em> نه.</h1>
+      <p class="lead rise d2">دانش تئوری داروسازی امروز در کلاس، کتاب و اینترنت در دسترس همه است؛ تجربهٔ واقعی کار در صنعت دارو نه. <b>GFS دارو</b>، برنامهٔ مشترک گلرنگ ونچرز و سرمایه‌گذاری دارویی گلرنگ، این تجربه را فراهم می‌کند تا دانشجو، پیش از انتخاب شغل یا مسیرش، بفهمد واقعاً چه دوست دارد.</p>
+      <p class="byline rise d3">۴ آبان ۱۴۰۵ · پیش‌نویس ۲ برای گفت‌وگو با گلرنگ ونچرز و سرمایه‌گذاری دارویی گلرنگ</p>
+    </div>
+    <div class="art" aria-hidden="true">
+      <svg viewBox="40 120 880 800" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#f2f4ea">
+          <circle class="twinkle" cx="120" cy="160" r="3"/><circle class="twinkle" cx="520" cy="140" r="2" style="animation-delay:.8s"/>
+          <circle class="twinkle" cx="760" cy="260" r="3" style="animation-delay:1.6s"/><circle class="twinkle" cx="80" cy="700" r="2" style="animation-delay:.4s"/>
+          <circle class="twinkle" cx="420" cy="880" r="3" style="animation-delay:2s"/><circle class="twinkle" cx="860" cy="880" r="2" style="animation-delay:1.2s"/>
+          <circle class="twinkle" cx="640" cy="420" r="2" style="animation-delay:2.4s"/><circle class="twinkle" cx="220" cy="820" r="2" style="animation-delay:2.8s"/>
+        </g>
+        <circle class="glow" cx="300" cy="380" r="190" fill="#3fd6e8" style="filter:blur(40px)"/>
+        <g class="spin-slow" style="transform-origin:300px 380px">
+          <polygon points="300,270 395,325 395,435 300,490 205,435 205,325" fill="none" stroke="#3fd6e8" stroke-width="5" stroke-linejoin="round"/>
+          <circle cx="300" cy="380" r="56" fill="none" stroke="#3fd6e8" stroke-width="3" opacity=".5"/>
+          <line x1="395" y1="325" x2="482" y2="272" stroke="#3fd6e8" stroke-width="4"/>
+          <line x1="205" y1="435" x2="118" y2="488" stroke="#3fd6e8" stroke-width="4"/>
+          <line x1="300" y1="270" x2="300" y2="170" stroke="#3fd6e8" stroke-width="4"/>
+          <circle class="pulse" cx="482" cy="272" r="16" fill="#cedc45"/>
+          <circle class="pulse" cx="118" cy="488" r="16" fill="#cedc45" style="animation-delay:.8s"/>
+          <circle class="pulse" cx="300" cy="170" r="16" fill="#cedc45" style="animation-delay:1.6s"/>
+          <g fill="#f2f4ea"><circle cx="300" cy="270" r="9"/><circle cx="395" cy="325" r="9"/><circle cx="395" cy="435" r="9"/><circle cx="300" cy="490" r="9"/><circle cx="205" cy="435" r="9"/><circle cx="205" cy="325" r="9"/></g>
+        </g>
+        <path class="dash" d="M300 560 C 300 700, 560 640, 640 790" fill="none" stroke="#cedc45" stroke-width="4" stroke-linecap="round"/>
+        <circle r="11" fill="#cedc45"><animateMotion dur="2.6s" repeatCount="indefinite" path="M300 560 C 300 700, 560 640, 640 790"/></circle>
+        <circle r="7" fill="#3fd6e8"><animateMotion dur="2.6s" begin="1.3s" repeatCount="indefinite" path="M300 560 C 300 700, 560 640, 640 790"/></circle>
+        <g transform="translate(690 840)"><g class="float">
+          <rect x="-120" y="-48" width="240" height="96" rx="48" fill="#3fd6e8"/>
+          <path d="M0 -48 H-72 A48 48 0 0 0 -72 48 H0 Z" fill="#cedc45"/>
+          <rect x="-120" y="-48" width="240" height="96" rx="48" fill="none" stroke="#f2f4ea" stroke-width="4" opacity=".6"/>
+          <rect x="-84" y="-30" width="60" height="12" rx="6" fill="#f2f4ea" opacity=".55"/>
+        </g></g>
+        <g transform="translate(800 560)"><g class="spin-star" stroke="#cedc45" stroke-width="16">
+          <line x1="0" y1="0" x2="0" y2="46"/><line x1="-46" y1="0" x2="46" y2="0"/><line x1="-32" y1="-32" x2="32" y2="32"/><line x1="-32" y1="32" x2="32" y2="-32"/>
+        </g></g>
+      </svg>
+    </div>
   </div>
 </header>
 
-<div class="page">
-<main class="wrap">
-
-  <section aria-labelledby="h-summary">
-    <h2 id="h-summary">سه تصمیم اصلی</h2>
+<!-- DECISIONS -->
+<section class="band paper" aria-labelledby="h-dec">
+  <div class="inner">
+    <p class="eyebrow">ایده در سه تصمیم</p>
+    <h2 id="h-dec">تجربه می‌سازیم، نه کلاس</h2>
     <ol class="decisions">
       <li><h3>تجربه، نه کلاس</h3><p>دانشجو کنار یک منتور روی یک مسئلهٔ واقعی کار می‌کند؛ برنامه آموزش تئوری تکراری نمی‌دهد.</p></li>
       <li><h3>اول دیدن، بعد انتخاب</h3><p>دوره با یک تور ۲ تا ۳ روزه از کل زنجیرهٔ دارو شروع می‌شود و بعد دانشجو در بخشی که دوستش دارد روی یک پروژه کار می‌کند. چرخش بین چند شرکت عملیاتی نیست و کنار گذاشته شد.</p></li>
       <li><h3>جذب از مسیر هلدینگ</h3><p>هلدینگ دارویی همین حالا با دانشکده‌های داروسازی ارتباط دارد و فراخوان از همین مسیر منتشر می‌شود؛ کانال جدیدی لازم نیست.</p></li>
     </ol>
-    <div class="success">
-      <h3>موفقیت برای دانشجو یعنی چه؟</h3>
-      <p>در پایان دوره بداند کدام بخش این صنعت را دوست دارد و چرا. شغل در هلدینگ و استارتاپ در شتاب‌دهنده دو نتیجهٔ ممکن این تجربه‌اند، نه شرط موفقیت آن. اگر کسی بفهمد این مسیر را دوست ندارد، آن هم نتیجهٔ موفق است: زودتر و ارزان‌تر فهمیده.</p>
-    </div>
     <nav class="toc" aria-label="بخش‌ها">
-      <a href="#why">چرا این برنامه</a><a href="#audience">مخاطب</a><a href="#value">ارزش برای دانشجو</a><a href="#model">مدل</a><a href="#roles">نقش‌ها</a><a href="#recruit">جذب</a><a href="#kpis">معیارها</a><a href="#roadmap">نقشهٔ راه</a><a href="#risks">ریسک‌ها</a><a href="#next">تصمیم‌های باز</a>
+      <a href="#why">چرا با هم</a><a href="#audience">مخاطب</a><a href="#value">ارزش برای دانشجو</a><a href="#model">مدل</a><a href="#roles">نقش‌ها</a><a href="#recruit">جذب</a><a href="#kpis">معیارها</a><a href="#roadmap">نقشهٔ راه</a><a href="#risks">ریسک‌ها</a><a href="#next">قدم بعد</a>
     </nav>
-  </section>
+  </div>
+</section>
 
-  <section id="why" aria-labelledby="h-why">
-    <h2 id="h-why">چرا این برنامه</h2>
-    <p class="sub">این برنامه به پنج هدفی خدمت می‌کند که گلرنگ ونچرز و هلدینگ دارویی مشترکاً دارند. این دو از قبل هم همکاری دارند: شتاب‌دهی داروهای آهسته‌رهش و پپتیدی با واریان فارمد، و دو شرکت مشترک در سبد هر دو (ابیان فارمد و سروش مانا فارمد).</p>
-    <div class="table-wrap"><table>
-      <thead><tr><th>هدف مشترک</th><th>در GFS دارو چطور پیاده می‌شود</th></tr></thead>
-      <tbody>
-        <tr><td>هم‌افزایی با زنجیرهٔ ارزش گروه</td><td>مسئله‌های دوره از شرکت‌های هلدینگ می‌آیند، نه از کتاب درسی</td></tr>
-        <tr><td>تبدیل پژوهش به کسب‌وکار</td><td>مسیر نوآوری داخل دوره، با ورودی مستقیم به مرکز نوآوری و شتاب‌دهنده</td></tr>
-        <tr><td>تأمین نیروی متخصص</td><td>کسی که با تجربه این مسیر را انتخاب کرده، انتخابش آگاهانه‌تر است و ماندگارتر؛ برترها بورسیه یا پیشنهاد کار می‌گیرند</td></tr>
-        <tr><td>تغییر تصویر گلرنگ از «کالای مصرفی» به «دارو و فناوری»</td><td>گلرنگ جایی می‌شود که دانشجو اولین تجربهٔ واقعی صنعت دارو را در آن داشته؛ روایت فارغ‌التحصیلان</td></tr>
-        <tr><td>حضور بین‌المللی</td><td>آشنایی با ثبت دارو و استانداردهای بین‌المللی در دوره، برای هدف ۶۰ درصد فروش خارجی گروه</td></tr>
-      </tbody>
-    </table></div>
-  </section>
+<!-- STATEMENT -->
+<section class="band lime" aria-labelledby="h-success">
+  <div class="inner">
+    <div class="star-wrap" aria-hidden="true">
+      <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg"><g class="spin-star" style="transform-origin:120px 120px" stroke="#0b1530" stroke-width="32"><line x1="120" y1="120" x2="120" y2="210"/><line x1="30" y1="120" x2="210" y2="120"/><line x1="56" y1="56" x2="184" y2="184"/><line x1="56" y1="184" x2="184" y2="56"/></g></svg>
+    </div>
+    <div style="display:grid;gap:14px;min-width:0">
+      <h2 id="h-success" class="statement">اگر دانشجو بفهمد این مسیر را دوست ندارد، آن هم موفقیت است.</h2>
+      <p class="statement-sub">موفقیت یعنی در پایان دوره بداند کدام بخش این صنعت را دوست دارد و چرا. شغل در هلدینگ و استارتاپ در شتاب‌دهنده دو نتیجهٔ ممکن این تجربه‌اند، نه شرط موفقیت آن. کسی که فهمیده این مسیر برایش نیست، زودتر و ارزان‌تر فهمیده.</p>
+    </div>
+  </div>
+</section>
 
-  <section id="audience" aria-labelledby="h-audience">
-    <h2 id="h-audience">مخاطب</h2>
-    <p class="sub">دورهٔ اول با ۲۰ تا ۳۰ دانشجو از دانشکده‌های داروسازی تهران شروع می‌شود؛ این عدد پیشنهاد است و به ظرفیت شرکت‌های میزبان بستگی دارد. کنجکاوی و انگیزه برای تجربه مهم‌تر از معدل است و حداقل معدل تعیین نمی‌شود. دوره حضوری است، پس دورهٔ اول به دانشجویان نزدیک به سایت‌های شرکت‌ها محدود است.</p>
-    <div class="table-wrap"><table>
-      <thead><tr><th>اولویت</th><th>رشته و مقطع</th><th>تجربه‌ای که بیشتر به کارش می‌آید</th></tr></thead>
-      <tbody>
-        <tr><td class="num">۱</td><td>دکترای عمومی داروسازی، نیمهٔ دوم تحصیل</td><td>صنعت یا نوآوری</td></tr>
-        <tr><td class="num">۱</td><td>فارماسیوتیکس و شیمی دارویی، ارشد و دکتری تخصصی</td><td>نوآوری و تحقیق و توسعه</td></tr>
-        <tr><td class="num">۲</td><td>شیمی، مهندسی شیمی، بیوتکنولوژی</td><td>صنعت: تولید و کنترل کیفیت</td></tr>
-        <tr><td class="num">۳</td><td>مدیریت، اقتصاد، مهندسی صنایع</td><td>فقط در تیم‌های میان‌رشته‌ای مسیر نوآوری</td></tr>
-      </tbody>
-    </table></div>
-  </section>
+<!-- WHY -->
+<section id="why" class="band night" aria-labelledby="h-why">
+  <div class="inner split">
+    <div class="art" aria-hidden="true">
+      <svg viewBox="0 0 800 560" xmlns="http://www.w3.org/2000/svg" font-family="Vazirmatn, Tahoma, sans-serif">
+        <defs><clipPath id="vc"><circle cx="290" cy="280" r="250"/></clipPath></defs>
+        <g class="slide-l"><circle cx="290" cy="280" r="250" fill="#cedc45" fill-opacity=".1" stroke="#cedc45" stroke-width="3"/></g>
+        <g class="slide-r"><circle cx="510" cy="280" r="250" fill="#3fd6e8" fill-opacity=".1" stroke="#3fd6e8" stroke-width="3"/></g>
+        <circle class="glow" cx="510" cy="280" r="250" fill="#f2f4ea" clip-path="url(#vc)"/>
+        <g class="spin-slow" style="transform-origin:400px 280px;animation-duration:9s"><circle cx="400" cy="74" r="8" fill="#cedc45"/><circle cx="400" cy="486" r="6" fill="#3fd6e8"/></g>
+        <g text-anchor="middle" font-weight="800">
+          <text x="160" y="272" font-size="30" fill="#cedc45">گلرنگ</text><text x="160" y="310" font-size="30" fill="#cedc45">ونچرز</text>
+          <text x="640" y="272" font-size="30" fill="#3fd6e8">هلدینگ</text><text x="640" y="310" font-size="30" fill="#3fd6e8">دارویی</text>
+          <text x="400" y="300" font-size="110" font-weight="900" fill="#f2f4ea">۵</text>
+          <text x="400" y="344" font-size="22" fill="#f2f4ea">هدف مشترک</text>
+        </g>
+      </svg>
+    </div>
+    <div style="display:grid;gap:22px;min-width:0">
+      <p class="eyebrow">چرا با هم</p>
+      <h2 id="h-why">پنج هدف مشترک، یک برنامه</h2>
+      <ol class="goals">
+        <li><b>هم‌افزایی با زنجیرهٔ ارزش</b><span>مسئله‌های دوره از شرکت‌های هلدینگ می‌آیند، نه از کتاب درسی</span></li>
+        <li><b>تبدیل پژوهش به کسب‌وکار</b><span>مسیر نوآوری با ورودی مستقیم به مرکز نوآوری و شتاب‌دهنده</span></li>
+        <li><b>تأمین نیروی متخصص</b><span>کسی که با تجربه این مسیر را انتخاب کرده، انتخابش آگاهانه‌تر است و ماندگارتر</span></li>
+        <li><b>تصویر تازهٔ گلرنگ</b><span>از «کالای مصرفی» به «دارو و فناوری»؛ جایی که دانشجو اولین تجربهٔ واقعی صنعت دارو را داشته</span></li>
+        <li><b>حضور بین‌المللی</b><span>آشنایی با ثبت دارو و استاندارد جهانی، برای هدف ۶۰٪ فروش خارجی گروه</span></li>
+      </ol>
+      <p class="note-strip">همکاری از قبل هست: شتاب‌دهی داروهای آهسته‌رهش و پپتیدی با واریان فارمد، و ابیان فارمد و سروش مانا فارمد در سبد هر دو.</p>
+    </div>
+  </div>
+</section>
 
-  <section id="value" aria-labelledby="h-value">
-    <h2 id="h-value">ارزش برای دانشجو</h2>
-    <p class="quote">«پیش از انتخاب، تجربه کن: مسیر یک دارو را از مولکول تا قفسهٔ داروخانه ببین و بفهم کدام بخشش را دوست داری.»</p>
-    <ol class="gets">
-      <li><h3>دید کل زنجیره</h3><p>با تور ۲ تا ۳ روزه از مادهٔ اولیه، فرمولاسیون، کنترل کیفیت و ثبت دارو تا پخش.</p></li>
-      <li><h3>کار واقعی کنار منتور</h3><p>یک مسئلهٔ واقعی از شرکت‌های هلدینگ و یک منتور که هر هفته وقت می‌گذارد.</p></li>
-      <li class="key"><h3>کشف علاقه</h3><p>در پایان دوره می‌داند کدام بخش را دوست دارد. برترها بورسیه، پیشنهاد کار یا ورود به شتاب‌دهنده می‌گیرند.</p></li>
-      <li><h3>کمک‌هزینه در طول دوره</h3><p>مبلغ باید تصمیم گرفته شود.</p></li>
-    </ol>
-    <h3>تمایز با گزینه‌های دیگر دانشجو</h3>
+<!-- AUDIENCE -->
+<section id="audience" class="band paper" aria-labelledby="h-aud">
+  <div class="inner split">
+    <div style="display:grid;gap:22px;min-width:0">
+      <p class="eyebrow">مخاطب</p>
+      <h2 id="h-aud">برای چه کسی؟</h2>
+      <ul class="prio">
+        <li><span class="dot p1" aria-hidden="true"></span><b>اولویت ۱ · داروسازی</b><span>دکترای عمومی در نیمهٔ دوم تحصیل، فارماسیوتیکس و شیمی دارویی؛ صنعت یا نوآوری</span></li>
+        <li><span class="dot p2" aria-hidden="true"></span><b>اولویت ۲ · علوم پایه و مهندسی</b><span>شیمی، مهندسی شیمی، بیوتکنولوژی؛ تجربهٔ تولید و کنترل کیفیت</span></li>
+        <li><span class="dot p3" aria-hidden="true"></span><b>اولویت ۳ · مدیریت و اقتصاد</b><span>فقط در تیم‌های میان‌رشته‌ای مسیر نوآوری</span></li>
+      </ul>
+      <div class="count"><span class="big">۲۰ تا ۳۰</span><p>دانشجو در دورهٔ اول، از دانشکده‌های تهران. کنجکاوی و انگیزه برای تجربه مهم‌تر از معدل است؛ حداقل معدل تعیین نمی‌شود.</p></div>
+    </div>
+    <div class="art" aria-hidden="true">
+      <svg viewBox="0 0 700 620" xmlns="http://www.w3.org/2000/svg" font-family="Vazirmatn, Tahoma, sans-serif">
+        <circle cx="350" cy="310" r="300" style="fill:var(--ink);fill-opacity:.05;stroke:var(--ink);stroke-opacity:.35" stroke-width="2"/>
+        <circle cx="350" cy="310" r="210" fill="#3fd6e8" fill-opacity=".28" style="stroke:var(--teal)" stroke-width="2"/>
+        <circle cx="350" cy="310" r="120" fill="#cedc45"/>
+        <circle class="ripple" cx="350" cy="310" r="300" fill="none" style="stroke:var(--teal)" stroke-width="3"/>
+        <circle class="ripple" cx="350" cy="310" r="300" fill="none" style="stroke:var(--teal);animation-delay:1.8s" stroke-width="3"/>
+        <g class="spin-slow" style="transform-origin:350px 310px;animation-duration:12s;animation-direction:reverse"><circle cx="350" cy="10" r="10" style="fill:var(--ink)"/><circle cx="560" cy="310" r="8" style="fill:var(--teal)"/></g>
+        <g text-anchor="middle" font-weight="900" font-size="44">
+          <text x="350" y="326" fill="#0b1530">۱</text>
+          <text x="350" y="166" style="fill:var(--ink)">۲</text>
+          <text x="350" y="62" style="fill:var(--ink)">۳</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE -->
+<section id="value" class="band night" aria-labelledby="h-val">
+  <div class="inner">
+    <p class="eyebrow">ارزش برای دانشجو · تور ۲ تا ۳ روزهٔ کل زنجیره</p>
+    <h2 id="h-val">از مولکول تا قفسهٔ داروخانه</h2>
+    <div class="fig" aria-hidden="true">
+      <svg viewBox="0 0 1664 220" xmlns="http://www.w3.org/2000/svg" style="min-width:0">
+        <line x1="1640" y1="110" x2="30" y2="110" stroke="#24396e" stroke-width="6" stroke-linecap="round"/>
+        <line class="ln-flow" x1="1640" y1="110" x2="30" y2="110" style="stroke-width:6;stroke-dasharray:4 18;animation-duration:1s"/>
+        <circle class="ping" cx="1500" cy="110" r="62" fill="none" stroke="#cedc45" stroke-width="4" style="animation-delay:.5s"/>
+        <circle class="ping" cx="1060" cy="110" r="62" fill="none" stroke="#cedc45" stroke-width="4" style="animation-delay:2.15s"/>
+        <circle class="ping" cx="620" cy="110" r="62" fill="none" stroke="#cedc45" stroke-width="4" style="animation-delay:3.8s"/>
+        <circle class="ping" cx="180" cy="110" r="62" fill="none" stroke="#cedc45" stroke-width="4" style="animation-delay:5.45s"/>
+        <g stroke="#3fd6e8" stroke-width="4" fill="#13224a"><circle cx="1500" cy="110" r="62"/><circle cx="1060" cy="110" r="62"/><circle cx="620" cy="110" r="62"/><circle cx="180" cy="110" r="62"/></g>
+        <g fill="none" stroke="#cedc45" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+          <polygon points="1500,82 1524,96 1524,124 1500,138 1476,124 1476,96"/>
+          <g transform="translate(1060 110) rotate(-30)"><rect x="-34" y="-15" width="68" height="30" rx="15"/><line x1="0" y1="-15" x2="0" y2="15"/></g>
+          <circle cx="612" cy="102" r="20"/><line x1="626" y1="116" x2="646" y2="136"/>
+          <rect x="148" y="88" width="44" height="34" rx="4"/><path d="M192 98 H208 L218 110 V122 H192"/><circle cx="162" cy="128" r="7" fill="#13224a"/><circle cx="204" cy="128" r="7" fill="#13224a"/>
+        </g>
+        <circle r="16" fill="#cedc45"><animateMotion dur="6s" repeatCount="indefinite" path="M1640 110 H30"/></circle>
+        <circle r="30" fill="#cedc45" opacity=".25"><animateMotion dur="6s" repeatCount="indefinite" path="M1640 110 H30"/></circle>
+      </svg>
+    </div>
+    <div class="stations">
+      <div><b>مادهٔ اولیه</b><span>مادهٔ مؤثر دارویی (API)</span></div>
+      <div><b>فرمولاسیون</b><span>قرص، کپسول، آهسته‌رهش</span></div>
+      <div><b>کیفیت و ثبت دارو</b><span>کنترل کیفیت و مجوز</span></div>
+      <div><b>پخش</b><span>تا قفسهٔ داروخانه</span></div>
+    </div>
+    <p class="quote">«پیش از انتخاب، تجربه کن: مسیر یک دارو را ببین و بفهم کدام بخشش را دوست داری.»</p>
+    <ul class="gets">
+      <li><svg viewBox="0 0 40 40" fill="none" stroke="#cedc45" stroke-width="2.5" aria-hidden="true"><circle cx="20" cy="20" r="15"/><path d="M5 20h30M20 5c5 4 7 10 7 15s-2 11-7 15c-5-4-7-10-7-15s2-11 7-15z"/></svg><h3>دید کل زنجیره</h3><p>با تور سایت‌های هلدینگ، از مادهٔ اولیه تا پخش.</p></li>
+      <li><svg viewBox="0 0 40 40" fill="none" stroke="#cedc45" stroke-width="2.5" aria-hidden="true"><circle cx="14" cy="14" r="6"/><circle cx="28" cy="16" r="5"/><path d="M4 34c1-7 5-11 10-11s9 4 10 11M22 34c1-5 3-8 6-8s6 3 7 8"/></svg><h3>کار واقعی کنار منتور</h3><p>یک مسئلهٔ واقعی از شرکت‌های هلدینگ و منتوری که هر هفته وقت می‌گذارد.</p></li>
+      <li class="key"><svg viewBox="0 0 40 40" fill="none" stroke="#0b1530" stroke-width="2.5" aria-hidden="true"><circle cx="20" cy="20" r="15"/><path d="M26 14l-4 9-9 4 4-9z"/></svg><h3>کشف علاقه</h3><p>در پایان می‌داند واقعاً چه دوست دارد. برترها بورسیه، کار یا شتاب‌دهنده می‌گیرند.</p></li>
+      <li><svg viewBox="0 0 40 40" fill="none" stroke="#cedc45" stroke-width="2.5" aria-hidden="true"><path d="M20 4l4.7 9.6 10.6 1.5-7.7 7.5 1.8 10.5L20 28l-9.4 5.1 1.8-10.5-7.7-7.5 10.6-1.5z"/></svg><h3>کمک‌هزینه</h3><p>در طول دوره؛ مبلغ باید تصمیم گرفته شود.</p></li>
+    </ul>
     <div class="table-wrap"><table>
-      <thead><tr><th>گزینه</th><th>چیزی که کم دارد</th><th>چیزی که GFS دارو اضافه می‌کند</th></tr></thead>
+      <thead><tr><th>گزینهٔ دیگر دانشجو</th><th>چیزی که کم دارد</th><th>چیزی که GFS دارو اضافه می‌کند</th></tr></thead>
       <tbody>
         <tr><td>کلاس و دورهٔ آموزشی</td><td>دانش تئوری که در دسترس همه است، بدون تجربه</td><td>کار واقعی روی مسئلهٔ صنعت</td></tr>
         <tr><td>کارآموزی معمول در یک کارخانه</td><td>دید محدود به یک بخش، بدون منتور</td><td>تور کل زنجیره، پروژه و منتور</td></tr>
@@ -226,138 +422,182 @@ footer a { color: var(--accent); }
         <tr><td>فکورژن (فکور صنعت)</td><td>فقط مسیر شغلی</td><td>تجربهٔ صنعت و نوآوری، و مسیر سرمایه</td></tr>
       </tbody>
     </table></div>
-  </section>
+  </div>
+</section>
 
-  <section id="model" aria-labelledby="h-model">
-    <h2 id="h-model">مدل برنامه: تجربه، کشف، انتخاب</h2>
-    <p class="sub">دانشجو از رویداد معرفی وارد می‌شود، در دوره تجربه می‌کند و در روز نمایش با چیزی که کشف کرده مسیرش را انتخاب می‌کند. هر سه نتیجه، از جمله انتخاب آگاهانهٔ مسیری دیگر، موفقیت است.</p>
-    <figure>
-      <div class="fig-wrap">
-        <svg viewBox="0 0 760 380" role="img" aria-label="تجربه در مرکز برنامه است و به سه انتخاب آگاهانه می‌رسد" direction="rtl" font-size="13">
-          <defs><marker id="m-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="svg-arrow"/></marker></defs>
-          <text x="736" y="34" font-size="15" font-weight="700" class="svg-ink">تجربه در مرکز است؛ هر سه خروجی، انتخابی آگاهانه‌اند</text>
-          <g text-anchor="middle" font-size="11.5" font-weight="700" class="svg-lime">
-            <text x="656" y="66">ورود</text>
-            <text x="288" y="66">تجربه</text>
-            <text x="104" y="66">کشف</text>
-          </g>
-          <g class="svg-line">
-            <path d="M580 124H552" marker-end="url(#m-arrow)"/>
-            <path d="M396 124H368" marker-end="url(#m-arrow)"/>
-            <path d="M212 124H184" marker-end="url(#m-arrow)"/>
-            <path d="M104 168V196H584V224" marker-end="url(#m-arrow)"/>
-            <path d="M344 196V224" marker-end="url(#m-arrow)"/>
-            <path d="M104 196V224" marker-end="url(#m-arrow)"/>
-            <path d="M584 320V340H748V124H736" marker-end="url(#m-arrow)"/>
-          </g>
-          <g text-anchor="middle">
-            <rect x="580" y="80" width="152" height="88" rx="8" class="svg-box"/>
-            <text x="656" y="108" font-weight="700" class="svg-ink">رویداد معرفی</text>
-            <text x="656" y="128" font-size="11.5" class="svg-muted">۳ ساعت در دانشکده‌ها</text>
-            <text x="656" y="144" font-size="11.5" class="svg-muted">فراخوان از مسیر هلدینگ</text>
-
-            <rect x="396" y="80" width="152" height="88" rx="8" class="svg-box"/>
-            <text x="472" y="108" font-weight="700" class="svg-ink">انتخاب شرکت‌کننده</text>
-            <text x="472" y="128" font-size="11.5" class="svg-muted">انگیزه‌نامه، یک مسئلهٔ</text>
-            <text x="472" y="144" font-size="11.5" class="svg-muted">دارویی، مصاحبه</text>
-
-            <rect x="212" y="80" width="152" height="88" rx="8" class="svg-key"/>
-            <text x="288" y="108" font-weight="800" class="svg-ink">دورهٔ تجربه‌محور</text>
-            <text x="288" y="128" font-size="11.5" class="svg-ink">تور ۲ تا ۳ روزهٔ زنجیره</text>
-            <text x="288" y="144" font-size="11.5" class="svg-ink">سپس ۸ هفته پروژه</text>
-
-            <rect x="28" y="80" width="152" height="88" rx="8" class="svg-box"/>
-            <text x="104" y="108" font-weight="700" class="svg-ink">روز نمایش</text>
-            <text x="104" y="128" font-size="11.5" class="svg-muted">ارائهٔ تجربه و خروجی</text>
-            <text x="104" y="144" font-size="11.5" class="svg-muted">به هلدینگ و مرکز نوآوری</text>
-          </g>
-          <text x="736" y="216" font-size="11.5" font-weight="700" class="svg-lime">انتخاب</text>
-          <g text-anchor="middle">
-            <rect x="500" y="224" width="168" height="96" rx="8" class="svg-other"/>
-            <text x="584" y="252" font-weight="700" class="svg-ink">مسیری دیگر</text>
-            <text x="584" y="272" font-size="11.5" class="svg-muted">انتخاب آگاهانه، با تجربه</text>
-            <text x="584" y="288" font-size="11.5" class="svg-muted">«فهمیدم این را نمی‌خواهم»</text>
-
-            <rect x="260" y="224" width="168" height="96" rx="8" class="svg-out"/>
-            <text x="344" y="252" font-weight="700" class="svg-ink">مسیر شغلی</text>
-            <text x="344" y="272" font-size="11.5" class="svg-ink">بورسیه یا پیشنهاد کار</text>
-            <text x="344" y="288" font-size="11.5" class="svg-ink">در شرکت‌های زیرمجموعه</text>
-            <text x="344" y="306" font-size="11.5" class="svg-muted">مالک: هلدینگ دارویی</text>
-
-            <rect x="20" y="224" width="168" height="96" rx="8" class="svg-out"/>
-            <text x="104" y="252" font-weight="700" class="svg-ink">مسیر کارآفرینی</text>
-            <text x="104" y="272" font-size="11.5" class="svg-ink">شتاب‌دهندهٔ دارویی</text>
-            <text x="104" y="288" font-size="11.5" class="svg-ink">و مرکز نوآوری</text>
-            <text x="104" y="306" font-size="11.5" class="svg-muted">مالک: گلرنگ ونچرز</text>
-          </g>
-          <text x="736" y="362" font-size="11.5" class="svg-muted">فارغ‌التحصیلان، سفیر و منتور دورهٔ بعد</text>
-        </svg>
-      </div>
-      <figcaption>مدل GFS دارو · تجربه در مرکز، سه خروجی آگاهانه، و فارغ‌التحصیلانی که دورهٔ بعد را می‌آورند</figcaption>
-    </figure>
-    <div class="tracks">
-      <div class="track">
-        <span class="kicker">مسیر صنعت</span>
-        <h3>پروژه در یک شرکت میزبان</h3>
-        <p>در بخشی که دانشجو بعد از تور انتخاب کرده؛ کار عملی در کنترل کیفیت یا تحقیق و توسعه، کنار یک منتور.</p>
-        <p class="out">خروجی: تجربهٔ کار؛ برترها پیشنهاد کار</p>
-      </div>
-      <div class="track">
-        <span class="kicker">مسیر نوآوری</span>
-        <h3>تیم‌های ۳ تا ۴ نفرهٔ میان‌رشته‌ای</h3>
-        <p>روی یک مسئلهٔ واقعی هلدینگ، مثلاً در حوزهٔ رهایش کنترل‌شده یا پپتید که اولویت‌های فعلی‌اند.</p>
-        <p class="out">خروجی: تجربهٔ ساختن؛ طرح خوب به شتاب‌دهنده</p>
-      </div>
+<!-- MODEL -->
+<section id="model" class="band night" style="padding-top:0" aria-labelledby="h-model">
+  <div class="inner">
+    <p class="eyebrow">مدل برنامه</p>
+    <h2 id="h-model">تجربه، کشف، انتخاب</h2>
+    <p class="lead">دانشجو از رویداد معرفی وارد می‌شود، در دوره تجربه می‌کند و در روز نمایش با چیزی که کشف کرده مسیرش را انتخاب می‌کند. هر سه خروجی، از جمله انتخاب آگاهانهٔ مسیری دیگر، موفقیت است.</p>
+    <div class="fig">
+      <svg viewBox="0 0 760 390" role="img" aria-label="تجربه در مرکز برنامه است و به سه انتخاب آگاهانه می‌رسد" direction="rtl" font-size="13" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="m-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="arrowhead"/></marker></defs>
+        <g text-anchor="middle" font-size="12" font-weight="800" class="t-lime">
+          <text x="656" y="58">ورود</text><text x="288" y="58">تجربه</text><text x="104" y="58">کشف</text>
+        </g>
+        <g class="ln">
+          <path d="M580 116H552" marker-end="url(#m-arrow)"/><path d="M396 116H368" marker-end="url(#m-arrow)"/><path d="M212 116H184" marker-end="url(#m-arrow)"/>
+          <path d="M104 160V188H584V216" marker-end="url(#m-arrow)"/><path d="M344 188V216" marker-end="url(#m-arrow)"/><path d="M104 188V216" marker-end="url(#m-arrow)"/>
+          <path d="M584 312V334H748V116H736" marker-end="url(#m-arrow)"/>
+        </g>
+        <rect class="glow" x="200" y="60" width="176" height="112" rx="16" fill="#cedc45" style="filter:blur(10px)"/>
+        <g text-anchor="middle">
+          <rect x="580" y="72" width="152" height="88" rx="12" class="b-box"/>
+          <text x="656" y="100" font-weight="800" class="t-ink">رویداد معرفی</text>
+          <text x="656" y="120" font-size="11.5" class="t-muted">۳ ساعت در دانشکده‌ها</text>
+          <text x="656" y="136" font-size="11.5" class="t-muted">فراخوان از مسیر هلدینگ</text>
+          <rect x="396" y="72" width="152" height="88" rx="12" class="b-box"/>
+          <text x="472" y="100" font-weight="800" class="t-ink">انتخاب شرکت‌کننده</text>
+          <text x="472" y="120" font-size="11.5" class="t-muted">انگیزه‌نامه، یک مسئلهٔ</text>
+          <text x="472" y="136" font-size="11.5" class="t-muted">دارویی، مصاحبه</text>
+          <rect x="212" y="72" width="152" height="88" rx="12" class="b-key"/>
+          <text x="288" y="100" font-weight="900" class="t-dark">دورهٔ تجربه‌محور</text>
+          <text x="288" y="120" font-size="11.5" class="t-dark">تور ۲ تا ۳ روزهٔ زنجیره</text>
+          <text x="288" y="136" font-size="11.5" class="t-dark">سپس ۸ هفته پروژه</text>
+          <rect x="28" y="72" width="152" height="88" rx="12" class="b-box"/>
+          <text x="104" y="100" font-weight="800" class="t-ink">روز نمایش</text>
+          <text x="104" y="120" font-size="11.5" class="t-muted">ارائهٔ تجربه و خروجی</text>
+          <text x="104" y="136" font-size="11.5" class="t-muted">به هلدینگ و مرکز نوآوری</text>
+        </g>
+        <text x="736" y="210" font-size="12" font-weight="800" class="t-lime">انتخاب</text>
+        <g text-anchor="middle">
+          <rect x="500" y="216" width="168" height="96" rx="12" class="b-other"/>
+          <text x="584" y="244" font-weight="800" class="t-ink">مسیری دیگر</text>
+          <text x="584" y="264" font-size="11.5" class="t-muted">انتخاب آگاهانه، با تجربه</text>
+          <text x="584" y="280" font-size="11.5" class="t-muted">«فهمیدم این را نمی‌خواهم»</text>
+          <rect x="260" y="216" width="168" height="96" rx="12" class="b-out"/>
+          <text x="344" y="244" font-weight="800" class="t-ink">مسیر شغلی</text>
+          <text x="344" y="264" font-size="11.5" class="t-ink">بورسیه یا پیشنهاد کار</text>
+          <text x="344" y="280" font-size="11.5" class="t-ink">در شرکت‌های زیرمجموعه</text>
+          <text x="344" y="298" font-size="11.5" class="t-muted">مالک: هلدینگ دارویی</text>
+          <rect x="20" y="216" width="168" height="96" rx="12" class="b-out"/>
+          <text x="104" y="244" font-weight="800" class="t-ink">مسیر کارآفرینی</text>
+          <text x="104" y="264" font-size="11.5" class="t-ink">شتاب‌دهندهٔ دارویی</text>
+          <text x="104" y="280" font-size="11.5" class="t-ink">و مرکز نوآوری</text>
+          <text x="104" y="298" font-size="11.5" class="t-muted">مالک: گلرنگ ونچرز</text>
+        </g>
+        <text x="736" y="358" font-size="11.5" class="t-muted">فارغ‌التحصیلان، سفیر و منتور دورهٔ بعد</text>
+        <g fill="#cedc45">
+          <circle r="6"><animateMotion dur="2.2s" repeatCount="indefinite" path="M580 116H552"/></circle>
+          <circle r="6"><animateMotion dur="2.2s" begin=".5s" repeatCount="indefinite" path="M396 116H368"/></circle>
+          <circle r="6"><animateMotion dur="2.2s" begin="1s" repeatCount="indefinite" path="M212 116H184"/></circle>
+        </g>
+        <g fill="#3fd6e8">
+          <circle r="5"><animateMotion dur="3s" repeatCount="indefinite" path="M104 160V188H584V216"/></circle>
+          <circle r="5"><animateMotion dur="1.6s" begin=".4s" repeatCount="indefinite" path="M104 160V188H344V216"/></circle>
+          <circle r="5"><animateMotion dur="1.2s" begin=".8s" repeatCount="indefinite" path="M104 160V216"/></circle>
+        </g>
+        <circle r="5" fill="#f2f4ea" opacity=".8"><animateMotion dur="4s" repeatCount="indefinite" path="M584 312V334H748V116H736"/></circle>
+      </svg>
     </div>
-  </section>
+    <div class="tracks">
+      <div class="track"><span class="tag">مسیر صنعت</span><h3>پروژه در یک شرکت میزبان</h3><p>در بخشی که دانشجو بعد از تور انتخاب کرده؛ کار عملی در کنترل کیفیت یا تحقیق و توسعه، کنار یک منتور.</p><p class="out">خروجی: تجربهٔ کار؛ برترها پیشنهاد کار</p></div>
+      <div class="track inno"><span class="tag">مسیر نوآوری</span><h3>تیم‌های ۳ تا ۴ نفرهٔ میان‌رشته‌ای</h3><p>روی یک مسئلهٔ واقعی هلدینگ، مثلاً رهایش کنترل‌شده یا پپتید که اولویت‌های فعلی‌اند.</p><p class="out">خروجی: تجربهٔ ساختن؛ طرح خوب به شتاب‌دهنده</p></div>
+    </div>
+  </div>
+</section>
 
-  <section id="roles" aria-labelledby="h-roles">
-    <h2 id="h-roles">نقش‌ها و حاکمیت</h2>
-    <p class="sub">یک کمیتهٔ راهبری دونفره (یک نفر از هر طرف) تصمیم‌های اصلی را می‌گیرد؛ اجرای روزانه با تیم GFS در گلرنگ ونچرز است. مالکیت فکری طرح‌های دانشجویی باید قبل از شروع دوره مکتوب شود.</p>
+<!-- ROLES -->
+<section id="roles" class="band paper" aria-labelledby="h-roles">
+  <div class="inner">
+    <p class="eyebrow">نقش‌ها و حاکمیت</p>
+    <h2 id="h-roles">چه کسی چه می‌کند</h2>
+    <p class="lead">یک کمیتهٔ راهبری دونفره (یک نفر از هر طرف) تصمیم‌های اصلی را می‌گیرد؛ اجرای روزانه با تیم GFS در گلرنگ ونچرز است. مالکیت فکری طرح‌های دانشجویی باید قبل از شروع دوره مکتوب شود.</p>
+    <div class="fig" style="background:var(--night)">
+      <svg viewBox="0 0 760 400" role="img" aria-label="شش نقش گرد GFS دارو" direction="rtl" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#2e4478" stroke-width="2">
+          <line x1="380" y1="200" x2="590" y2="70"/><line x1="380" y1="200" x2="640" y2="200"/><line x1="380" y1="200" x2="590" y2="330"/>
+          <line x1="380" y1="200" x2="170" y2="330"/><line x1="380" y1="200" x2="120" y2="200"/><line x1="380" y1="200" x2="170" y2="70"/>
+        </g>
+        <g fill="#cedc45">
+          <circle r="5"><animateMotion dur="2.4s" repeatCount="indefinite" path="M380 200 L590 70"/></circle>
+          <circle r="5"><animateMotion dur="2.4s" begin=".4s" repeatCount="indefinite" path="M380 200 L640 200"/></circle>
+          <circle r="5"><animateMotion dur="2.4s" begin=".8s" repeatCount="indefinite" path="M380 200 L590 330"/></circle>
+        </g>
+        <g fill="#3fd6e8">
+          <circle r="5"><animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite" path="M380 200 L170 330"/></circle>
+          <circle r="5"><animateMotion dur="2.4s" begin="1.6s" repeatCount="indefinite" path="M380 200 L120 200"/></circle>
+          <circle r="5"><animateMotion dur="2.4s" begin="2s" repeatCount="indefinite" path="M380 200 L170 70"/></circle>
+        </g>
+        <circle class="breath" cx="380" cy="200" r="92" fill="#cedc45"/>
+        <circle class="spin-slow" style="transform-origin:380px 200px;animation-duration:20s" cx="380" cy="200" r="98" fill="none" stroke="#cedc45" stroke-width="2" stroke-dasharray="8 12"/>
+        <circle cx="380" cy="200" r="80" fill="#13224a" stroke="#cedc45" stroke-width="3"/>
+        <g text-anchor="middle">
+          <text x="380" y="198" font-size="22" font-weight="900" class="t-ink">GFS دارو</text>
+          <text x="380" y="222" font-size="12" class="t-lime">کمیتهٔ راهبری دونفره</text>
+        </g>
+        <g text-anchor="middle">
+          <rect x="510" y="38" width="200" height="64" rx="14" fill="#13224a" stroke="#cedc45" stroke-width="2"/>
+          <text x="610" y="64" font-size="15" font-weight="800" class="t-lime">گلرنگ ونچرز</text>
+          <text x="610" y="86" font-size="11.5" class="t-muted">طراحی، اجرا، انتخاب، شتاب‌دهی</text>
+          <rect x="540" y="168" width="210" height="64" rx="14" fill="#13224a" stroke="#3fd6e8" stroke-width="2"/>
+          <text x="645" y="194" font-size="15" font-weight="800" fill="#3fd6e8">هلدینگ دارویی</text>
+          <text x="645" y="216" font-size="11.5" class="t-muted">مسئله‌ها، منتورها، بورسیه و کار</text>
+          <rect x="510" y="298" width="200" height="64" rx="14" fill="#13224a" stroke="#2e4478" stroke-width="2"/>
+          <text x="610" y="324" font-size="15" font-weight="800" class="t-ink">شرکت‌های میزبان</text>
+          <text x="610" y="346" font-size="11.5" class="t-muted">میزبانی تور و پروژه‌ها</text>
+          <rect x="50" y="298" width="200" height="64" rx="14" fill="#13224a" stroke="#2e4478" stroke-width="2"/>
+          <text x="150" y="324" font-size="15" font-weight="800" class="t-ink">منتورها</text>
+          <text x="150" y="346" font-size="11.5" class="t-muted">هر منتور ۳ تا ۴ دانشجو، هفتگی</text>
+          <rect x="10" y="168" width="210" height="64" rx="14" fill="#13224a" stroke="#2e4478" stroke-width="2"/>
+          <text x="115" y="194" font-size="15" font-weight="800" class="t-ink">مرکز نوآوری</text>
+          <text x="115" y="216" font-size="11.5" class="t-muted">داوری طرح‌ها در روز نمایش</text>
+          <rect x="50" y="38" width="200" height="64" rx="14" fill="#13224a" stroke="#2e4478" stroke-width="2"/>
+          <text x="150" y="64" font-size="15" font-weight="800" class="t-ink">دانشکده‌های داروسازی</text>
+          <text x="150" y="86" font-size="11.5" class="t-muted">اطلاع‌رسانی فراخوان</text>
+        </g>
+      </svg>
+    </div>
     <div class="table-wrap"><table>
-      <thead><tr><th>بازیگر</th><th>مسئولیت</th></tr></thead>
+      <thead><tr><th>بازیگر</th><th>مسئولیت کامل</th></tr></thead>
       <tbody>
         <tr><td>گلرنگ ونچرز (تیم GFS)</td><td>طراحی و اجرای برنامه، انتخاب شرکت‌کنندگان، آموزش کارآفرینی، مسیر شتاب‌دهی و سرمایه</td></tr>
         <tr><td>سرمایه‌گذاری دارویی گلرنگ</td><td>تعریف مسئله‌ها، معرفی منتورها، هماهنگی شرکت‌های زیرمجموعه، ارتباط با دانشگاه‌ها، بورسیه و پیشنهاد کار برای برترها</td></tr>
         <tr><td>شرکت‌های میزبان (مثل فاران شیمی، واریان فارمد، سلامت پخش هستی)</td><td>میزبانی تور و پروژه‌ها، هماهنگی دسترسی و ایمنی</td></tr>
-        <tr><td>منتورها</td><td>یک منتور برای هر ۳ تا ۴ دانشجو، جلسهٔ هفتگی، کمک به دانشجو برای فهمیدن اینکه چه دوست دارد</td></tr>
-        <tr><td>مرکز نوآوری دارو و سلامت</td><td>داوری طرح‌های مسیر نوآوری در روز نمایش</td></tr>
+        <tr><td>منتورها</td><td>جلسهٔ هفتگی، کمک به دانشجو برای فهمیدن اینکه چه دوست دارد</td></tr>
         <tr><td>دانشکده‌های داروسازی</td><td>اطلاع‌رسانی فراخوان، از طریق ارتباط هلدینگ</td></tr>
       </tbody>
     </table></div>
-  </section>
+  </div>
+</section>
 
-  <section id="recruit" aria-labelledby="h-recruit">
-    <h2 id="h-recruit">جذب و ارتباطات</h2>
+<!-- RECRUIT -->
+<section id="recruit" class="band paper" style="padding-top:0" aria-labelledby="h-rec">
+  <div class="inner split">
     <div class="message">
-      <span class="kicker">پیام اصلی</span>
-      <strong>«پیش از انتخاب، تجربه کن.»</strong>
-      <p>پیام اصلی تجربه است، نه وعدهٔ استخدام. فرصت بورسیه، کار و شتاب‌دهی برای برترها هم گفته می‌شود، ولی تیتر پیام نیست.</p>
+      <p class="eyebrow">جذب و ارتباطات · پیام اصلی</p>
+      <h2 id="h-rec"><strong>«پیش از انتخاب، تجربه کن.»</strong></h2>
+      <p class="lead">پیام اصلی تجربه است، نه وعدهٔ استخدام. فرصت بورسیه، کار و شتاب‌دهی برای برترها هم گفته می‌شود، ولی تیتر نیست. کانال اصلی، ارتباطی است که هلدینگ همین حالا با دانشکده‌های داروسازی دارد؛ کانال یا رویداد بیرونی تازه‌ای لازم نیست.</p>
     </div>
-    <p class="sub">کانال اصلی، ارتباطی است که هلدینگ دارویی همین حالا با دانشکده‌های داروسازی دارد؛ برای جذب به کانال یا رویداد بیرونی تازه‌ای نیاز نیست.</p>
-    <div class="table-wrap"><table>
+    <div class="table-wrap"><table style="min-width:0">
       <thead><tr><th>کانال</th><th>نقش در جذب</th></tr></thead>
       <tbody>
-        <tr><td>ارتباط هلدینگ با دانشکده‌ها</td><td>انتشار رسمی فراخوان در دانشکده‌های داروسازی</td></tr>
-        <tr><td>رویداد ۳ ساعتهٔ معرفی</td><td>در دانشکده‌ها، با کار گروهی روی یک مسئلهٔ واقعی تا دانشجو طعم تجربه را همان‌جا بچشد</td></tr>
-        <tr><td>سفیرهای دانشجویی و فارغ‌التحصیلان</td><td>روایت تجربهٔ خودشان، از دورهٔ دوم به بعد</td></tr>
-        <tr><td>شبکه‌های اجتماعی گلرنگ و لینکدین</td><td>روایت منتورها و شرکت‌کنندگان</td></tr>
+        <tr><td>ارتباط هلدینگ با دانشکده‌ها</td><td>انتشار رسمی فراخوان</td></tr>
+        <tr><td>رویداد ۳ ساعتهٔ معرفی</td><td>کار گروهی روی یک مسئلهٔ واقعی، تا دانشجو طعم تجربه را همان‌جا بچشد</td></tr>
+        <tr><td>سفیرها و فارغ‌التحصیلان</td><td>روایت تجربهٔ خودشان، از دورهٔ دوم به بعد</td></tr>
+        <tr><td>شبکه‌های اجتماعی و لینکدین</td><td>روایت منتورها و شرکت‌کنندگان</td></tr>
         <tr><td>رسانه‌های دارویی و اقتصادی</td><td>خبر شروع و اختتامیه</td></tr>
       </tbody>
     </table></div>
-  </section>
+  </div>
+</section>
 
-  <section id="kpis" aria-labelledby="h-kpis">
-    <h2 id="h-kpis">معیارهای موفقیت</h2>
-    <p class="sub">معیار اصلی این است که دانشجو با این تجربه بفهمد واقعاً چه دوست دارد؛ آن را با یک پرسش‌نامهٔ کوتاه پیش و پس از دوره می‌سنجیم. بورسیه و پیشنهاد کار هم کنارش سنجیده می‌شود، چون هدف هلدینگ تأمین نیروست. همهٔ عددها پیشنهاد برای دورهٔ اول است و باید در کمیتهٔ راهبری تأیید شود.</p>
+<!-- KPIS -->
+<section id="kpis" class="band paper" style="padding-top:0" aria-labelledby="h-kpi">
+  <div class="inner">
+    <p class="eyebrow">معیارها · پیشنهادی برای دورهٔ اول</p>
+    <h2 id="h-kpi">موفقیت را این‌طور می‌سنجیم</h2>
+    <p class="lead">معیار اصلی این است که دانشجو با این تجربه بفهمد واقعاً چه دوست دارد؛ با یک پرسش‌نامهٔ کوتاه پیش و پس از دوره. بورسیه و پیشنهاد کار هم کنارش سنجیده می‌شود، چون هدف هلدینگ تأمین نیروست. همهٔ عددها باید در کمیتهٔ راهبری تأیید شوند.</p>
     <div class="stats">
-      <div class="stat key"><span class="n">۸۰٪</span><span class="l">می‌دانند چه دوست دارند</span><span class="s">معیار اصلی · پرسش‌نامهٔ پیش و پس از دوره</span></div>
-      <div class="stat"><span class="n">۳۰٪</span><span class="l">بورسیه یا پیشنهاد کار</span><span class="s">تأمین نیرو</span></div>
-      <div class="stat"><span class="n">۳</span><span class="l">طرح به شتاب‌دهنده</span><span class="s">پژوهش به کسب‌وکار</span></div>
-      <div class="stat"><span class="n">۵</span><span class="l">مسئلهٔ واقعی از هلدینگ</span><span class="s">هم‌افزایی با زنجیره</span></div>
+      <div class="stat key"><span class="n" data-count="80" data-suffix="٪">۸۰٪</span><span class="l">می‌دانند چه دوست دارند</span><span class="s">معیار اصلی · پرسش‌نامهٔ پیش و پس از دوره</span></div>
+      <div class="stat"><span class="n" data-count="30" data-suffix="٪">۳۰٪</span><span class="l">بورسیه یا پیشنهاد کار</span><span class="s">تأمین نیرو</span></div>
+      <div class="stat"><span class="n" data-count="3">۳</span><span class="l">طرح به شتاب‌دهنده</span><span class="s">پژوهش به کسب‌وکار</span></div>
+      <div class="stat"><span class="n" data-count="5">۵</span><span class="l">مسئلهٔ واقعی از هلدینگ</span><span class="s">هم‌افزایی با زنجیره</span></div>
     </div>
     <div class="table-wrap"><table>
-      <thead><tr><th>معیار</th><th>هدف دورهٔ اول (پیشنهادی)</th><th>چه چیزی را می‌سنجد</th></tr></thead>
+      <thead><tr><th>معیار</th><th>هدف دورهٔ اول</th><th>چه چیزی را می‌سنجد</th></tr></thead>
       <tbody>
         <tr><td>هر دانشجو یک مسئلهٔ واقعی و یک منتور</td><td class="num">۱۰۰ درصد</td><td>کیفیت تجربه</td></tr>
         <tr><td>تکمیل دوره</td><td class="num">۸۵ درصد</td><td>کیفیت تجربه</td></tr>
@@ -368,109 +608,121 @@ footer a { color: var(--accent); }
       </tbody>
     </table></div>
     <p class="longterm">معیار بلندمدت: دو سال بعد، چند نفر در مسیری‌اند که با این تجربه انتخاب کردند، و چند نفرشان در گلرنگ.</p>
-  </section>
+  </div>
+</section>
 
-  <section id="roadmap" aria-labelledby="h-roadmap">
-    <h2 id="h-roadmap">نقشهٔ راه دورهٔ اول</h2>
-    <p class="sub">دورهٔ اول یک سال تحصیلی طول می‌کشد. بدون عبور از دروازهٔ ۱ هیچ فراخوانی منتشر نمی‌شود: تا برای هر دانشجو یک مسئلهٔ واقعی و یک منتور نباشد، تجربه‌ای در کار نیست. زمان‌بندی پیشنهادی است.</p>
-    <figure>
-      <div class="fig-wrap">
-        <svg viewBox="0 0 760 264" role="img" aria-label="دورهٔ اول در یک سال تحصیلی: جذب در اسفند و فروردین، دوره در تابستان" direction="rtl" font-size="13">
-          <defs><marker id="rm-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="svg-arrow"/></marker></defs>
-          <text x="736" y="34" font-size="15" font-weight="700" class="svg-ink">جذب در اسفند و فروردین، تجربه در تابستان که دانشجوها آزادند</text>
-          <g text-anchor="middle">
-            <rect x="600" y="64" width="136" height="112" rx="8" class="svg-box"/>
-            <text x="668" y="88" font-weight="700" class="svg-ink">آماده‌سازی</text>
-            <text x="668" y="106" font-size="11.5" class="svg-muted">مهر تا بهمن</text>
-            <text x="668" y="128" font-size="11.5" class="svg-ink">توافق دو طرف</text>
-            <text x="668" y="144" font-size="11.5" class="svg-ink">انتخاب میزبان‌ها</text>
-            <text x="668" y="160" font-size="11.5" class="svg-ink">مسئله‌ها و منتورها</text>
+<!-- ROADMAP -->
+<section id="roadmap" class="band night" aria-labelledby="h-road">
+  <div class="inner">
+    <p class="eyebrow">نقشهٔ راه دورهٔ اول</p>
+    <h2 id="h-road">یک سال تحصیلی، پنج فاز</h2>
+    <p class="lead">بدون عبور از دروازهٔ ۱ هیچ فراخوانی منتشر نمی‌شود: تا برای هر دانشجو یک مسئلهٔ واقعی و یک منتور نباشد، تجربه‌ای در کار نیست. زمان‌بندی پیشنهادی است.</p>
+    <div class="fig">
+      <svg viewBox="0 0 760 270" role="img" aria-label="جذب در اسفند و فروردین، تجربه در تابستان" direction="rtl" font-size="13" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="rm-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="arrowhead"/></marker></defs>
+        <rect class="glow" x="158" y="20" width="156" height="132" rx="16" fill="#cedc45" style="filter:blur(10px)"/>
+        <g text-anchor="middle">
+          <rect x="600" y="30" width="136" height="112" rx="12" class="b-box"/>
+          <text x="668" y="56" font-weight="800" class="t-ink">آماده‌سازی</text>
+          <text x="668" y="74" font-size="11.5" fill="#3fd6e8">مهر تا بهمن</text>
+          <text x="668" y="96" font-size="11.5" class="t-muted">توافق دو طرف</text>
+          <text x="668" y="112" font-size="11.5" class="t-muted">انتخاب میزبان‌ها</text>
+          <text x="668" y="128" font-size="11.5" class="t-muted">مسئله‌ها و منتورها</text>
+          <rect x="456" y="30" width="136" height="112" rx="12" class="b-box"/>
+          <text x="524" y="56" font-weight="800" class="t-ink">جذب</text>
+          <text x="524" y="74" font-size="11.5" fill="#3fd6e8">اسفند و فروردین</text>
+          <text x="524" y="96" font-size="11.5" class="t-muted">فراخوان از مسیر هلدینگ</text>
+          <text x="524" y="112" font-size="11.5" class="t-muted">رویداد در دانشکده‌ها</text>
+          <rect x="312" y="30" width="136" height="112" rx="12" class="b-box"/>
+          <text x="380" y="56" font-weight="800" class="t-ink">انتخاب</text>
+          <text x="380" y="74" font-size="11.5" fill="#3fd6e8">اردیبهشت و خرداد</text>
+          <text x="380" y="96" font-size="11.5" class="t-muted">انگیزه‌نامه</text>
+          <text x="380" y="112" font-size="11.5" class="t-muted">مسئلهٔ دارویی</text>
+          <text x="380" y="128" font-size="11.5" class="t-muted">مصاحبه</text>
+          <rect x="168" y="30" width="136" height="112" rx="12" class="b-key"/>
+          <text x="236" y="56" font-weight="900" class="t-dark">دورهٔ تجربه‌محور</text>
+          <text x="236" y="74" font-size="11.5" font-weight="700" class="t-dark">تیر و مرداد</text>
+          <text x="236" y="96" font-size="11.5" class="t-dark">تور زنجیره</text>
+          <text x="236" y="112" font-size="11.5" class="t-dark">سپس ۸ هفته پروژه</text>
+          <rect x="24" y="30" width="136" height="112" rx="12" class="b-box"/>
+          <text x="92" y="56" font-weight="800" class="t-ink">خروج و ارزیابی</text>
+          <text x="92" y="74" font-size="11.5" fill="#3fd6e8">شهریور</text>
+          <text x="92" y="96" font-size="11.5" class="t-muted">روز نمایش</text>
+          <text x="92" y="112" font-size="11.5" class="t-muted">پرسش‌نامهٔ پس از دوره</text>
+          <text x="92" y="128" font-size="11.5" class="t-muted">بورسیه و کار برای برترها</text>
+        </g>
+        <line x1="736" y1="176" x2="40" y2="176" stroke="#24396e" stroke-width="8" stroke-linecap="round"/>
+        <path class="ln-flow" d="M736 176H40" style="stroke-width:4"/>
+        <circle r="9" fill="#f2f4ea"><animateMotion dur="5s" repeatCount="indefinite" path="M736 176H40"/></circle>
+        <path class="pulse" d="M596 164l12 12l-12 12l-12 -12z" fill="#cedc45"/>
+        <path d="M308 168l8 8l-8 8l-8 -8z" fill="#cedc45" opacity=".75"/>
+        <path d="M92 168l8 8l-8 8l-8 -8z" fill="#cedc45" opacity=".75"/>
+        <g text-anchor="middle" font-size="11.5">
+          <text x="596" y="214" font-weight="800" class="t-lime">دروازهٔ ۱</text>
+          <text x="596" y="232" class="t-ink">تعهد میزبان‌ها، مسئله‌ها و منتورها</text>
+          <text x="308" y="214" font-weight="800" class="t-lime">دروازهٔ ۲</text>
+          <text x="308" y="232" class="t-muted">۲۰ تا ۳۰ نفر پذیرفته شدند</text>
+          <text x="92" y="214" font-weight="800" class="t-lime">دروازهٔ ۳</text>
+          <text x="92" y="232" class="t-muted">تصمیم دورهٔ دوم</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
 
-            <rect x="456" y="64" width="136" height="112" rx="8" class="svg-box"/>
-            <text x="524" y="88" font-weight="700" class="svg-ink">جذب</text>
-            <text x="524" y="106" font-size="11.5" class="svg-muted">اسفند و فروردین</text>
-            <text x="524" y="128" font-size="11.5" class="svg-ink">فراخوان از مسیر هلدینگ</text>
-            <text x="524" y="144" font-size="11.5" class="svg-ink">رویداد در دانشکده‌ها</text>
-
-            <rect x="312" y="64" width="136" height="112" rx="8" class="svg-box"/>
-            <text x="380" y="88" font-weight="700" class="svg-ink">انتخاب</text>
-            <text x="380" y="106" font-size="11.5" class="svg-muted">اردیبهشت و خرداد</text>
-            <text x="380" y="128" font-size="11.5" class="svg-ink">انگیزه‌نامه</text>
-            <text x="380" y="144" font-size="11.5" class="svg-ink">مسئلهٔ دارویی</text>
-            <text x="380" y="160" font-size="11.5" class="svg-ink">مصاحبه</text>
-
-            <rect x="168" y="64" width="136" height="112" rx="8" class="svg-key"/>
-            <text x="236" y="88" font-weight="800" class="svg-ink">دورهٔ تجربه‌محور</text>
-            <text x="236" y="106" font-size="11.5" class="svg-lime">تیر و مرداد</text>
-            <text x="236" y="128" font-size="11.5" class="svg-ink">تور زنجیره</text>
-            <text x="236" y="144" font-size="11.5" class="svg-ink">سپس ۸ هفته پروژه</text>
-
-            <rect x="24" y="64" width="136" height="112" rx="8" class="svg-box"/>
-            <text x="92" y="88" font-weight="700" class="svg-ink">خروج و ارزیابی</text>
-            <text x="92" y="106" font-size="11.5" class="svg-muted">شهریور</text>
-            <text x="92" y="128" font-size="11.5" class="svg-ink">روز نمایش</text>
-            <text x="92" y="144" font-size="11.5" class="svg-ink">پرسش‌نامهٔ پس از دوره</text>
-            <text x="92" y="160" font-size="11.5" class="svg-ink">بورسیه و کار برای برترها</text>
-          </g>
-          <path d="M736 192H40" class="svg-line" marker-end="url(#rm-arrow)"/>
-          <path d="M596 182l10 10l-10 10l-10 -10z" class="svg-gate key"/>
-          <path d="M308 184l8 8l-8 8l-8 -8z" class="svg-gate"/>
-          <path d="M92 184l8 8l-8 8l-8 -8z" class="svg-gate"/>
-          <g text-anchor="middle" font-size="11.5">
-            <text x="596" y="222" font-weight="700" class="svg-ink">دروازهٔ ۱</text>
-            <text x="596" y="238" class="svg-muted">تعهد میزبان‌ها، مسئله‌ها و منتورها</text>
-            <text x="308" y="222" font-weight="700" class="svg-ink">دروازهٔ ۲</text>
-            <text x="308" y="238" class="svg-muted">۲۰ تا ۳۰ نفر پذیرفته شدند</text>
-            <text x="92" y="222" font-weight="700" class="svg-ink">دروازهٔ ۳</text>
-            <text x="92" y="238" class="svg-muted">تصمیم دورهٔ دوم</text>
-          </g>
-        </svg>
-      </div>
-      <figcaption>نقشهٔ راه دورهٔ اول · ۵ فاز، ۳ دروازه؛ دروازهٔ ۱ مهم‌ترین است</figcaption>
-    </figure>
-  </section>
-
-  <section id="risks" aria-labelledby="h-risks">
-    <h2 id="h-risks">ریسک‌ها و راهکارها</h2>
+<!-- RISKS -->
+<section id="risks" class="band paper" aria-labelledby="h-risk">
+  <div class="inner">
+    <p class="eyebrow">ریسک‌ها</p>
+    <h2 id="h-risk">چه چیزی می‌تواند خراب شود</h2>
     <div class="risk-top">
-      <span class="kicker">بزرگ‌ترین ریسک</span>
-      <div><h3>دوره به کلاس یا کارآموزی تکراری تبدیل شود</h3><p>دانشجو تجربهٔ واقعی نمی‌گیرد و اصل برنامه از دست می‌رود.</p></div>
+      <span class="tag">بزرگ‌ترین ریسک</span>
+      <div style="display:grid;gap:8px"><h3>دوره به کلاس یا کارآموزی تکراری تبدیل شود</h3><p>دانشجو تجربهٔ واقعی نمی‌گیرد و اصل برنامه از دست می‌رود.</p></div>
       <div class="fix"><b>راهکار</b><p>هر دانشجو یک مسئلهٔ واقعی و یک منتور؛ بدون این دو، پذیرشی نیست.</p></div>
     </div>
     <div class="table-wrap"><table>
       <thead><tr><th>ریسک</th><th>راهکار</th></tr></thead>
       <tbody>
         <tr><td>برترها پیشنهاد کار یا بورسیه نگیرند</td><td>حداقل بورسیه و پیشنهاد کار، پیش از فراخوان از هلدینگ تعهد گرفته شود</td></tr>
-        <tr><td>محیط‌های GMP اجازهٔ کار عملی به دانشجو ندهند</td><td>نقش ناظر در خط تولید، کار عملی در آزمایشگاه کنترل کیفیت و تحقیق و توسعه</td></tr>
-        <tr><td>چرخهٔ آزمایشگاهی از ۸ هفته طولانی‌تر است</td><td>مسئله‌هایی که در ۸ هفته به یک خروجی می‌رسند؛ ادامه در قالب پایان‌نامه یا شتاب‌دهنده</td></tr>
+        <tr><td>محیط GMP کار عملی را محدود می‌کند</td><td>نقش ناظر در خط تولید؛ کار عملی در کنترل کیفیت و تحقیق و توسعه</td></tr>
+        <tr><td>چرخهٔ آزمایشگاه از ۸ هفته طولانی‌تر است</td><td>مسئله‌های ۸ هفته‌ای؛ ادامه در پایان‌نامه یا شتاب‌دهنده</td></tr>
         <tr><td>دو سازمان، دو اولویت</td><td>کمیتهٔ راهبری دونفره و یک مالک اجرایی</td></tr>
-        <tr><td>اختلاف بر سر مالکیت فکری طرح‌ها</td><td>قرارداد مالکیت فکری امضاشده قبل از شروع</td></tr>
+        <tr><td>اختلاف بر سر مالکیت فکری</td><td>قرارداد مالکیت فکری امضاشده پیش از شروع</td></tr>
         <tr><td>اطلاعات محرمانهٔ شرکت‌ها</td><td>تعهدنامهٔ عدم افشا، مسئله‌های با دادهٔ غیرحساس</td></tr>
         <tr><td>دانشجوهای شهرهای دیگر نتوانند بیایند</td><td>کمک به هزینهٔ اسکان، یا گسترش به شهرهای محل شرکت‌ها در دورهٔ دوم</td></tr>
       </tbody>
     </table></div>
-  </section>
+  </div>
+</section>
 
-  <section id="next" aria-labelledby="h-next">
-    <h2 id="h-next">تصمیم‌های باز و گام‌های بعدی</h2>
-    <p class="sub">پنج تصمیم باید قبل از هر اعلام عمومی گرفته شود؛ مهم‌ترینش اولی است.</p>
-    <ul class="checklist">
-      <li class="key">شرکت‌های هلدینگ برای هر دانشجو یک مسئلهٔ واقعی و یک منتور تعهد می‌کنند؟</li>
-      <li>کدام شرکت‌های زیرمجموعه میزبان تور و پروژه‌ها می‌شوند و سایت‌هایشان کجاست؟</li>
-      <li>وزن دو مسیر: کمبود نیروی هلدینگ بیشتر در تحقیق و توسعه است یا در تولید و کیفیت؟</li>
-      <li>بودجه و کمک‌هزینهٔ دانشجو، سهم هر طرف، و تعداد بورسیه یا پیشنهاد کار برای برترها</li>
-      <li>شرایط مالکیت فکری طرح‌های مسیر نوآوری چیست؟</li>
-    </ul>
-    <h3>گام‌های بعدی</h3>
-    <ol class="steps">
-      <li>جلسهٔ مشترک گلرنگ ونچرز و هلدینگ دارویی برای تأیید ذهنیت برنامه و این پنج تصمیم.</li>
-      <li>تشکیل کمیتهٔ راهبری و معرفی مالک اجرایی.</li>
-      <li>هماهنگی با مسئول ارتباط هلدینگ با دانشگاه‌ها برای انتشار فراخوان.</li>
-      <li>طراحی رویداد ۳ ساعتهٔ معرفی با محور تجربه: کار گروهی روی یک مسئلهٔ واقعی.</li>
-    </ol>
-  </section>
+<!-- NEXT -->
+<section id="next" class="band lime" aria-labelledby="h-next">
+  <div class="inner ask-grid">
+    <div class="star-wrap" aria-hidden="true">
+      <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg"><g class="spin-star" style="transform-origin:120px 120px;animation-duration:16s" stroke="#0b1530" stroke-width="32"><line x1="120" y1="120" x2="120" y2="210"/><line x1="30" y1="120" x2="210" y2="120"/><line x1="56" y1="56" x2="184" y2="184"/><line x1="56" y1="184" x2="184" y2="56"/></g></svg>
+    </div>
+    <div style="display:grid;gap:20px;min-width:0">
+      <p style="font-weight:800">قدم بعد</p>
+      <h2 id="h-next">برای شروع، این پنج تصمیم لازم است</h2>
+      <ol class="asks">
+        <li>مسئلهٔ واقعی و منتور از شرکت‌های هلدینگ برای هر دانشجو</li>
+        <li>شرکت‌های میزبان تور و پروژه‌ها، و محل سایت‌هایشان</li>
+        <li>وزن دو مسیر: کمبود نیرو در تحقیق و توسعه است یا در تولید و کیفیت؟</li>
+        <li>بودجه، کمک‌هزینه، و بورسیه یا پیشنهاد کار برای برترها</li>
+        <li>شرایط مالکیت فکری طرح‌های مسیر نوآوری</li>
+      </ol>
+      <p class="cta">پیشنهاد: جلسهٔ مشترک گلرنگ ونچرز و هلدینگ دارویی برای تأیید ذهنیت برنامه و این پنج تصمیم</p>
+      <ol class="steps">
+        <li>تشکیل کمیتهٔ راهبری و معرفی مالک اجرایی.</li>
+        <li>هماهنگی با مسئول ارتباط هلدینگ با دانشگاه‌ها برای انتشار فراخوان.</li>
+        <li>طراحی رویداد ۳ ساعتهٔ معرفی با محور تجربه: کار گروهی روی یک مسئلهٔ واقعی.</li>
+      </ol>
+    </div>
+  </div>
+</section>
 
-  <footer>
+<footer>
+  <div class="inner">
     <p>منابع از نتایج جست‌وجو گردآوری شده‌اند؛ صفحه‌ها مستقیم باز نشدند و باید پیش از استناد تأیید شوند.</p>
     <ul>
       <li><a href="https://golrangcvc.com/mission-and-vision/">ماموریت و چشم‌انداز صندوق گلرنگ</a></li>
@@ -483,8 +735,26 @@ footer a { color: var(--accent); }
       <li><a href="https://quera.org/events/golrang-0309">مسابقهٔ ستارگان آینده گلرنگ – کوئرا</a></li>
       <li><a href="https://www.asriran.com/fa/news/1195123/">فکورژن – عصر ایران</a></li>
     </ul>
-  </footer>
+  </div>
+</footer>
+</div>
 
-</main>
-</div>
-</div>
+<script>
+(() => {
+  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) { document.querySelectorAll('svg').forEach(s => { try { s.pauseAnimations(); } catch (e) {} }); return; }
+  const fa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+  const els = document.querySelectorAll('[data-count]');
+  if (!('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      io.unobserve(en.target);
+      const el = en.target, end = +el.dataset.count, suf = el.dataset.suffix || '', t0 = performance.now(), dur = 1100;
+      const step = t => { const k = Math.min(1, (t - t0) / dur), v = Math.round(end * (1 - Math.pow(1 - k, 3))); el.textContent = fa(v) + suf; if (k < 1) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
+    });
+  }, { threshold: .6 });
+  els.forEach(el => io.observe(el));
+})();
+</script>

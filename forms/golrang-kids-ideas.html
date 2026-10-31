@@ -86,7 +86,7 @@ h1 .mark { background: linear-gradient(90deg, var(--yellow), #ffe58a); -webkit-b
 .hero .mascot { position: absolute; left: 10px; top: 40px; width: 170px; }
 
 /* GFS characters, one per level: the big cloud, the flame hero (nebula), glasses (young star), crown (shining star) */
-:root { --mimg: url("img/gfs-m1.webp"); --msize: 128% auto; --mpos: 46% 92%; }
+:root { --mimg: url("img/gfs-m1.webp"); --msize: 80% auto; --mpos: center 56%; }
 body[data-level="2"], body[data-level="3"], body[data-level="4"] { --msize: 92% auto; --mpos: center 72%; }
 body[data-level="2"] { --mimg: url("img/gfs-m2.webp"); }
 body[data-level="3"] { --mimg: url("img/gfs-m3.webp"); }
@@ -95,9 +95,11 @@ body[data-level="4"] { --mimg: url("img/gfs-m4.webp"); }
 body[data-level="4"] .gfs-m { filter: drop-shadow(0 0 18px rgba(253, 195, 46, .7)); }
 @keyframes bob { 50% { transform: translateY(-7px) rotate(-1.5deg); } }
 /* small avatar, as on the GFS site: the character in a pale round frame */
-.avatar { display: block; flex: none; width: 52px; aspect-ratio: 1; max-width: 100%; border-radius: 50%; background: radial-gradient(circle at 50% 38%, #ffffff, #ece8f7); border: 3px solid #cfc6ec; box-shadow: 0 0 16px rgba(167, 123, 255, .4); overflow: hidden; }
+.avatar { display: block; flex: none; width: 52px; aspect-ratio: 1; max-width: 100%; border-radius: 50%; background: radial-gradient(circle at 50% 40%, #ffffff 30%, #f1eef9); border: 3px solid #d6cdee; box-shadow: 0 0 16px rgba(167, 123, 255, .35); overflow: hidden; }
 .avatar .gfs-m { width: 100%; height: 100%; aspect-ratio: auto; background-size: var(--msize); background-position: var(--mpos); animation: none; filter: none; }
-.avatar.big { width: 100%; border-width: 5px; box-shadow: 0 0 40px rgba(167, 123, 255, .5); animation: bob 3.4s ease-in-out infinite; }
+.avatar.big { width: 100%; border-width: 4px; box-shadow: 0 0 40px rgba(167, 123, 255, .45); animation: bob 3.4s ease-in-out infinite; }
+/* the hero always shows the whole cloud, as on the GFS site; levels change the other avatars */
+.hero .avatar .gfs-m { --mimg: url("img/gfs-m1.webp"); --msize: 80% auto; --mpos: center 56%; }
 body[data-level="4"] .avatar { border-color: var(--yellow); box-shadow: 0 0 30px rgba(253, 195, 46, .6); }
 
 /* ---------- progress ---------- */
@@ -1211,8 +1213,8 @@ async function makeCard(en) {
   x.fillStyle = disc; x.beginPath(); x.arc(cx, cy, R, 0, 7); x.fill(); x.restore();
   if (hero) {
     x.save(); x.beginPath(); x.arc(cx, cy, R, 0, 7); x.clip();
-    const big = en.game.level === 1, hw = 2 * R * (big ? 1.28 : .92), hh = hw * hero.height / hero.width;
-    const left = cx - R + (2 * R - hw) * (big ? .46 : .5), top = cy - R + (2 * R - hh) * (big ? .92 : .72);
+    const whole = en.game.level === 1, hw = 2 * R * (whole ? .8 : .92), hh = hw * hero.height / hero.width;
+    const left = cx - hw / 2, top = cy - R + (2 * R - hh) * (whole ? .56 : .72);
     x.drawImage(hero, left, top, hw, hh); x.restore();
   }
   x.strokeStyle = gold ? "#fdc32e" : "#cfc6ec"; x.lineWidth = 10; x.beginPath(); x.arc(cx, cy, R, 0, 7); x.stroke();

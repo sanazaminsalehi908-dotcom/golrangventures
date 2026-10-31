@@ -83,38 +83,22 @@ h1 .mark { background: linear-gradient(90deg, var(--yellow), #ffe58a); -webkit-b
 .group-line .sep { width: 6px; height: 6px; border-radius: 50%; background: var(--theme); }
 .intro { color: var(--muted); font-size: 1.04rem; max-width: 62ch; }
 .tagline { font-weight: 900; font-size: 1.15rem; color: var(--yellow); }
-.hero .mascot { position: absolute; left: 0; top: 40px; width: 150px; }
-.mascot svg { width: 100%; height: auto; display: block; overflow: visible; }
+.hero .mascot { position: absolute; left: 10px; top: 40px; width: 170px; }
 
-/* cloud mascot, drawn after the GFS characters */
-.m-cloud { fill: url(#cloudShade); stroke: #c8cdf0; stroke-width: 3; }
-.m-arm-o { fill: none; stroke: #c8cdf0; stroke-width: 19; stroke-linecap: round; }
-.m-arm { fill: none; stroke: #fff; stroke-width: 14; stroke-linecap: round; }
-.m-eye { fill: #1b1035; }
-.m-eye-hi { fill: #fff; }
-.m-brow { fill: none; stroke: #1b1035; stroke-width: 3.5; stroke-linecap: round; }
-.m-nose { fill: #e8202a; }
-.m-nose-hi { fill: #fff; opacity: .65; }
-.m-smile { fill: none; stroke: #1b1035; stroke-width: 4.5; stroke-linecap: round; }
-.m-cheek { fill: #ff8fa3; opacity: .45; }
-.m-spark { fill: var(--yellow); }
-.m-cape { fill: #e8202a; stroke: #a5121b; stroke-width: 2; }
-.m-glass { fill: rgba(255, 255, 255, .25); stroke: #1b1035; stroke-width: 4; }
-.m-crown-p { fill: var(--yellow); stroke: #a8740a; stroke-width: 3; stroke-linejoin: round; }
-.m-gem { fill: #e8202a; }
-.m-body { animation: bob 3.4s ease-in-out infinite; transform-origin: 100px 180px; }
-.m-wave { animation: wave 1.7s ease-in-out infinite; transform-origin: 160px 128px; }
-.m-sparks { animation: twinkle 2.2s ease-in-out infinite; transform-origin: 100px 100px; }
+/* GFS characters, one per level: the big cloud, the flame hero (nebula), glasses (young star), crown (shining star) */
+:root { --mimg: url("img/gfs-m1.webp"); --msize: 128% auto; --mpos: 46% 92%; }
+body[data-level="2"], body[data-level="3"], body[data-level="4"] { --msize: 92% auto; --mpos: center 72%; }
+body[data-level="2"] { --mimg: url("img/gfs-m2.webp"); }
+body[data-level="3"] { --mimg: url("img/gfs-m3.webp"); }
+body[data-level="4"] { --mimg: url("img/gfs-m4.webp"); }
+.gfs-m { display: block; width: 100%; aspect-ratio: 1; max-width: 100%; background: var(--mimg) center / contain no-repeat; animation: bob 3.4s ease-in-out infinite; filter: drop-shadow(0 8px 18px rgba(4, 0, 30, .45)); }
+body[data-level="4"] .gfs-m { filter: drop-shadow(0 0 18px rgba(253, 195, 46, .7)); }
 @keyframes bob { 50% { transform: translateY(-7px) rotate(-1.5deg); } }
-@keyframes wave { 50% { transform: rotate(-20deg); } }
-@keyframes twinkle { 50% { opacity: .3; transform: scale(.92); } }
-/* the star grows with the idea: stardust, nebula (cape), young star (glasses), shining star (crown) */
-.m-cape, .m-glasses, .m-crown { display: none; }
-body[data-level="1"] .m-sparks { display: none; }
-body[data-level="1"] .m-body { opacity: .72; }
-body[data-level="2"] .m-cape, body[data-level="3"] .m-cape, body[data-level="4"] .m-cape,
-body[data-level="3"] .m-glasses, body[data-level="4"] .m-glasses, body[data-level="4"] .m-crown { display: inline; }
-body[data-level="4"] .mascot svg, body[data-level="4"] .lvl .mini { filter: drop-shadow(0 0 16px rgba(253, 195, 46, .75)); }
+/* small avatar, as on the GFS site: the character in a pale round frame */
+.avatar { display: block; flex: none; width: 52px; aspect-ratio: 1; max-width: 100%; border-radius: 50%; background: radial-gradient(circle at 50% 38%, #ffffff, #ece8f7); border: 3px solid #cfc6ec; box-shadow: 0 0 16px rgba(167, 123, 255, .4); overflow: hidden; }
+.avatar .gfs-m { width: 100%; height: 100%; aspect-ratio: auto; background-size: var(--msize); background-position: var(--mpos); animation: none; filter: none; }
+.avatar.big { width: 100%; border-width: 5px; box-shadow: 0 0 40px rgba(167, 123, 255, .5); animation: bob 3.4s ease-in-out infinite; }
+body[data-level="4"] .avatar { border-color: var(--yellow); box-shadow: 0 0 30px rgba(253, 195, 46, .6); }
 
 /* ---------- progress ---------- */
 .progress {
@@ -124,7 +108,6 @@ body[data-level="4"] .mascot svg, body[data-level="4"] .lvl .mini { filter: drop
   -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0, 0, 0, .4);
 }
 .lvl { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.lvl .mini { width: 44px; height: 44px; flex: none; overflow: visible; }
 .lvl b { display: block; font-weight: 900; font-size: 1rem; line-height: 1.3; color: var(--yellow); }
 .lvl small { display: block; font-size: .74rem; color: var(--muted); line-height: 1.4; white-space: nowrap; }
 .ptrack { position: relative; flex: 1; min-width: 120px; height: 12px; border-radius: 999px; background: rgba(255, 255, 255, .1); overflow: hidden; }
@@ -336,7 +319,7 @@ textarea { resize: vertical; min-height: 6.2em; }
 
 /* ---------- success ---------- */
 .done { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 22px; align-items: center; padding: 28px clamp(16px, 4vw, 32px); border-color: rgba(253, 195, 46, .5); box-shadow: 0 0 60px rgba(253, 195, 46, .18), 0 14px 40px rgba(4, 0, 30, .45); }
-.done .mascot { max-width: 170px; }
+.done .mascot { width: 170px; max-width: 100%; }
 .done-text-box { display: grid; gap: 10px; justify-items: start; }
 .done h2 { font-size: clamp(1.8rem, 6vw, 2.5rem); line-height: 1.25; }
 .done h2 span { color: var(--yellow); }
@@ -372,8 +355,6 @@ textarea { resize: vertical; min-height: 6.2em; }
 .toast.out { animation: tout .3s ease forwards; }
 .toast .ti { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--bc, var(--yellow)); color: #fff; box-shadow: 0 0 16px color-mix(in srgb, var(--bc, var(--yellow)) 60%, transparent); }
 .toast .ti svg { width: 24px; height: 24px; stroke-width: 2.2; }
-.toast .ti.m { background: rgba(255, 255, 255, .1); }
-.toast .ti.m svg { width: 40px; height: 40px; }
 .toast b { display: block; font-weight: 900; font-size: 1rem; line-height: 1.4; }
 .toast small { color: var(--muted); font-size: .82rem; }
 @keyframes tin { from { transform: translateY(30px) scale(.9); opacity: 0; } }
@@ -420,7 +401,7 @@ textarea { resize: vertical; min-height: 6.2em; }
 .empty { border: 1px dashed var(--line); border-radius: 18px; padding: 28px; text-align: center; color: var(--muted); background: var(--field); }
 
 @media (max-width: 860px) {
-  .hero .mascot { position: static; width: 110px; order: -1; margin-bottom: -8px; }
+  .hero .mascot { position: static; width: 120px; order: -1; }
 }
 @media (max-width: 760px) {
   .fields, .interests { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -448,39 +429,10 @@ textarea { resize: vertical; min-height: 6.2em; }
 }
 </style>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <radialGradient id="cloudShade" cx="40%" cy="30%" r="75%">
-      <stop offset="0" stop-color="#ffffff"/><stop offset=".7" stop-color="#f2f3ff"/><stop offset="1" stop-color="#d9dcf5"/>
-    </radialGradient>
-  </defs>
-  <symbol id="mascot" viewBox="0 0 200 200">
-    <g class="m-sparks">
-      <path class="m-spark" d="M30 40 l3 8 8 3 -8 3 -3 8 -3-8 -8-3 8-3z"/>
-      <path class="m-spark" d="M172 30 l2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5-6 -6-2.5 6-2.5z"/>
-      <path class="m-spark" d="M182 120 l2 5 5 2 -5 2 -2 5 -2-5 -5-2 5-2z"/>
-    </g>
-    <g class="m-body">
-      <path class="m-arm-o" d="M44 132 C 30 140, 24 152, 22 162"/><path class="m-arm" d="M44 132 C 30 140, 24 152, 22 162"/>
-      <g class="m-wave"><path class="m-arm-o" d="M158 128 C 170 118, 176 104, 176 90"/><path class="m-arm" d="M158 128 C 170 118, 176 104, 176 90"/></g>
-      <path class="m-cloud" d="M56 168 C 26 168, 22 130, 46 120 C 36 88, 68 66, 92 78 C 102 46, 152 50, 154 84 C 184 84, 192 120, 168 132 C 182 156, 160 176, 140 168 C 122 182, 76 182, 56 168 Z"/>
-      <path class="m-cape" d="M64 160 Q 104 182 146 160 L 154 176 Q 104 200 56 176 Z"/>
-      <path class="m-brow" d="M80 92 q8 -6 16 0"/><path class="m-brow" d="M110 92 q8 -6 16 0"/>
-      <ellipse class="m-eye" cx="88" cy="108" rx="6.5" ry="10"/><ellipse class="m-eye" cx="118" cy="108" rx="6.5" ry="10"/>
-      <circle class="m-eye-hi" cx="90" cy="104" r="2.4"/><circle class="m-eye-hi" cx="120" cy="104" r="2.4"/>
-      <circle class="m-cheek" cx="74" cy="132" r="8"/><circle class="m-cheek" cx="134" cy="132" r="8"/>
-      <circle class="m-nose" cx="103" cy="128" r="13"/><ellipse class="m-nose-hi" cx="98" cy="123" rx="4" ry="3"/>
-      <path class="m-smile" d="M84 146 q20 16 40 0"/>
-      <g class="m-glasses"><circle class="m-glass" cx="88" cy="108" r="15"/><circle class="m-glass" cx="118" cy="108" r="15"/><path class="m-brow" d="M101 106 q2-3 4 0"/></g>
-      <g class="m-crown"><path class="m-crown-p" d="M80 76 L84 46 L98 62 L108 40 L118 62 L132 46 L136 76 Z"/><circle class="m-gem" cx="108" cy="66" r="5"/></g>
-    </g>
-  </symbol>
-</svg>
-
 <div class="wrap" id="wrap" dir="rtl" lang="fa">
   <div class="topbar"><span>Golrang Future Stars · ستارگان آیندهٔ گلرنگ</span></div>
   <header class="hero">
-    <div class="mascot" aria-hidden="true"><svg viewBox="0 0 200 200"><use href="#mascot"/></svg></div>
+    <div class="mascot" aria-hidden="true"><span class="avatar big"><span class="gfs-m"></span></span></div>
     <div class="logo" role="img" aria-label="Golrang Future Stars"></div>
     <p class="eyebrow">مسابقهٔ خلاقیت و نوآوری فرزندان همکاران گروه صنعتی گلرنگ</p>
     <h1>فرم دریافت <span class="mark">ایده</span></h1>
@@ -508,7 +460,7 @@ textarea { resize: vertical; min-height: 6.2em; }
       </section>
 
       <div class="progress" id="progress" hidden>
-        <div class="lvl"><svg class="mini" viewBox="0 0 200 200" aria-hidden="true"><use href="#mascot"/></svg><span><b id="lvl-name"></b><small id="lvl-next"></small></span></div>
+        <div class="lvl"><span class="avatar" aria-hidden="true"><span class="gfs-m"></span></span><span><b id="lvl-name"></b><small id="lvl-next"></small></span></div>
         <div class="ptrack" role="progressbar" aria-label="نور ستارهٔ ایده" aria-valuemin="0" aria-valuemax="100" id="ptrack"><span class="pfill" id="pfill"></span></div>
         <span class="stars" id="stars"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.8 6 6.5.7-4.9 4.4 1.4 6.4L12 16.8 6.2 20l1.4-6.4-4.9-4.4 6.5-.7z"/></svg><span id="stars-n">۰</span></span>
         <span class="ptext" id="ptext"></span>
@@ -578,7 +530,7 @@ textarea { resize: vertical; min-height: 6.2em; }
     </form>
 
     <section class="done glass" id="done" hidden>
-      <div class="mascot" aria-hidden="true"><svg viewBox="0 0 200 200"><use href="#mascot"/></svg></div>
+      <div class="mascot" aria-hidden="true"><span class="avatar big"><span class="gfs-m"></span></span></div>
       <div class="done-text-box">
         <h2>هورا! <span>ایده‌ات ثبت شد</span></h2>
         <p id="done-text"></p>
@@ -913,7 +865,7 @@ function renderShelf(got) {
 function toast(icon, title, sub, color) {
   const el = document.createElement("div");
   el.className = "toast";
-  el.innerHTML = `<span class="ti${icon === "mascot" ? " m" : ""}" style="${color ? "--bc:" + color : ""}">${icon === "mascot" ? '<svg viewBox="0 0 200 200"><use href="#mascot"/></svg>' : svg(icon)}</span><span><b>${esc(title)}</b><small>${esc(sub)}</small></span>`;
+  el.innerHTML = `${icon === "mascot" ? '<span class="avatar"><span class="gfs-m"></span></span>' : `<span class="ti" style="${color ? "--bc:" + color : ""}">${svg(icon)}</span>`}<span><b>${esc(title)}</b><small>${esc(sub)}</small></span>`;
   $("toasts").append(el);
   while ($("toasts").children.length > 3) $("toasts").firstElementChild.remove();
   setTimeout(() => { el.classList.add("out"); setTimeout(() => el.remove(), 320); }, 3200);
@@ -1221,29 +1173,6 @@ function wrapLines(x, text, maxW, maxLines) {
   if (lines.length > maxLines) { lines.length = maxLines; lines[maxLines - 1] += "…"; }
   return lines;
 }
-// The cloud mascot on canvas, from the same shapes as the page's SVG symbol (200-unit box).
-function drawCloud(x, cx, cy, size, level) {
-  const P = d => new Path2D(d), k = size / 200;
-  x.save(); x.translate(cx - 100 * k, cy - 100 * k); x.scale(k, k); x.lineCap = x.lineJoin = "round";
-  if (level >= 2) { x.fillStyle = "#fdc32e"; for (const d of ["M30 40 l3 8 8 3 -8 3 -3 8 -3-8 -8-3 8-3z", "M172 30 l2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5-6 -6-2.5 6-2.5z", "M182 120 l2 5 5 2 -5 2 -2 5 -2-5 -5-2 5-2z"]) x.fill(P(d)); }
-  for (const d of ["M44 132 C 30 140, 24 152, 22 162", "M158 128 C 170 118, 176 104, 176 90"]) {
-    x.strokeStyle = "#c8cdf0"; x.lineWidth = 19; x.stroke(P(d)); x.strokeStyle = "#fff"; x.lineWidth = 14; x.stroke(P(d));
-  }
-  const g = x.createRadialGradient(80, 80, 10, 100, 110, 110); g.addColorStop(0, "#fff"); g.addColorStop(.7, "#f2f3ff"); g.addColorStop(1, "#d9dcf5");
-  const cloud = P("M56 168 C 26 168, 22 130, 46 120 C 36 88, 68 66, 92 78 C 102 46, 152 50, 154 84 C 184 84, 192 120, 168 132 C 182 156, 160 176, 140 168 C 122 182, 76 182, 56 168 Z");
-  x.fillStyle = g; x.fill(cloud); x.strokeStyle = "#c8cdf0"; x.lineWidth = 3; x.stroke(cloud);
-  if (level >= 2) { x.fillStyle = "#e8202a"; x.fill(P("M64 160 Q 104 182 146 160 L 154 176 Q 104 200 56 176 Z")); }
-  x.strokeStyle = "#1b1035"; x.lineWidth = 3.5; x.stroke(P("M80 92 q8 -6 16 0")); x.stroke(P("M110 92 q8 -6 16 0"));
-  x.fillStyle = "#1b1035"; x.beginPath(); x.ellipse(88, 108, 6.5, 10, 0, 0, 7); x.ellipse(118, 108, 6.5, 10, 0, 0, 7); x.fill();
-  x.fillStyle = "#fff"; x.beginPath(); x.arc(90, 104, 2.4, 0, 7); x.arc(120, 104, 2.4, 0, 7); x.fill();
-  x.fillStyle = "rgba(255,143,163,.45)"; x.beginPath(); x.arc(74, 132, 8, 0, 7); x.arc(134, 132, 8, 0, 7); x.fill();
-  x.fillStyle = "#e8202a"; x.beginPath(); x.arc(103, 128, 13, 0, 7); x.fill();
-  x.fillStyle = "rgba(255,255,255,.65)"; x.beginPath(); x.ellipse(98, 123, 4, 3, 0, 0, 7); x.fill();
-  x.strokeStyle = "#1b1035"; x.lineWidth = 4.5; x.stroke(P("M84 146 q20 16 40 0"));
-  if (level >= 3) { x.fillStyle = "rgba(255,255,255,.25)"; x.strokeStyle = "#1b1035"; x.lineWidth = 4; for (const ex of [88, 118]) { x.beginPath(); x.arc(ex, 108, 15, 0, 7); x.fill(); x.stroke(); } x.lineWidth = 3.5; x.stroke(P("M101 106 q2-3 4 0")); }
-  if (level >= 4) { x.fillStyle = "#fdc32e"; x.strokeStyle = "#a8740a"; x.lineWidth = 3; const cr = P("M80 76 L84 46 L98 62 L108 40 L118 62 L132 46 L136 76 Z"); x.fill(cr); x.stroke(cr); x.fillStyle = "#e8202a"; x.beginPath(); x.arc(108, 66, 5, 0, 7); x.fill(); }
-  x.restore();
-}
 const loadImg = src => new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; });
 async function makeCard(en) {
   const C = { yellow: "#fdc32e", onYellow: "#2b1600", muted: "#c9c1ee",
@@ -1275,9 +1204,19 @@ async function makeCard(en) {
   x.fillStyle = "#fff"; x.font = "900 70px Vazirmatn, Tahoma"; x.fillText("کارت ستارهٔ آینده", W / 2, 400);
   x.fillStyle = C.muted; x.font = "700 27px Vazirmatn, Tahoma";
   x.fillText(`مسابقهٔ خلاقیت و نوآوری فرزندان گلرنگ · ${new Date(en.createdAt).toLocaleDateString("fa-IR")}`, W / 2, 450);
-  x.save(); x.shadowColor = en.game.level >= 4 ? "rgba(253,195,46,.8)" : "rgba(120,160,255,.6)"; x.shadowBlur = 40;
-  drawCloud(x, W / 2, 590, 230, en.game.level); x.restore();
-  x.fillStyle = "#fff"; x.font = "900 64px Vazirmatn, Tahoma"; x.fillText(en.child.name, W / 2, 780);
+  // the level's character in the round frame used on the page
+  const hero = await loadImg(`img/gfs-m${en.game.level}.webp`), R = 130, cx = W / 2, cy = 600, gold = en.game.level >= 4;
+  x.save(); x.shadowColor = gold ? "rgba(253,195,46,.8)" : "rgba(167,123,255,.7)"; x.shadowBlur = 50;
+  const disc = x.createRadialGradient(cx, cy - 30, 10, cx, cy, R); disc.addColorStop(0, "#ffffff"); disc.addColorStop(1, "#ece8f7");
+  x.fillStyle = disc; x.beginPath(); x.arc(cx, cy, R, 0, 7); x.fill(); x.restore();
+  if (hero) {
+    x.save(); x.beginPath(); x.arc(cx, cy, R, 0, 7); x.clip();
+    const big = en.game.level === 1, hw = 2 * R * (big ? 1.28 : .92), hh = hw * hero.height / hero.width;
+    const left = cx - R + (2 * R - hw) * (big ? .46 : .5), top = cy - R + (2 * R - hh) * (big ? .92 : .72);
+    x.drawImage(hero, left, top, hw, hh); x.restore();
+  }
+  x.strokeStyle = gold ? "#fdc32e" : "#cfc6ec"; x.lineWidth = 10; x.beginPath(); x.arc(cx, cy, R, 0, 7); x.stroke();
+  x.fillStyle = "#fff"; x.font = "900 64px Vazirmatn, Tahoma"; x.fillText(en.child.name, W / 2, 795);
   const lv = `${LEVELS[en.group][en.game.level - 1]} · ${fa(en.game.stars)} امتیاز`;
   x.font = "900 36px Vazirmatn, Tahoma"; const lw2 = x.measureText(lv).width + 80;
   x.save(); x.shadowColor = "rgba(253,195,46,.6)"; x.shadowBlur = 24; x.fillStyle = C.yellow; x.beginPath(); x.roundRect(W / 2 - lw2 / 2, 810, lw2, 66, 33); x.fill(); x.restore();

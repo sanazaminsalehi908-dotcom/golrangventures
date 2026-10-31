@@ -2,7 +2,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Vazirmatn:wght@400;500;700;800;900&display=swap">
 <style>
 /* Layout: Golrang Future Stars. One deep-space world (single dark theme, as on gfs.golrang.com): a nebula and starfield
    behind glass panels, the GFS logo and cloud mascots, yellow pill buttons. Age picker of planets on top; the form grows
@@ -70,12 +70,10 @@ svg.i { width: 1.4em; height: 1.4em; flex: none; fill: none; stroke: currentColo
 .topbar { display: flex; justify-content: center; align-items: center; padding: 14px 0 6px; border-bottom: 1px solid rgba(255,255,255,.08); }
 .topbar span { font-weight: 800; font-size: .82rem; color: var(--muted); letter-spacing: .02em; }
 .hero { position: relative; display: grid; justify-items: center; text-align: center; gap: 12px; padding-top: 10px; }
-.logo {
-  width: min(420px, 86%); aspect-ratio: 400 / 210; max-width: 100%;
-  background: url("img/gfs-logo.webp") center / contain no-repeat;
-  -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 100%); mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
-  filter: drop-shadow(0 0 24px rgba(80, 160, 255, .45));
-}
+.logo { width: min(440px, 88%); height: auto; max-width: 100%; overflow: visible; }
+.logo text { font-family: "Orbitron", "Vazirmatn", sans-serif; font-weight: 900; text-anchor: middle; }
+.logo .front { fill: url(#wm-face); stroke: #0a1d5c; stroke-width: 5; paint-order: stroke; }
+.logo .depth { fill: #0b2370; stroke: #0b2370; stroke-width: 5; }
 .eyebrow { display: inline-block; font-weight: 800; font-size: .84rem; color: var(--yellow); border: 1px solid rgba(253, 195, 46, .45); background: rgba(253, 195, 46, .08); border-radius: 999px; padding: 2px 14px; }
 h1 { font-size: clamp(2.3rem, 7.5vw, 3.9rem); line-height: 1.2; letter-spacing: -.01em; text-shadow: 0 4px 30px rgba(120, 80, 255, .6); }
 h1 .mark { background: linear-gradient(90deg, var(--yellow), #ffe58a); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -85,21 +83,17 @@ h1 .mark { background: linear-gradient(90deg, var(--yellow), #ffe58a); -webkit-b
 .tagline { font-weight: 900; font-size: 1.15rem; color: var(--yellow); }
 .hero .mascot { position: absolute; left: 10px; top: 40px; width: 170px; }
 
-/* GFS characters, one per level: the big cloud, the flame hero (nebula), glasses (young star), crown (shining star) */
-:root { --mimg: url("img/gfs-m1.webp"); --msize: 80% auto; --mpos: center 56%; }
-body[data-level="2"], body[data-level="3"], body[data-level="4"] { --msize: 92% auto; --mpos: center 72%; }
-body[data-level="2"] { --mimg: url("img/gfs-m2.webp"); }
-body[data-level="3"] { --mimg: url("img/gfs-m3.webp"); }
-body[data-level="4"] { --mimg: url("img/gfs-m4.webp"); }
-.gfs-m { display: block; width: 100%; aspect-ratio: 1; max-width: 100%; background: var(--mimg) center / contain no-repeat; animation: bob 3.4s ease-in-out infinite; filter: drop-shadow(0 8px 18px rgba(4, 0, 30, .45)); }
-body[data-level="4"] .gfs-m { filter: drop-shadow(0 0 18px rgba(253, 195, 46, .7)); }
+/* the 3D Golrang cloud: dust (plain), nebula (scarf, sparkles), young star (glasses), shining star (crown) */
+.cloud { display: block; width: 100%; height: auto; overflow: visible; }
+.c-spark, .c-scarf, .c-glasses, .c-crown { display: none; }
+body[data-level="2"] :is(.c-spark, .c-scarf), body[data-level="3"] :is(.c-spark, .c-scarf, .c-glasses), body[data-level="4"] :is(.c-spark, .c-scarf, .c-glasses, .c-crown) { display: inline; }
+.c-spark { animation: twinkle 2.2s ease-in-out infinite; }
+@keyframes twinkle { 50% { opacity: .35; } }
 @keyframes bob { 50% { transform: translateY(-7px) rotate(-1.5deg); } }
-/* small avatar, as on the GFS site: the character in a pale round frame */
-.avatar { display: block; flex: none; width: 52px; aspect-ratio: 1; max-width: 100%; border-radius: 50%; background: radial-gradient(circle at 50% 40%, #ffffff 30%, #f1eef9); border: 3px solid #d6cdee; box-shadow: 0 0 16px rgba(167, 123, 255, .35); overflow: hidden; }
-.avatar .gfs-m { width: 100%; height: 100%; aspect-ratio: auto; background-size: var(--msize); background-position: var(--mpos); animation: none; filter: none; }
+/* round frame, as on the GFS site: the cloud whole, centred on a pale disc */
+.avatar { display: grid; place-items: center; flex: none; width: 52px; aspect-ratio: 1; max-width: 100%; border-radius: 50%; background: radial-gradient(circle at 50% 40%, #ffffff 30%, #f1eef9); border: 3px solid #d6cdee; box-shadow: 0 0 16px rgba(167, 123, 255, .35); overflow: hidden; }
+.avatar .cloud { width: 86%; transform: translateY(4%); }
 .avatar.big { width: 100%; border-width: 4px; box-shadow: 0 0 40px rgba(167, 123, 255, .45); animation: bob 3.4s ease-in-out infinite; }
-/* the hero always shows the whole cloud, as on the GFS site; levels change the other avatars */
-.hero .avatar .gfs-m { --mimg: url("img/gfs-m1.webp"); --msize: 80% auto; --mpos: center 56%; }
 body[data-level="4"] .avatar { border-color: var(--yellow); box-shadow: 0 0 30px rgba(253, 195, 46, .6); }
 
 /* ---------- progress ---------- */
@@ -335,7 +329,10 @@ textarea { resize: vertical; min-height: 6.2em; }
 
 /* ---------- what happens next ---------- */
 .path { display: grid; gap: 16px; }
-.crew { width: min(640px, 100%); aspect-ratio: 820 / 350; max-width: 100%; justify-self: center; background: url("img/gfs-mascots.webp") center / contain no-repeat; -webkit-mask-image: radial-gradient(closest-side, #000 70%, transparent 100%); mask-image: radial-gradient(closest-side, #000 70%, transparent 100%); }
+.trail { width: min(760px, 100%); height: auto; justify-self: center; overflow: visible; }
+.trail .st { fill: var(--yellow); filter: drop-shadow(0 0 8px rgba(253, 195, 46, .8)); }
+.trail .st.first { fill: #fff; }
+.trail text { fill: var(--on-yellow); font: 900 15px var(--font); text-anchor: middle; dominant-baseline: central; }
 .path h2 { font-size: 1.5rem; text-align: center; }
 .path ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; counter-reset: s; }
 .path li { position: relative; counter-increment: s; padding: 14px 14px 12px; font-size: .9rem; display: grid; gap: 2px; align-content: start; border-radius: 20px; }
@@ -431,11 +428,97 @@ textarea { resize: vertical; min-height: 6.2em; }
 }
 </style>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="c-lobe" cx="38%" cy="30%" r="75%">
+      <stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#fafaff"/><stop offset=".82" stop-color="#e4e6f4"/><stop offset="1" stop-color="#c4c8e2"/>
+    </radialGradient>
+    <radialGradient id="c-nose" cx="36%" cy="30%" r="80%">
+      <stop offset="0" stop-color="#ff7a6e"/><stop offset=".45" stop-color="#ec2330"/><stop offset="1" stop-color="#9c0c18"/>
+    </radialGradient>
+    <radialGradient id="c-eye" cx="35%" cy="30%" r="75%">
+      <stop offset="0" stop-color="#4a4166"/><stop offset=".6" stop-color="#1b1035"/><stop offset="1" stop-color="#0b0618"/>
+    </radialGradient>
+    <linearGradient id="c-gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff0a8"/><stop offset=".45" stop-color="#fdc32e"/><stop offset="1" stop-color="#b8790a"/>
+    </linearGradient>
+    <linearGradient id="c-scarf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff5a5f"/><stop offset=".6" stop-color="#e3202b"/><stop offset="1" stop-color="#a50f1a"/>
+    </linearGradient>
+    <filter id="c-lobeShadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="13" flood-color="#8d90c0" flood-opacity=".42"/>
+    </filter>
+    <filter id="c-soft" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#7a1018" flood-opacity=".35"/>
+    </filter>
+    <filter id="c-ground" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+  </defs>
+  <!-- the classic Golrang cloud, redrawn in 3D; scarf, glasses and crown come with the levels -->
+  <symbol id="cloud" viewBox="-30 -120 800 790">
+
+  <ellipse cx="380" cy="625" rx="250" ry="26" fill="#0a0228" opacity=".35" filter="url(#c-ground)"/>
+  <!-- body: five lobes of the classic Golrang cloud, back to front -->
+  <ellipse cx="372" cy="380" rx="230" ry="175" fill="url(#c-lobe)"/>
+  <circle cx="132" cy="272" r="118" fill="url(#c-lobe)" filter="url(#c-lobeShadow)"/>
+  <circle cx="592" cy="318" r="122" fill="url(#c-lobe)" filter="url(#c-lobeShadow)"/>
+  <ellipse cx="236" cy="468" rx="138" ry="104" fill="url(#c-lobe)" filter="url(#c-lobeShadow)"/>
+  <ellipse cx="474" cy="500" rx="152" ry="98" fill="url(#c-lobe)" filter="url(#c-lobeShadow)"/>
+  <ellipse cx="336" cy="222" rx="194" ry="190" fill="url(#c-lobe)" filter="url(#c-lobeShadow)"/>
+  <!-- soft sheen on the head -->
+  <ellipse cx="270" cy="110" rx="70" ry="38" fill="#fff" opacity=".7" transform="rotate(-25 270 110)"/>
+
+  <!-- face -->
+  <g fill="none" stroke="#1b1035" stroke-linecap="round" stroke-width="11">
+    <path d="M266 112 Q 268 82 296 70"/>
+    <path d="M308 64 Q 348 60 364 102"/>
+  </g>
+  <ellipse cx="292" cy="142" rx="14" ry="23" fill="url(#c-eye)"/>
+  <ellipse cx="334" cy="140" rx="14" ry="23" fill="url(#c-eye)"/>
+  <circle cx="296" cy="134" r="4.5" fill="#fff"/><circle cx="338" cy="132" r="4.5" fill="#fff"/>
+  <g fill="none" stroke="#1b1035" stroke-linecap="round" stroke-width="12">
+    <path d="M212 224 C 240 270, 330 286, 382 222"/>
+    <path d="M378 194 C 382 218, 410 222, 446 202"/>
+  </g>
+  <ellipse cx="288" cy="202" rx="66" ry="50" fill="url(#c-nose)" filter="url(#c-soft)" transform="rotate(-6 288 202)"/>
+  <ellipse cx="262" cy="180" rx="22" ry="12" fill="#fff" opacity=".7" transform="rotate(-18 262 180)"/>
+  <ellipse cx="200" cy="250" rx="22" ry="13" fill="#ff8fa3" opacity=".35"/>
+  <ellipse cx="420" cy="240" rx="22" ry="13" fill="#ff8fa3" opacity=".35"/>
+
+  <g class="c-spark" fill="#fdc32e">
+    <path d="M40 40 l9 24 24 9 -24 9 -9 24 -9-24 -24-9 24-9z"/><path d="M700 60 l7 18 18 7 -18 7 -7 18 -7-18 -18-7 18-7z"/><path d="M736 470 l6 15 15 6 -15 6 -6 15 -6-15 -15-6 15-6z"/>
+  </g>
+  <g class="c-scarf" filter="url(#c-soft)">
+    <path d="M470 372 L 566 470 Q 540 492 512 486 L 446 398 Z" fill="url(#c-scarf)"/>
+    <path d="M156 344 Q 336 424 518 344 L 524 392 Q 336 478 152 392 Z" fill="url(#c-scarf)"/>
+  </g>
+  <g class="c-glasses" fill="rgba(255,255,255,.18)" stroke="#1b1035" stroke-width="7">
+    <circle cx="286" cy="144" r="31"/><circle cx="344" cy="142" r="31"/><path d="M315 140 q 0 -6 0 0" fill="none"/>
+    <path d="M255 140 L 228 128 M375 138 L 402 124" fill="none" stroke-linecap="round"/>
+  </g>
+  <g class="c-crown" filter="url(#c-soft)">
+    <path d="M254 52 L 244 -44 L 292 -2 L 336 -66 L 380 -2 L 428 -44 L 418 52 Q 336 74 254 52 Z" fill="url(#c-gold)" stroke="#a8740a" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="244" cy="-48" r="12" fill="url(#c-gold)"/><circle cx="336" cy="-72" r="13" fill="url(#c-gold)"/><circle cx="428" cy="-48" r="12" fill="url(#c-gold)"/>
+    <ellipse cx="336" cy="26" rx="14" ry="16" fill="url(#c-nose)"/>
+  </g>
+</symbol>
+</svg>
+
 <div class="wrap" id="wrap" dir="rtl" lang="fa">
   <div class="topbar"><span>Golrang Future Stars · ستارگان آیندهٔ گلرنگ</span></div>
   <header class="hero">
-    <div class="mascot" aria-hidden="true"><span class="avatar big"><span class="gfs-m"></span></span></div>
-    <div class="logo" role="img" aria-label="Golrang Future Stars"></div>
+    <div class="mascot" aria-hidden="true"><span class="avatar big"><svg class="cloud" viewBox="-30 -120 800 790"><use href="#cloud"/></svg></span></div>
+    <svg class="logo" viewBox="0 0 520 300" role="img" aria-label="Golrang Future Stars">
+      <defs>
+        <linearGradient id="wm-face" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2fdff"/><stop offset=".45" stop-color="#9fe0ff"/><stop offset="1" stop-color="#3a86ff"/></linearGradient>
+        <filter id="wm-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <path d="M30 128 L 482 52 L 500 190 L 48 262 Z" fill="none" stroke="#5ec8ff" stroke-width="2.5" opacity=".75" filter="url(#wm-glow)"/>
+      <g transform="rotate(-6 260 150)" filter="url(#wm-glow)">
+        <g class="depth" transform="translate(0 8)"><text x="260" y="98" font-size="62">GOLRANG</text><text x="260" y="172" font-size="72">FUTURE</text><text x="260" y="248" font-size="72" letter-spacing="14">STARS</text></g>
+        <g class="depth" transform="translate(0 4)"><text x="260" y="98" font-size="62">GOLRANG</text><text x="260" y="172" font-size="72">FUTURE</text><text x="260" y="248" font-size="72" letter-spacing="14">STARS</text></g>
+        <g class="front"><text x="260" y="98" font-size="62">GOLRANG</text><text x="260" y="172" font-size="72">FUTURE</text><text x="260" y="248" font-size="72" letter-spacing="14">STARS</text></g>
+      </g>
+    </svg>
     <p class="eyebrow">مسابقهٔ خلاقیت و نوآوری فرزندان همکاران گروه صنعتی گلرنگ</p>
     <h1>فرم دریافت <span class="mark">ایده</span></h1>
     <p class="group-line" id="group-line" hidden></p>
@@ -462,7 +545,7 @@ textarea { resize: vertical; min-height: 6.2em; }
       </section>
 
       <div class="progress" id="progress" hidden>
-        <div class="lvl"><span class="avatar" aria-hidden="true"><span class="gfs-m"></span></span><span><b id="lvl-name"></b><small id="lvl-next"></small></span></div>
+        <div class="lvl"><span class="avatar" aria-hidden="true"><svg class="cloud" viewBox="-30 -120 800 790"><use href="#cloud"/></svg></span><span><b id="lvl-name"></b><small id="lvl-next"></small></span></div>
         <div class="ptrack" role="progressbar" aria-label="نور ستارهٔ ایده" aria-valuemin="0" aria-valuemax="100" id="ptrack"><span class="pfill" id="pfill"></span></div>
         <span class="stars" id="stars"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.8 6 6.5.7-4.9 4.4 1.4 6.4L12 16.8 6.2 20l1.4-6.4-4.9-4.4 6.5-.7z"/></svg><span id="stars-n">۰</span></span>
         <span class="ptext" id="ptext"></span>
@@ -532,7 +615,7 @@ textarea { resize: vertical; min-height: 6.2em; }
     </form>
 
     <section class="done glass" id="done" hidden>
-      <div class="mascot" aria-hidden="true"><span class="avatar big"><span class="gfs-m"></span></span></div>
+      <div class="mascot" aria-hidden="true"><span class="avatar big"><svg class="cloud" viewBox="-30 -120 800 790"><use href="#cloud"/></svg></span></div>
       <div class="done-text-box">
         <h2>هورا! <span>ایده‌ات ثبت شد</span></h2>
         <p id="done-text"></p>
@@ -549,7 +632,11 @@ textarea { resize: vertical; min-height: 6.2em; }
   </main>
 
   <section class="path" id="path">
-    <div class="crew" role="img" aria-label="شخصیت‌های ستارگان آیندهٔ گلرنگ"></div>
+    <svg class="trail" viewBox="0 0 900 190" aria-hidden="true">
+      <path id="trail-path" d="M790 120 C 700 40, 620 170, 520 100 S 340 30, 250 110 S 90 150, 40 70" fill="none" stroke="#5ec8ff" stroke-width="4" stroke-linecap="round" stroke-dasharray="1 14" opacity=".8"/>
+      <g id="trail-stars"></g>
+      <svg x="790" y="40" width="110" height="110" viewBox="-30 -120 800 790" overflow="visible"><use href="#cloud"/></svg>
+    </svg>
     <h2>بعد از ثبت ایده چه می‌شود؟</h2>
     <ol>
       <li class="glass"><b>ثبت ایده</b><small>همین فرم</small></li>
@@ -867,7 +954,7 @@ function renderShelf(got) {
 function toast(icon, title, sub, color) {
   const el = document.createElement("div");
   el.className = "toast";
-  el.innerHTML = `${icon === "mascot" ? '<span class="avatar"><span class="gfs-m"></span></span>' : `<span class="ti" style="${color ? "--bc:" + color : ""}">${svg(icon)}</span>`}<span><b>${esc(title)}</b><small>${esc(sub)}</small></span>`;
+  el.innerHTML = `${icon === "mascot" ? '<span class="avatar"><svg class="cloud" viewBox="-30 -120 800 790"><use href="#cloud"/></svg></span>' : `<span class="ti" style="${color ? "--bc:" + color : ""}">${svg(icon)}</span>`}<span><b>${esc(title)}</b><small>${esc(sub)}</small></span>`;
   $("toasts").append(el);
   while ($("toasts").children.length > 3) $("toasts").firstElementChild.remove();
   setTimeout(() => { el.classList.add("out"); setTimeout(() => el.remove(), 320); }, 3200);
@@ -1193,28 +1280,28 @@ async function makeCard(en) {
   // glass panel
   x.fillStyle = "rgba(64,26,160,.42)"; x.strokeStyle = "rgba(170,160,255,.4)"; x.lineWidth = 3;
   x.beginPath(); x.roundRect(60, 60, W - 120, H - 120, 48); x.fill(); x.stroke();
-  // GFS logo, edges feathered into the sky
-  const logo = await loadImg("img/gfs-logo.webp");
-  if (logo) {
-    const lw = 460, lh = lw * logo.height / logo.width, o = document.createElement("canvas"); o.width = lw; o.height = lh;
-    const ox = o.getContext("2d"); ox.drawImage(logo, 0, 0, lw, lh); ox.globalCompositeOperation = "destination-in";
-    // an oval fade the shape of the logo, so its square edges disappear
-    ox.translate(lw / 2, lh / 2); ox.scale(1, lh / lw);
-    const m = ox.createRadialGradient(0, 0, lw * .34, 0, 0, lw * .5); m.addColorStop(0, "#000"); m.addColorStop(1, "rgba(0,0,0,0)");
-    ox.fillStyle = m; ox.fillRect(-lw / 2, -lw / 2, lw, lw); x.drawImage(o, (W - lw) / 2, 78);
+  // the Future Stars wordmark, drawn like the page's
+  try { await document.fonts.load("900 50px Orbitron"); } catch (e) {}
+  x.save(); x.translate(W / 2, 205); x.rotate(-6 * Math.PI / 180); x.direction = "ltr"; x.lineJoin = "round";
+  const face = x.createLinearGradient(0, -110, 0, 110); face.addColorStop(0, "#f2fdff"); face.addColorStop(.45, "#9fe0ff"); face.addColorStop(1, "#3a86ff");
+  for (const [t, y, sz] of [["GOLRANG", -62, 56], ["FUTURE", 4, 64], ["S T A R S", 72, 64]]) {
+    x.font = `900 ${sz}px Orbitron, Vazirmatn, sans-serif`;
+    x.fillStyle = "#0b2370"; x.strokeStyle = "#0b2370"; x.lineWidth = 6; x.strokeText(t, 0, y + 8); x.fillText(t, 0, y + 8);
+    x.shadowColor = "rgba(90,170,255,.7)"; x.shadowBlur = 18; x.strokeStyle = "#0a1d5c"; x.strokeText(t, 0, y); x.shadowBlur = 0;
+    x.fillStyle = face; x.fillText(t, 0, y);
   }
+  x.restore(); x.direction = "rtl";
   x.fillStyle = "#fff"; x.font = "900 70px Vazirmatn, Tahoma"; x.fillText("کارت ستارهٔ آینده", W / 2, 400);
   x.fillStyle = C.muted; x.font = "700 27px Vazirmatn, Tahoma";
   x.fillText(`مسابقهٔ خلاقیت و نوآوری فرزندان گلرنگ · ${new Date(en.createdAt).toLocaleDateString("fa-IR")}`, W / 2, 450);
   // the level's character in the round frame used on the page
-  const hero = await loadImg(`img/gfs-m${en.game.level}.webp`), R = 130, cx = W / 2, cy = 600, gold = en.game.level >= 4;
+  const hero = await loadImg(`img/cloud-l${en.game.level}.webp`), R = 130, cx = W / 2, cy = 600, gold = en.game.level >= 4;
   x.save(); x.shadowColor = gold ? "rgba(253,195,46,.8)" : "rgba(167,123,255,.7)"; x.shadowBlur = 50;
   const disc = x.createRadialGradient(cx, cy - 30, 10, cx, cy, R); disc.addColorStop(0, "#ffffff"); disc.addColorStop(1, "#ece8f7");
   x.fillStyle = disc; x.beginPath(); x.arc(cx, cy, R, 0, 7); x.fill(); x.restore();
   if (hero) {
     x.save(); x.beginPath(); x.arc(cx, cy, R, 0, 7); x.clip();
-    const whole = en.game.level === 1, hw = 2 * R * (whole ? .8 : .92), hh = hw * hero.height / hero.width;
-    const left = cx - hw / 2, top = cy - R + (2 * R - hh) * (whole ? .56 : .72);
+    const hw = 2 * R * .9, hh = hw * hero.height / hero.width, left = cx - hw / 2, top = cy - hh / 2 + R * .06;
     x.drawImage(hero, left, top, hw, hh); x.restore();
   }
   x.strokeStyle = gold ? "#fdc32e" : "#cfc6ec"; x.lineWidth = 10; x.beginPath(); x.arc(cx, cy, R, 0, 7); x.stroke();
@@ -1370,6 +1457,15 @@ $("csv").addEventListener("click", async () => {
   try { await downloads.save({ filename: "golrang-kids-ideas.csv", data: csv }); }
   catch (err) { if (err?.code !== "declined") $("board-status").textContent = "خروجی گرفته نشد."; }
 });
+
+/* ---------- the trail of eight steps ---------- */
+(function drawTrail() {
+  const path = $("trail-path"), len = path.getTotalLength(), star = "M0 -17 L5 -6 17 -5 8 3 11 16 0 9 -11 16 -8 3 -17 -5 -5 -6Z";
+  $("trail-stars").innerHTML = Array.from({ length: 8 }, (_, i) => {
+    const pt = path.getPointAtLength(len * (i + 1) / 9);
+    return `<g transform="translate(${pt.x.toFixed(1)} ${pt.y.toFixed(1)})"><path class="st${i === 0 ? " first" : ""}" d="${star}" transform="scale(1.35)"/><text y="2">${fa(i + 1)}</text></g>`;
+  }).join("");
+})();
 
 /* ---------- capabilities ---------- */
 function filesOff() {

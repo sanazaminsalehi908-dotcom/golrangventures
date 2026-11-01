@@ -575,11 +575,10 @@ const TRACKS = {
     items: [
       { id: "type", label: "می‌خواهی در مدرسه چه کار کنی؟", req: true, wide: true, choice: ["یک درس را با یک فعالیت دیگر عوض کنم", "یک فعالیت یا کلاس تازه اضافه کنم", "یک امکان یا وسیله تازه بیاورم", "حیاط، کلاس یا ساختمان را تغییر بدهم", "یک برنامه یا قانون را عوض کنم", "چیز دیگری"] },
       { id: "now", label: "الان چه چیزی در مدرسه هست که دوستش نداری یا فکر می‌کنی می‌شود بهترش کرد؟", req: true },
-      { id: "why", label: "چرا؟ چه وقت‌هایی اذیتت می‌کند یا کم است؟" },
       { id: "idea", label: "ایده‌ات چیه؟ چه چیزی را عوض می‌کنی یا اضافه می‌کنی؟", req: true, orDraw: true, hint: "اگر نوشتنش سخت است، نقاشی‌اش را پایین‌تر بفرست." },
       { id: "day", label: "اگر ایده‌ات اجرا شود، یک روز مدرسه چه فرقی می‌کند؟" },
-      { id: "who", label: "چه کسانی از این تغییر خوشحال می‌شوند؟", hint: "بچه‌ها، معلم‌ها، مدیر، بابا و مامان‌ها…", half: true },
-      { slot: "visual", label: "مدرسه را با ایده‌ات بکش، بساز یا عکسش را برایمان بفرست.", place: "جای نقاشی / ماکت / عکس", icon: "image", accept: VIS, max: 4, half: true },
+      { id: "who", label: "چه کسانی از این تغییر خوشحال می‌شوند؟", hint: "بچه‌ها، معلم‌ها، مدیر، بابا و مامان‌ها…" },
+      { slot: "visual", label: "مدرسه را با ایده‌ات بکش، بساز یا عکسش را برایمان بفرست.", place: "جای نقاشی / ماکت / عکس", icon: "image", accept: VIS, max: 4 },
       AUDIO_SLOT
     ]
   },
@@ -777,7 +776,7 @@ const LEVEL_AT = [0, .2, .5, .8];
 const ROLE = {
   problem: { aSchool: "now", aFree: "problem", bJob: "change", bFree: "problem" },
   dream: { aSchool: "day", aFree: "idea", bJob: "day", bFree: "solution" },
-  dig: { aSchool: "why", aFree: "why", bJob: "human", bFree: "evidence" }
+  dig: { aSchool: "who", aFree: "why", bJob: "human", bFree: "evidence" }
 };
 const BADGES = [
   { id: "first", name: "اولین قدم", desc: "اولین جوابت را نوشتی", c: "var(--blue)", d: "M5 21V4 M5 4h11l-2 4 2 4H5" },

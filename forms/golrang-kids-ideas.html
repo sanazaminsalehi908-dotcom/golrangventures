@@ -1038,6 +1038,7 @@ $("idea-form").addEventListener("submit", async e => {
     entries.push(entry);
     await ref.set({ entries, updatedAt: entry.createdAt });
     try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+    setStatus("");
     showDone(entry);
     loadMine();
   } catch (err) {

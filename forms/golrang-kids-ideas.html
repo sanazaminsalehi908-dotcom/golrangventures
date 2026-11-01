@@ -68,7 +68,7 @@ svg.i { width: 1.4em; height: 1.4em; flex: none; fill: none; stroke: currentColo
 
 /* ---------- top bar + hero ---------- */
 .hero { position: relative; display: grid; justify-items: center; text-align: center; gap: 12px; padding-top: 26px; }
-.logo { width: min(460px, 90%); height: auto; max-width: 100%; }
+.logo { width: min(360px, 78%); height: auto; max-width: 100%; }
 .eyebrow { display: inline-block; font-weight: 800; font-size: .84rem; color: var(--yellow); border: 1px solid rgba(253, 195, 46, .45); background: rgba(253, 195, 46, .08); border-radius: 999px; padding: 2px 14px; }
 h1 { font-size: clamp(2.3rem, 7.5vw, 3.9rem); line-height: 1.2; letter-spacing: -.01em; text-shadow: 0 4px 30px rgba(120, 80, 255, .6); }
 .group-line { display: inline-flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 10px; font-weight: 800; font-size: 1rem; background: var(--theme-soft); border: 1px solid color-mix(in srgb, var(--theme) 60%, transparent); border-radius: 999px; padding: 4px 16px; }
@@ -425,7 +425,7 @@ textarea { resize: vertical; min-height: 6.2em; }
 <div class="wrap" id="wrap" dir="rtl" lang="fa">
   <header class="hero">
     <div class="mascot" aria-hidden="true"><span class="avatar big"><span class="cloud"></span></span></div>
-    <img class="logo" src="img/gfs-wordmark.webp" width="880" height="543" alt="Golrang Future Stars">
+    <img class="logo" src="img/gfs-wordmark.webp" width="720" height="634" alt="Golrang Future Stars">
     <p class="eyebrow">مسابقهٔ خلاقیت و نوآوری فرزندان همکاران گروه صنعتی گلرنگ</p>
     <h1>فرم دریافت ایده</h1>
     <p class="group-line" id="group-line" hidden></p>
@@ -1189,7 +1189,7 @@ async function makeCard(en) {
   x.beginPath(); x.roundRect(60, 60, W - 120, H - 120, 48); x.fill(); x.stroke();
   // the Future Stars wordmark
   const mark = await loadImg("img/gfs-wordmark.webp");
-  if (mark) { const mw = 420, mh = mw * mark.height / mark.width; x.drawImage(mark, (W - mw) / 2, 70, mw, mh); }
+  if (mark) { const mw = 300, mh = mw * mark.height / mark.width; x.drawImage(mark, (W - mw) / 2, 70, mw, mh); }
   x.fillStyle = "#fff"; x.font = "900 70px Vazirmatn, Tahoma"; x.fillText("کارت ستارهٔ آینده", W / 2, 400);
   x.fillStyle = C.muted; x.font = "700 27px Vazirmatn, Tahoma";
   x.fillText(`مسابقهٔ خلاقیت و نوآوری فرزندان گلرنگ · ${new Date(en.createdAt).toLocaleDateString("fa-IR")}`, W / 2, 450);

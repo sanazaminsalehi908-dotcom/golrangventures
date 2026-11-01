@@ -1196,7 +1196,7 @@ async function makeCard(en) {
   // the level's character, free on the sky with a soft glow
   const hero = await loadImg(`img/cloud-l${en.game.level}.webp`), cx = W / 2, cy = 600, gold = en.game.level >= 4;
   if (hero) {
-    const hh = 290, hw = Math.min(330, hh * hero.width / hero.height), h2 = hw * hero.height / hero.width;
+    const hh = 255, hw = Math.min(300, hh * hero.width / hero.height), h2 = hw * hero.height / hero.width;
     x.save(); x.shadowColor = gold ? "rgba(253,195,46,.75)" : "rgba(140,110,255,.7)"; x.shadowBlur = 45;
     x.drawImage(hero, cx - hw / 2, cy - h2 / 2, hw, h2); x.restore();
   }

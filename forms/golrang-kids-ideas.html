@@ -739,7 +739,7 @@ function setTrack(k) {
   $("tagline").textContent = t.tagline;
   $("remember-text").textContent = t.remember;
   $("q-title").textContent = t.kind === "challenge" ? t.name.replace("چالش: ", "چالش ") : "سؤال‌های اصلی";
-  $("q-sub").textContent = "سؤال‌های ستاره‌دار لازم‌اند. بقیه را هر چقدر خواستی جواب بده.";
+  $("q-sub").textContent = "سؤال‌های ستاره‌دار لازمند. بقیه را هر چقدر خواستی جواب بده.";
   // The interests section only makes sense for a free idea; numbering follows what is shown.
   $("sec-interest").hidden = !t.interests;
   const nums = t.interests ? ["۲", "۳", "۴"] : [null, "۲", "۳"];

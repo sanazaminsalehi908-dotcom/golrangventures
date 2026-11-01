@@ -323,21 +323,6 @@ textarea { resize: vertical; min-height: 6.2em; }
 
 /* ---------- what happens next ---------- */
 .path { display: grid; gap: 16px; }
-.trail { width: min(760px, 100%); height: auto; justify-self: center; overflow: visible; }
-.trail .st { fill: var(--yellow); filter: drop-shadow(0 0 8px rgba(253, 195, 46, .8)); }
-.trail .st.first { fill: #fff; }
-.trail text { fill: var(--on-yellow); font: 900 15px var(--font); text-anchor: middle; dominant-baseline: central; }
-.path h2 { font-size: 1.5rem; text-align: center; }
-.path ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; counter-reset: s; }
-.path li { position: relative; counter-increment: s; padding: 14px 14px 12px; font-size: .9rem; display: grid; gap: 2px; align-content: start; border-radius: 20px; }
-.path li::before {
-  content: counter(s, persian); display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; margin-bottom: 4px;
-  background: radial-gradient(circle at 30% 25%, #fff3c4, var(--yellow) 55%, #c98a00); color: var(--on-yellow); font-weight: 900; font-size: 1.05rem;
-  box-shadow: 0 0 14px rgba(253, 195, 46, .5);
-}
-.path li:first-child { border-color: rgba(253, 195, 46, .6); }
-.path li b { font-size: .98rem; }
-.path li small { color: var(--muted); font-size: .8rem; line-height: 1.6; }
 .mine { display: grid; gap: 6px; padding: 14px 18px; }
 .mine h3 { font-size: 1rem; }
 .mine ul { margin: 0; padding-inline-start: 18px; color: var(--muted); font-size: .9rem; }
@@ -401,7 +386,7 @@ textarea { resize: vertical; min-height: 6.2em; }
   .cards { grid-template-columns: minmax(0, 1fr); }
   .card.half, .card.wide { grid-column: auto; }
   .paths { grid-template-columns: minmax(0, 1fr); }
-  .path ol, .kpis, .shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpis, .shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ages { grid-template-columns: 1fr; }
   .row summary { grid-template-columns: 2.7rem minmax(0, 1fr) auto; }
   .row summary .meta { display: none; }
@@ -539,22 +524,6 @@ textarea { resize: vertical; min-height: 6.2em; }
   </main>
 
   <section class="path" id="path">
-    <svg class="trail" viewBox="0 0 900 190" aria-hidden="true">
-      <path id="trail-path" d="M790 120 C 700 40, 620 170, 520 100 S 340 30, 250 110 S 90 150, 40 70" fill="none" stroke="#5ec8ff" stroke-width="4" stroke-linecap="round" stroke-dasharray="1 14" opacity=".8"/>
-      <g id="trail-stars"></g>
-      <image href="img/cloud-l1.webp" x="784" y="46" width="116" height="106"/>
-    </svg>
-    <h2>بعد از ثبت ایده چه می‌شود؟</h2>
-    <ol>
-      <li class="glass"><b>ثبت ایده</b><small>همین فرم</small></li>
-      <li class="glass"><b>انتخاب ایده‌ها</b><small>ایده‌هایی که می‌شود رشدشان داد</small></li>
-      <li class="glass"><b>آموزش ایده‌پردازی</b><small>کارگاه‌های مخصوص هر سن</small></li>
-      <li class="glass"><b>تحقیق درباره مسئله</b><small>با آدم‌هایی که مشکل را دارند حرف می‌زنی</small></li>
-      <li class="glass"><b>ساخت نمونه اولیه</b><small>ماکت، نقاشی یا یک نسخه ساده</small></li>
-      <li class="glass"><b>بازخورد</b><small>از منتورها و کاربران</small></li>
-      <li class="glass"><b>ارائه نهایی</b><small>ایده‌ات را روی صحنه معرفی می‌کنی</small></li>
-      <li class="glass"><b>منتورینگ و حمایت</b><small>برای ادامه راه</small></li>
-    </ol>
     <div class="mine glass" id="mine" hidden>
       <h3>ایده‌هایی که از این حساب ثبت شده</h3>
       <ul id="mine-list"></ul>
@@ -1352,15 +1321,6 @@ $("csv").addEventListener("click", async () => {
   try { await downloads.save({ filename: "golrang-kids-ideas.csv", data: csv }); }
   catch (err) { if (err?.code !== "declined") $("board-status").textContent = "خروجی گرفته نشد."; }
 });
-
-/* ---------- the trail of eight steps ---------- */
-(function drawTrail() {
-  const path = $("trail-path"), len = path.getTotalLength(), star = "M0 -17 L5 -6 17 -5 8 3 11 16 0 9 -11 16 -8 3 -17 -5 -5 -6Z";
-  $("trail-stars").innerHTML = Array.from({ length: 8 }, (_, i) => {
-    const pt = path.getPointAtLength(len * (i + 1) / 9);
-    return `<g transform="translate(${pt.x.toFixed(1)} ${pt.y.toFixed(1)})"><path class="st${i === 0 ? " first" : ""}" d="${star}" transform="scale(1.35)"/><text y="2">${fa(i + 1)}</text></g>`;
-  }).join("");
-})();
 
 /* ---------- capabilities ---------- */
 function filesOff() {

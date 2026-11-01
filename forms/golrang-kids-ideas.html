@@ -84,11 +84,11 @@ body[data-level="3"] { --cimg: url("img/cloud-l3.webp"); }
 body[data-level="4"] { --cimg: url("img/cloud-l4.webp"); }
 .cloud { display: block; width: 100%; aspect-ratio: 1; background: var(--cimg) center / contain no-repeat; }
 @keyframes bob { 50% { transform: translateY(-7px) rotate(-1.5deg); } }
-/* round frame, as on the GFS site: the cloud whole, centred on a pale disc */
-.avatar { display: grid; place-items: center; flex: none; width: 52px; aspect-ratio: 1; max-width: 100%; border-radius: 50%; background: radial-gradient(circle at 50% 40%, #ffffff 30%, #f1eef9); border: 3px solid #d6cdee; box-shadow: 0 0 16px rgba(167, 123, 255, .35); overflow: hidden; }
-.avatar .cloud { width: 84%; }
-.avatar.big { width: 100%; border-width: 4px; box-shadow: 0 0 40px rgba(167, 123, 255, .45); animation: bob 3.4s ease-in-out infinite; }
-body[data-level="4"] .avatar { border-color: var(--yellow); box-shadow: 0 0 30px rgba(253, 195, 46, .6); }
+/* the cloud stands free on the sky, with a soft glow instead of a frame */
+.avatar { display: grid; place-items: center; flex: none; width: 52px; aspect-ratio: 1; max-width: 100%; }
+.avatar .cloud { width: 100%; filter: drop-shadow(0 6px 14px rgba(120, 90, 255, .45)); }
+.avatar.big { width: 100%; animation: bob 3.4s ease-in-out infinite; }
+body[data-level="4"] .avatar .cloud { filter: drop-shadow(0 0 18px rgba(253, 195, 46, .65)); }
 
 /* ---------- progress ---------- */
 .progress {
@@ -1193,17 +1193,13 @@ async function makeCard(en) {
   x.fillStyle = "#fff"; x.font = "900 70px Vazirmatn, Tahoma"; x.fillText("کارت ستارهٔ آینده", W / 2, 400);
   x.fillStyle = C.muted; x.font = "700 27px Vazirmatn, Tahoma";
   x.fillText(`مسابقهٔ خلاقیت و نوآوری فرزندان گلرنگ · ${new Date(en.createdAt).toLocaleDateString("fa-IR")}`, W / 2, 450);
-  // the level's character in the round frame used on the page
-  const hero = await loadImg(`img/cloud-l${en.game.level}.webp`), R = 130, cx = W / 2, cy = 600, gold = en.game.level >= 4;
-  x.save(); x.shadowColor = gold ? "rgba(253,195,46,.8)" : "rgba(167,123,255,.7)"; x.shadowBlur = 50;
-  const disc = x.createRadialGradient(cx, cy - 30, 10, cx, cy, R); disc.addColorStop(0, "#ffffff"); disc.addColorStop(1, "#ece8f7");
-  x.fillStyle = disc; x.beginPath(); x.arc(cx, cy, R, 0, 7); x.fill(); x.restore();
+  // the level's character, free on the sky with a soft glow
+  const hero = await loadImg(`img/cloud-l${en.game.level}.webp`), cx = W / 2, cy = 600, gold = en.game.level >= 4;
   if (hero) {
-    x.save(); x.beginPath(); x.arc(cx, cy, R, 0, 7); x.clip();
-    const hw = 2 * R * .84, hh = hw * hero.height / hero.width, left = cx - hw / 2, top = cy - hh / 2;
-    x.drawImage(hero, left, top, hw, hh); x.restore();
+    const hh = 290, hw = Math.min(330, hh * hero.width / hero.height), h2 = hw * hero.height / hero.width;
+    x.save(); x.shadowColor = gold ? "rgba(253,195,46,.75)" : "rgba(140,110,255,.7)"; x.shadowBlur = 45;
+    x.drawImage(hero, cx - hw / 2, cy - h2 / 2, hw, h2); x.restore();
   }
-  x.strokeStyle = gold ? "#fdc32e" : "#cfc6ec"; x.lineWidth = 10; x.beginPath(); x.arc(cx, cy, R, 0, 7); x.stroke();
   x.fillStyle = "#fff"; x.font = "900 64px Vazirmatn, Tahoma"; x.fillText(en.child.name, W / 2, 795);
   const lv = `${LEVELS[en.group][en.game.level - 1]} · ${fa(en.game.stars)} امتیاز`;
   x.font = "900 36px Vazirmatn, Tahoma"; const lw2 = x.measureText(lv).width + 80;

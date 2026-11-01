@@ -450,7 +450,6 @@ textarea { resize: vertical; min-height: 6.2em; }
             <div class="q w2"><label for="k_name">نام کودک <span class="req">*</span></label><input type="text" id="k_name" autocomplete="off"></div>
             <div class="q"><label for="k_age">سن</label><input type="text" id="k_age" readonly></div>
             <div class="q"><label for="k_city">شهر <span class="req">*</span></label><input type="text" id="k_city"></div>
-            <div class="q w2"><label for="k_school">مدرسه <span class="req">*</span></label><input type="text" id="k_school"></div>
             <div class="q w2"><label for="p_name">نام والد / سرپرست <span class="req">*</span></label><input type="text" id="p_name"></div>
             <div class="q w2"><label for="p_phone">شماره تماس والد / سرپرست <span class="req">*</span></label><input type="tel" id="p_phone" class="ltr" inputmode="numeric" placeholder="09xxxxxxxxx"></div>
             <div class="q w2" id="mode-q">
@@ -662,7 +661,7 @@ const INTERESTS = [
   { t: "ایده خودم", c: "var(--yellow)", d: "M9 18h6 M10 21h4 M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z" }
 ];
 const STATUSES = { new: "تازه", shortlist: "دارای پتانسیل", training: "دعوت به آموزش", notnow: "این دوره نه" };
-const REQUIRED_BASE = ["k_name", "k_city", "k_school", "p_name", "p_phone", "p_company", "p_code"];
+const REQUIRED_BASE = ["k_name", "k_city", "p_name", "p_phone", "p_company", "p_code"];
 const DRAFT_KEY = "golrang-kids-idea-draft";
 const CARD_TINTS = ["c1", "c2", "c3", "c4", "c5"];
 
@@ -1050,7 +1049,7 @@ $("idea-form").addEventListener("submit", async e => {
   const v = id => $(id).value.trim();
   const entry = {
     id: newId(), createdAt: new Date().toISOString(), age, group, track, kind: TRACKS[track].kind, answers,
-    child: { name: v("k_name"), city: v("k_city"), school: v("k_school") },
+    child: { name: v("k_name"), city: v("k_city") },
     mode: $("mode_team").checked ? "team" : "solo", team: $("mode_team").checked ? v("k_team") : "",
     interests: TRACKS[track].interests ? [...document.querySelectorAll("#interests input:checked")].map(x => x.value) : [],
     parent: { name: v("p_name"), phone: toEn(v("p_phone")).replace(/\D/g, ""), company: v("p_company"), code: toEn(v("p_code")) },
@@ -1276,7 +1275,7 @@ function renderBoard() {
         <dl class="qa">${qa}</dl>
         ${media ? `<div class="media">${media}</div>` : ""}
         <dl class="qa">
-          <div><dt>کودک</dt><dd>${esc(en.child?.name)}، ${fa(en.age)} ساله، ${esc(en.child?.city)}، مدرسه ${esc(en.child?.school)}</dd></div>
+          <div><dt>کودک</dt><dd>${esc(en.child?.name)}، ${fa(en.age)} ساله، ${esc(en.child?.city)}</dd></div>
           <div><dt>نوع مشارکت</dt><dd>${en.mode === "team" ? "با دوستان" + (en.team ? ": " + esc(en.team) : "") : "فردی"}</dd></div>
           ${en.game ? `<div><dt>سطح و نشان‌ها</dt><dd>${esc(LEVELS[en.group]?.[en.game.level - 1] || "")} · ${fa(en.game.stars)} امتیاز${en.game.badges?.length ? " · " + en.game.badges.map(id => BADGES.find(b => b.id === id)?.name).filter(Boolean).map(esc).join("، ") : ""}</dd></div>` : ""}
           ${en.interests?.length ? `<div><dt>دنیای مورد علاقه</dt><dd>${en.interests.map(esc).join("، ")}</dd></div>` : ""}
@@ -1313,8 +1312,8 @@ $("csv").addEventListener("click", async () => {
   const cell = x => '"' + String(x ?? "").replace(/"/g, '""') + '"';
   // One column per question of each section, since the same id means different things in different sections.
   const cols = Object.entries(TRACKS).flatMap(([k, t]) => t.items.filter(i => i.id).map(i => [k, i.id, `${t.short}: ${i.label}`]));
-  const head = ["تاریخ", "سن", "بخش", "وضعیت", "نام کودک", "شهر", "مدرسه", "مشارکت", "دوستان", "دنیای مورد علاقه", ...cols.map(c => c[2]), "لینک ویدیو", "تعداد فایل", "نام والد", "تماس", "شرکت", "شماره پرسنلی"];
-  const rows = ideas.map(en => [en.createdAt, en.age, TRACKS[en.track]?.short || en.track, STATUSES[statusOf(en)], en.child?.name, en.child?.city, en.child?.school,
+  const head = ["تاریخ", "سن", "بخش", "وضعیت", "نام کودک", "شهر", "مشارکت", "دوستان", "دنیای مورد علاقه", ...cols.map(c => c[2]), "لینک ویدیو", "تعداد فایل", "نام والد", "تماس", "شرکت", "شماره پرسنلی"];
+  const rows = ideas.map(en => [en.createdAt, en.age, TRACKS[en.track]?.short || en.track, STATUSES[statusOf(en)], en.child?.name, en.child?.city,
     en.mode === "team" ? "با دوستان" : "فردی", en.team, (en.interests || []).join("، "), ...cols.map(([k, id]) => en.track === k ? en.answers?.[id] || "" : ""), en.answers?.videoLink || "", (en.files || []).length,
     en.parent?.name, en.parent?.phone, en.parent?.company, en.parent?.code]);
   const csv = "﻿" + [head, ...rows].map(r => r.map(cell).join(",")).join("\r\n");

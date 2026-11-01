@@ -454,7 +454,7 @@ textarea { resize: vertical; min-height: 6.2em; }
         </section>
 
         <section class="sec s-interest glass" id="sec-interest">
-          <div class="sec-head"><h2 class="sec-title"><span class="num" id="num-int">۲</span>دنیای مورد علاقه</h2><p class="sub">یکی را انتخاب کن تا شروع کنیم. اگر بیشتر بود، بیشتر.</p></div>
+          <div class="sec-head"><h2 class="sec-title"><span class="num" id="num-int">۲</span>ایده‌ات درباره چیست؟</h2><p class="sub">موضوع ایده‌ات به کدام یکی از این‌ها نزدیک‌تر است؟ اگر به چند تا مربوط است، همه را انتخاب کن.</p></div>
           <div class="interests" id="interests"></div>
         </section>
 
@@ -1249,7 +1249,7 @@ function renderBoard() {
         <dl class="qa">
           <div><dt>کودک</dt><dd>${esc(en.child?.name)}، ${fa(en.age)} ساله، ${esc(en.child?.city)}</dd></div>
           ${en.game ? `<div><dt>سطح و نشان‌ها</dt><dd>${esc(LEVELS[en.group]?.[en.game.level - 1] || "")} · ${fa(en.game.stars)} امتیاز${en.game.badges?.length ? " · " + en.game.badges.map(id => BADGES.find(b => b.id === id)?.name).filter(Boolean).map(esc).join("، ") : ""}</dd></div>` : ""}
-          ${en.interests?.length ? `<div><dt>دنیای مورد علاقه</dt><dd>${en.interests.map(esc).join("، ")}</dd></div>` : ""}
+          ${en.interests?.length ? `<div><dt>موضوع ایده</dt><dd>${en.interests.map(esc).join("، ")}</dd></div>` : ""}
           <div><dt>والدین</dt><dd>${esc(en.parent?.name)} · ${esc(en.parent?.company)} · پرسنلی <span class="ltr">${esc(fa(en.parent?.code || ""))}</span> · <span class="ltr">${esc(fa(en.parent?.phone || ""))}</span></dd></div>
         </dl>
         <div class="status-set"><label for="st_${esc(en.id)}">وضعیت:</label>
@@ -1283,7 +1283,7 @@ $("csv").addEventListener("click", async () => {
   const cell = x => '"' + String(x ?? "").replace(/"/g, '""') + '"';
   // One column per question of each section, since the same id means different things in different sections.
   const cols = Object.entries(TRACKS).flatMap(([k, t]) => t.items.filter(i => i.id).map(i => [k, i.id, `${t.short}: ${i.label}`]));
-  const head = ["تاریخ", "سن", "بخش", "وضعیت", "نام کودک", "شهر", "دنیای مورد علاقه", ...cols.map(c => c[2]), "لینک ویدیو", "تعداد فایل", "نام والدین", "تماس", "شرکت", "شماره پرسنلی"];
+  const head = ["تاریخ", "سن", "بخش", "وضعیت", "نام کودک", "شهر", "موضوع ایده", ...cols.map(c => c[2]), "لینک ویدیو", "تعداد فایل", "نام والدین", "تماس", "شرکت", "شماره پرسنلی"];
   const rows = ideas.map(en => [en.createdAt, en.age, TRACKS[en.track]?.short || en.track, STATUSES[statusOf(en)], en.child?.name, en.child?.city,
     (en.interests || []).join("، "), ...cols.map(([k, id]) => en.track === k ? en.answers?.[id] || "" : ""), en.answers?.videoLink || "", (en.files || []).length,
     en.parent?.name, en.parent?.phone, en.parent?.company, en.parent?.code]);

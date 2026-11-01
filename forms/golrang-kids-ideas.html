@@ -74,6 +74,7 @@ h1 { font-size: clamp(2.3rem, 7.5vw, 3.9rem); line-height: 1.2; letter-spacing: 
 .group-line { display: inline-flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 10px; font-weight: 800; font-size: 1rem; background: var(--theme-soft); border: 1px solid color-mix(in srgb, var(--theme) 60%, transparent); border-radius: 999px; padding: 4px 16px; }
 .group-line .sep { width: 6px; height: 6px; border-radius: 50%; background: var(--theme); }
 .intro { color: var(--muted); font-size: 1.04rem; max-width: 62ch; }
+.demo-note { font-size: .85rem; font-weight: 700; color: var(--cyan); border: 1px dashed rgba(94, 200, 255, .6); border-radius: 12px; padding: 4px 14px; background: rgba(94, 200, 255, .08); }
 .tagline { font-weight: 900; font-size: 1.15rem; color: var(--yellow); }
 .hero .mascot { position: absolute; left: 10px; top: 40px; width: 170px; }
 
@@ -413,6 +414,7 @@ textarea { resize: vertical; min-height: 6.2em; }
     <h1>فرم دریافت ایده</h1>
     <p class="group-line" id="group-line" hidden></p>
     <p class="intro" id="intro">برای بچه‌های ۷ تا ۱۷ سال، در دو گروه سنی. هر گروه یک چالش مخصوص خودش دارد و هر کس بخواهد می‌تواند ایده آزاد هم بفرستد. اول سنت را انتخاب کن.</p>
+    <p class="demo-note" id="demo-note" hidden>نسخه نمایشی: می‌توانی فرم را کامل امتحان کنی، ولی ایده‌ها جایی ذخیره نمی‌شوند.</p>
     <p class="tagline" id="tagline">ایده بده، امتیاز بگیر، بدرخش!</p>
   </header>
 
@@ -536,6 +538,9 @@ const toEn = s => String(s).replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".inde
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const svg = d => `<svg class="i" viewBox="0 0 24 24"><path d="${d}"/></svg>`;
+const asset = name => (window.__IMG && window.__IMG[name]) || "img/" + name;
+// Outside Claude (a downloaded copy) the page runs as a preview: everything works, nothing is stored.
+let demo = false;
 const ICON = {
   image: "M4 5h16v14H4z M4 16l5-5 4 4 3-3 4 4 M15 9h.01",
   mic: "M12 3a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z M6 11a6 6 0 0 0 12 0 M12 17v4",
@@ -859,7 +864,7 @@ function loadDraft() {
   for (const id of d.choices || []) if ($(id)) $(id).checked = true;
   for (const [id, v] of Object.entries(d.vals || {})) if ($(id)) $(id).value = v;
   for (const id of d.interests || []) if ($(id)) $(id).checked = true;
-  files = (d.files || []).filter(f => f.slot).map(f => ({ ...f, key: f.id, state: "done", url: "/_blob/" + f.id }));
+  files = (d.files || []).filter(f => f.slot && !String(f.id).startsWith("local-")).map(f => ({ ...f, key: f.id, state: "done", url: "/_blob/" + f.id }));
   renderAllFiles(); updateProgress(true);
 }
 $("idea-form").addEventListener("input", () => { saveDraft(); updateProgress(); });
@@ -1012,9 +1017,8 @@ $("idea-form").addEventListener("submit", async e => {
     bad[0].scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
-  if (!db || !user) { setStatus(LOGIN_MSG, true); return; }
-  const uid = await user.id();
-  if (!uid) { setStatus(LOGIN_MSG, true); return; }
+  const uid = !demo && db && user ? await user.id() : null;
+  if (!demo && !uid) { setStatus(LOGIN_MSG, true); return; }
 
   const answers = {};
   for (const it of TRACKS[track].items) if (it.id) { const v = fieldVal(track, it); if (v) answers[it.id] = v; }
@@ -1032,11 +1036,13 @@ $("idea-form").addEventListener("submit", async e => {
 
   $("submit").disabled = true; setStatus("در حال ثبت…");
   try {
-    const ref = db.doc("ideas/" + uid);
-    const snap = await ref.get();
-    const entries = snap.exists ? [...(snap.data().entries || [])] : [];
-    entries.push(entry);
-    await ref.set({ entries, updatedAt: entry.createdAt });
+    if (!demo) {
+      const ref = db.doc("ideas/" + uid);
+      const snap = await ref.get();
+      const entries = snap.exists ? [...(snap.data().entries || [])] : [];
+      entries.push(entry);
+      await ref.set({ entries, updatedAt: entry.createdAt });
+    }
     try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
     setStatus("");
     showDone(entry);
@@ -1081,7 +1087,7 @@ function showDone(en) {
   $("done-badges").innerHTML = en.game.badges.map(id => BADGES.find(b => b.id === id)).map(b => `<span style="--bc:${b.c}"><i>${svg(b.d)}</i>${esc(b.name)}</span>`).join("");
   $("card-btn").hidden = !downloads; $("card-status").textContent = "";
   lastEntry = en;
-  $("done-text").textContent = `${en.child.name} عزیز، ایده‌ات${t ? " «" + (t.length > 70 ? t.slice(0, 70) + "…" : t) + "»" : ""}${en.files.length ? " با " + fa(en.files.length) + " فایل" : ""} به دست تیم نوآوری گلرنگ رسید.`;
+  $("done-text").textContent = `${en.child.name} عزیز، ایده‌ات${t ? " «" + (t.length > 70 ? t.slice(0, 70) + "…" : t) + "»" : ""}${en.files.length ? " با " + fa(en.files.length) + " فایل" : ""}${demo ? " ثبت شد. این نسخه نمایشی است و ایده برای تیم فرستاده نشد." : " به دست تیم نوآوری گلرنگ رسید."}`;
   $("done").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 $("again").addEventListener("click", () => {
@@ -1129,13 +1135,13 @@ async function makeCard(en) {
   x.fillStyle = "rgba(64,26,160,.42)"; x.strokeStyle = "rgba(170,160,255,.4)"; x.lineWidth = 3;
   x.beginPath(); x.roundRect(60, 60, W - 120, H - 120, 48); x.fill(); x.stroke();
   // the Future Stars wordmark
-  const mark = await loadImg("img/gfs-wordmark.webp");
+  const mark = await loadImg(asset("gfs-wordmark.webp"));
   if (mark) { const mw = 300, mh = mw * mark.height / mark.width; x.drawImage(mark, (W - mw) / 2, 70, mw, mh); }
   x.fillStyle = "#fff"; x.font = "900 70px Vazirmatn, Tahoma"; x.fillText("کارت ستاره آینده", W / 2, 400);
   x.fillStyle = C.muted; x.font = "700 27px Vazirmatn, Tahoma";
   x.fillText(`مسابقه خلاقیت و نوآوری فرزندان گلرنگ · ${new Date(en.createdAt).toLocaleDateString("fa-IR")}`, W / 2, 450);
   // the level's character, free on the sky with a soft glow
-  const hero = await loadImg(`img/cloud-l${en.game.level}.webp`), cx = W / 2, cy = 600, gold = en.game.level >= 4;
+  const hero = await loadImg(asset(`cloud-l${en.game.level}.webp`)), cx = W / 2, cy = 600, gold = en.game.level >= 4;
   if (hero) {
     const hh = 255, hw = Math.min(300, hh * hero.width / hero.height), h2 = hw * hero.height / hero.width;
     x.save(); x.shadowColor = gold ? "rgba(253,195,46,.75)" : "rgba(140,110,255,.7)"; x.shadowBlur = 45;
@@ -1298,10 +1304,26 @@ function filesOff() {
   document.querySelectorAll(".slot-drop").forEach(d => d.hidden = true);
   document.querySelectorAll(".files-off").forEach(p => p.hidden = false);
 }
+function startDemo() {
+  demo = true;
+  $("demo-note").hidden = false;
+  assets = {
+    upload: async (blob, o) => ({ id: "local-" + Math.random().toString(36).slice(2), url: URL.createObjectURL(blob), sizeBytes: blob.size, contentType: o?.type || blob.type }),
+    delete: async () => ({ deleted: true })
+  };
+  downloads = {
+    save: async ({ filename, data }) => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(data instanceof Blob ? data : new Blob([data]));
+      a.download = filename; document.body.append(a); a.click(); a.remove();
+      return { status: "saved" };
+    }
+  };
+}
 loadDraft();
 (async () => {
   const c = window.claude;
-  if (!c?.use) { filesOff(); return; }
+  if (!c?.use) { startDemo(); return; }
   const [d, u, a, dl] = await Promise.all(["db", "user", "assets", "downloads"].map(n => c.use(n).catch(() => null)));
   db = d; user = u; assets = a; downloads = dl;
   if (!assets) filesOff();

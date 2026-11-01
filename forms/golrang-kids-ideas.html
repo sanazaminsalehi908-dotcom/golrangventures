@@ -450,16 +450,8 @@ textarea { resize: vertical; min-height: 6.2em; }
             <div class="q w2"><label for="k_name">نام کودک <span class="req">*</span></label><input type="text" id="k_name" autocomplete="off"></div>
             <div class="q"><label for="k_age">سن</label><input type="text" id="k_age" readonly></div>
             <div class="q"><label for="k_city">شهر <span class="req">*</span></label><input type="text" id="k_city"></div>
-            <div class="q w2"><label for="p_name">نام والد / سرپرست <span class="req">*</span></label><input type="text" id="p_name"></div>
-            <div class="q w2"><label for="p_phone">شماره تماس والد / سرپرست <span class="req">*</span></label><input type="tel" id="p_phone" class="ltr" inputmode="numeric" placeholder="09xxxxxxxxx"></div>
-            <div class="q w2" id="mode-q">
-              <span class="legend">نوع مشارکت <span class="req">*</span></span>
-              <div class="checks" role="radiogroup">
-                <label class="pick"><input type="radio" name="mode" id="mode_solo" value="solo"><span>فردی</span></label>
-                <label class="pick"><input type="radio" name="mode" id="mode_team" value="team"><span>با دوستان</span></label>
-              </div>
-            </div>
-            <div class="q w2" id="team-box" hidden><label for="k_team">اسم دوستانت و سنشان</label><input type="text" id="k_team" placeholder="مثلاً سارا ۹ ساله، علی ۱۰ ساله"></div>
+            <div class="q w2"><label for="p_name">نام والدین <span class="req">*</span></label><input type="text" id="p_name"></div>
+            <div class="q w2"><label for="p_phone">شماره تماس والدین <span class="req">*</span></label><input type="tel" id="p_phone" class="ltr" inputmode="numeric" placeholder="09xxxxxxxxx"></div>
           </div>
         </section>
 
@@ -474,15 +466,15 @@ textarea { resize: vertical; min-height: 6.2em; }
         </section>
 
         <section class="sec s-parent glass">
-          <div class="sec-head"><h2 class="sec-title"><span class="num" id="num-p">۴</span>تأیید والد</h2><p class="sub">این بخش را بابا یا مامان پر کند.</p></div>
-          <p class="hint">فقط برای اطمینان از اینکه والد در گروه صنعتی گلرنگ کار می‌کند.</p>
+          <div class="sec-head"><h2 class="sec-title"><span class="num" id="num-p">۴</span>تأیید والدین</h2><p class="sub">این بخش را بابا یا مامان پر کند.</p></div>
+          <p class="hint">فقط برای اطمینان از اینکه یکی از والدین در گروه صنعتی گلرنگ کار می‌کند.</p>
           <div class="fields">
             <div class="q w2"><label for="p_company">شرکت محل کار در گروه گلرنگ <span class="req">*</span></label><input type="text" id="p_company" placeholder="نام شرکت یا واحد"></div>
             <div class="q w2"><label for="p_code">شماره پرسنلی <span class="req">*</span></label><input type="text" id="p_code" class="ltr" inputmode="numeric"></div>
           </div>
           <label class="consent" for="p_ok">
             <input type="checkbox" id="p_ok">
-            <span>والد یا سرپرست این کودک هستم. با ثبت این ایده و استفاده تیم نوآوری از آن برای ارزیابی و برنامه‌های آموزشی موافقم. ایده متعلق به خود کودک می‌ماند. <span class="req">*</span></span>
+            <span>از والدین این کودک هستم. با ثبت این ایده و استفاده تیم نوآوری از آن برای ارزیابی و برنامه‌های آموزشی موافقم. ایده متعلق به خود کودک می‌ماند. <span class="req">*</span></span>
           </label>
           <p class="err" id="ok-err" hidden></p>
         </section>
@@ -764,7 +756,6 @@ function progressParts() {
   const parts = [true];
   for (const it of TRACKS[track].items) if (it.req) parts.push(!!fieldVal(track, it) || (it.orDraw && hasDrawing()));
   for (const id of REQUIRED_BASE) parts.push(!!$(id).value.trim());
-  parts.push($("mode_solo").checked || $("mode_team").checked);
   if (TRACKS[track].interests) parts.push(!!document.querySelector("#interests input:checked"));
   parts.push($("p_ok").checked);
   return [parts.filter(Boolean).length, parts.length];
@@ -796,7 +787,6 @@ const BADGES = [
   { id: "dream", name: "رؤیاپرداز", desc: "آینده ایده‌ات را دیدی", c: "var(--red)", d: "M12 2c4 3 5 8 3 13H9C7 10 8 5 12 2z M9 15l-3 3 1 3 3-2 M15 15l3 3-1 3-3-2 M12 8h.01" },
   { id: "artist", name: "هنرمند", desc: "ایده‌ات را نشان دادی", c: "var(--green)", d: "M12 3a9 9 0 0 0 0 18c1.5 0 2-1 2-2 0-1.5-1-2 0-3s2.5 0 4 0a3 3 0 0 0 3-3 9 9 0 0 0-9-10z M7.5 11h.01 M10 7h.01 M15 7.5h.01" },
   { id: "voice", name: "قصه‌گو", desc: "با صدا یا ویدیو تعریف کردی", c: "var(--blue)", d: "M12 3a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z M6 11a6 6 0 0 0 12 0 M12 17v4" },
-  { id: "team", name: "کار تیمی", desc: "با دوستانت ایده دادی", c: "var(--orange)", d: "M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M3 20a6 6 0 0 1 12 0 M17 11a2.5 2.5 0 1 0 0-5 M21 20a5 5 0 0 0-4-4.9" },
   { id: "complete", name: "کامل‌کار", desc: "به همه سؤال‌ها جواب دادی", c: "var(--yellow)", d: "M8 4h8v5a4 4 0 0 1-8 0z M8 6H5a3 3 0 0 0 3 4 M16 6h3a3 3 0 0 1-3 4 M12 13v4 M8 21h8 M10 17h4v4" }
 ];
 const STAR_PATH = "M12 2.5l2.8 6 6.5.7-4.9 4.4 1.4 6.4L12 16.8 6.2 20l1.4-6.4-4.9-4.4 6.5-.7z";
@@ -817,7 +807,7 @@ function gameState() {
   const visual = t.items.find(i => i.slot === "visual"), talk = t.items.find(i => i.slot === "audio" || i.slot === "video");
   const has = {
     first: answered >= 1, problem: said(ROLE.problem[track]), dig: said(ROLE.dig[track]), dream: said(ROLE.dream[track]),
-    artist: !!visual && slotDone(visual), voice: !!talk && slotDone(talk), team: $("mode_team").checked, complete: answered === texts
+    artist: !!visual && slotDone(visual), voice: !!talk && slotDone(talk), complete: answered === texts
   };
   const next = level < 4 ? Math.max(1, Math.ceil(LEVEL_AT[level] * max - stars)) : 0;
   return { stars, max, pct, level, next, badges: BADGES.filter(b => has[b.id]).map(b => b.id) };
@@ -854,7 +844,6 @@ function updateGame(quiet) {
 const hasDrawing = () => files.some(f => f.slot === track + "_visual" && f.state === "done");
 document.querySelectorAll('input[name="age"]').forEach(r => r.addEventListener("change", () => { setAge(+r.value); saveDraft(); }));
 document.querySelectorAll('input[name="trackpick"]').forEach(r => r.addEventListener("change", () => { setTrack(r.value); saveDraft(); }));
-document.querySelectorAll('input[name="mode"]').forEach(r => r.addEventListener("change", () => { $("team-box").hidden = !$("mode_team").checked; }));
 
 /* ---------- draft on this device ---------- */
 let draftTimer = 0;
@@ -864,7 +853,6 @@ function collectDraft() {
   return {
     age, track, vals,
     choices: [...document.querySelectorAll('#tracks input[type="radio"]:checked')].map(x => x.id),
-    mode: $("mode_team").checked ? "team" : $("mode_solo").checked ? "solo" : "",
     interests: [...document.querySelectorAll("#interests input:checked")].map(x => x.id),
     files: files.filter(f => f.state === "done").map(({ slot, id, name, type, size, kind, enc }) => ({ slot, id, name, type, size, kind, enc }))
   };
@@ -881,7 +869,6 @@ function loadDraft() {
   if (d.track && TRACKS[d.track] && TRACKS[d.track].group === group) { $("pick_" + d.track).checked = true; setTrack(d.track); }
   for (const id of d.choices || []) if ($(id)) $(id).checked = true;
   for (const [id, v] of Object.entries(d.vals || {})) if ($(id)) $(id).value = v;
-  if (d.mode && $("mode_" + d.mode)) { $("mode_" + d.mode).checked = true; $("team-box").hidden = d.mode !== "team"; }
   for (const id of d.interests || []) if ($(id)) $(id).checked = true;
   files = (d.files || []).filter(f => f.slot).map(f => ({ ...f, key: f.id, state: "done", url: "/_blob/" + f.id }));
   renderAllFiles(); updateProgress(true);
@@ -1022,8 +1009,7 @@ function validate() {
   for (const id of REQUIRED_BASE) if (!$(id).value.trim()) { mark($(id), "این بخش لازم است."); bad.push($(id)); }
   const ph = toEn($("p_phone").value).replace(/\D/g, "");
   if ($("p_phone").value.trim() && !/^(98|0)?9\d{9}$/.test(ph)) { mark($("p_phone"), "شماره موبایل را کامل وارد کنید، مثل ۰۹۱۲۱۲۳۴۵۶۷."); bad.push($("p_phone")); }
-  if (!$("mode_solo").checked && !$("mode_team").checked) { mark($("mode_solo"), "یکی را انتخاب کن."); bad.push($("mode-q")); }
-  if (!$("p_ok").checked) { $("ok-err").textContent = "برای ثبت، تأیید والد لازم است."; $("ok-err").hidden = false; bad.push($("p_ok")); }
+  if (!$("p_ok").checked) { $("ok-err").textContent = "برای ثبت، تأیید والدین لازم است."; $("ok-err").hidden = false; bad.push($("p_ok")); }
   if (files.some(f => f.state === "up")) { bad.push($("submit")); setStatus("صبر کن تا فایل‌ها کامل بارگذاری شوند.", true); }
   return bad;
 }
@@ -1050,7 +1036,6 @@ $("idea-form").addEventListener("submit", async e => {
   const entry = {
     id: newId(), createdAt: new Date().toISOString(), age, group, track, kind: TRACKS[track].kind, answers,
     child: { name: v("k_name"), city: v("k_city") },
-    mode: $("mode_team").checked ? "team" : "solo", team: $("mode_team").checked ? v("k_team") : "",
     interests: TRACKS[track].interests ? [...document.querySelectorAll("#interests input:checked")].map(x => x.value) : [],
     parent: { name: v("p_name"), phone: toEn(v("p_phone")).replace(/\D/g, ""), company: v("p_company"), code: toEn(v("p_code")) },
     consent: true,
@@ -1117,7 +1102,7 @@ $("again").addEventListener("click", () => {
   $("idea-form").reset();
   keep.forEach(([id, val]) => $(id).value = val);
   files = []; renderAllFiles(); track = age = group = null;
-  $("form-body").hidden = true; $("progress").hidden = true; $("team-box").hidden = true; $("group-line").hidden = true;
+  $("form-body").hidden = true; $("progress").hidden = true; $("group-line").hidden = true;
   delete document.body.dataset.track; delete document.body.dataset.level;
   seenBadges = new Set(); lastLevel = 0; lastStars = 0;
   $("paths-box").hidden = true;
@@ -1276,10 +1261,9 @@ function renderBoard() {
         ${media ? `<div class="media">${media}</div>` : ""}
         <dl class="qa">
           <div><dt>کودک</dt><dd>${esc(en.child?.name)}، ${fa(en.age)} ساله، ${esc(en.child?.city)}</dd></div>
-          <div><dt>نوع مشارکت</dt><dd>${en.mode === "team" ? "با دوستان" + (en.team ? ": " + esc(en.team) : "") : "فردی"}</dd></div>
           ${en.game ? `<div><dt>سطح و نشان‌ها</dt><dd>${esc(LEVELS[en.group]?.[en.game.level - 1] || "")} · ${fa(en.game.stars)} امتیاز${en.game.badges?.length ? " · " + en.game.badges.map(id => BADGES.find(b => b.id === id)?.name).filter(Boolean).map(esc).join("، ") : ""}</dd></div>` : ""}
           ${en.interests?.length ? `<div><dt>دنیای مورد علاقه</dt><dd>${en.interests.map(esc).join("، ")}</dd></div>` : ""}
-          <div><dt>والد</dt><dd>${esc(en.parent?.name)} · ${esc(en.parent?.company)} · پرسنلی <span class="ltr">${esc(fa(en.parent?.code || ""))}</span> · <span class="ltr">${esc(fa(en.parent?.phone || ""))}</span></dd></div>
+          <div><dt>والدین</dt><dd>${esc(en.parent?.name)} · ${esc(en.parent?.company)} · پرسنلی <span class="ltr">${esc(fa(en.parent?.code || ""))}</span> · <span class="ltr">${esc(fa(en.parent?.phone || ""))}</span></dd></div>
         </dl>
         <div class="status-set"><label for="st_${esc(en.id)}">وضعیت:</label>
           <select id="st_${esc(en.id)}" data-entry="${esc(en.id)}">${Object.entries(STATUSES).map(([k, v]) => `<option value="${k}"${k === st ? " selected" : ""}>${v}</option>`).join("")}</select>
@@ -1312,9 +1296,9 @@ $("csv").addEventListener("click", async () => {
   const cell = x => '"' + String(x ?? "").replace(/"/g, '""') + '"';
   // One column per question of each section, since the same id means different things in different sections.
   const cols = Object.entries(TRACKS).flatMap(([k, t]) => t.items.filter(i => i.id).map(i => [k, i.id, `${t.short}: ${i.label}`]));
-  const head = ["تاریخ", "سن", "بخش", "وضعیت", "نام کودک", "شهر", "مشارکت", "دوستان", "دنیای مورد علاقه", ...cols.map(c => c[2]), "لینک ویدیو", "تعداد فایل", "نام والد", "تماس", "شرکت", "شماره پرسنلی"];
+  const head = ["تاریخ", "سن", "بخش", "وضعیت", "نام کودک", "شهر", "دنیای مورد علاقه", ...cols.map(c => c[2]), "لینک ویدیو", "تعداد فایل", "نام والدین", "تماس", "شرکت", "شماره پرسنلی"];
   const rows = ideas.map(en => [en.createdAt, en.age, TRACKS[en.track]?.short || en.track, STATUSES[statusOf(en)], en.child?.name, en.child?.city,
-    en.mode === "team" ? "با دوستان" : "فردی", en.team, (en.interests || []).join("، "), ...cols.map(([k, id]) => en.track === k ? en.answers?.[id] || "" : ""), en.answers?.videoLink || "", (en.files || []).length,
+    (en.interests || []).join("، "), ...cols.map(([k, id]) => en.track === k ? en.answers?.[id] || "" : ""), en.answers?.videoLink || "", (en.files || []).length,
     en.parent?.name, en.parent?.phone, en.parent?.company, en.parent?.code]);
   const csv = "﻿" + [head, ...rows].map(r => r.map(cell).join(",")).join("\r\n");
   try { await downloads.save({ filename: "golrang-kids-ideas.csv", data: csv }); }

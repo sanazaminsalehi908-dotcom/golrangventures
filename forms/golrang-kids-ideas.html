@@ -264,8 +264,6 @@ textarea { resize: vertical; min-height: 6.2em; }
 .btn-x:hover { background: var(--red); color: #fff; }
 .files-off { color: var(--muted); font-size: .84rem; border: 1px dashed var(--line); border-radius: 12px; padding: 10px 12px; background: var(--field); }
 
-.consent { display: flex; gap: 12px; align-items: flex-start; font-size: .93rem; background: var(--field); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; cursor: pointer; }
-.consent input { margin-top: .4em; flex: none; width: 1.25rem; height: 1.25rem; accent-color: var(--yellow); }
 
 /* ---------- badges ---------- */
 .badges { padding: 20px clamp(14px, 4vw, 26px) 22px; display: grid; gap: 14px; }
@@ -472,11 +470,6 @@ textarea { resize: vertical; min-height: 6.2em; }
             <div class="q w2"><label for="p_company">شرکت محل کار در گروه گلرنگ <span class="req">*</span></label><input type="text" id="p_company" placeholder="نام شرکت یا واحد"></div>
             <div class="q w2"><label for="p_code">شماره پرسنلی <span class="req">*</span></label><input type="text" id="p_code" class="ltr" inputmode="numeric"></div>
           </div>
-          <label class="consent" for="p_ok">
-            <input type="checkbox" id="p_ok">
-            <span>از والدین این کودک هستم. با ثبت این ایده و استفاده تیم نوآوری از آن برای ارزیابی و برنامه‌های آموزشی موافقم. ایده متعلق به خود کودک می‌ماند. <span class="req">*</span></span>
-          </label>
-          <p class="err" id="ok-err" hidden></p>
         </section>
 
         <section class="badges glass" id="badge-shelf">
@@ -755,7 +748,6 @@ function progressParts() {
   for (const it of TRACKS[track].items) if (it.req) parts.push(!!fieldVal(track, it) || (it.orDraw && hasDrawing()));
   for (const id of REQUIRED_BASE) parts.push(!!$(id).value.trim());
   if (TRACKS[track].interests) parts.push(!!document.querySelector("#interests input:checked"));
-  parts.push($("p_ok").checked);
   return [parts.filter(Boolean).length, parts.length];
 }
 function updateProgress(quiet) {
@@ -990,7 +982,7 @@ function mark(el, msg) {
 }
 function clearMarks() {
   document.querySelectorAll(".q.bad").forEach(q => { q.classList.remove("bad"); q.querySelector(":scope > .err")?.remove(); });
-  $("age-err").hidden = $("ok-err").hidden = $("path-err").hidden = true;
+  $("age-err").hidden = $("path-err").hidden = true;
 }
 function setStatus(msg, bad) { $("status").textContent = msg; $("status").className = "status" + (bad ? " e" : ""); }
 
@@ -1006,7 +998,6 @@ function validate() {
   for (const id of REQUIRED_BASE) if (!$(id).value.trim()) { mark($(id), "این بخش لازم است."); bad.push($(id)); }
   const ph = toEn($("p_phone").value).replace(/\D/g, "");
   if ($("p_phone").value.trim() && !/^(98|0)?9\d{9}$/.test(ph)) { mark($("p_phone"), "شماره موبایل را کامل وارد کنید، مثل ۰۹۱۲۱۲۳۴۵۶۷."); bad.push($("p_phone")); }
-  if (!$("p_ok").checked) { $("ok-err").textContent = "برای ثبت، تأیید والدین لازم است."; $("ok-err").hidden = false; bad.push($("p_ok")); }
   if (files.some(f => f.state === "up")) { bad.push($("submit")); setStatus("صبر کن تا فایل‌ها کامل بارگذاری شوند.", true); }
   return bad;
 }
@@ -1035,7 +1026,6 @@ $("idea-form").addEventListener("submit", async e => {
     child: { name: v("k_name"), city: v("k_city") },
     interests: TRACKS[track].interests ? [...document.querySelectorAll("#interests input:checked")].map(x => x.value) : [],
     parent: { name: v("p_name"), phone: toEn(v("p_phone")).replace(/\D/g, ""), company: v("p_company"), code: toEn(v("p_code")) },
-    consent: true,
     game: (({ stars, level, badges }) => ({ stars, level, badges }))(gameState()),
     files: files.filter(f => f.state === "done" && f.slot.startsWith(track + "_")).map(({ slot, id, name, type, size, kind, enc }) => ({ slot: slot.split("_")[1], id, name, type, size, kind, ...(enc ? { enc } : {}) }))
   };

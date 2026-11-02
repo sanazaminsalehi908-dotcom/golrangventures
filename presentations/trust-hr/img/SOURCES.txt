@@ -1,0 +1,4 @@
+Photos are Unsplash-licensed images taken from open-source templates:
+creativetimofficial/soft-ui-design-system, creativetimofficial/material-kit,
+creativetimofficial/now-ui-kit, themesberg/pixel-bootstrap-ui-kit,
+StartBootstrap/startbootstrap-creative. Replace with real Golrang photos when available.

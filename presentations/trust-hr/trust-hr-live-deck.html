@@ -1,0 +1,837 @@
+<title>نوآوری با منابع انسانی</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300..900&display=swap">
+<style>
+/* Layout: a 1920×1080 stage scaled to fit the screen; the reading (right) side carries the words,
+   the left side belongs to a particle field that reassembles into a new form on every slide. */
+:root{
+  --ink:#050A1A;
+  --night:#0B1533;
+  --line:rgba(150,175,255,.16);
+  --paper:#EEF1F8;
+  --mist:#8C9AC0;
+  --electric:#3D7BFF;
+  --electric-soft:#8DB0FF;
+  --saffron:#FFB627;
+  --ember:#FF8A3D;
+  --display:"Vazirmatn",Tahoma,sans-serif;
+  --body:"Vazirmatn",Tahoma,sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--body);overflow:hidden;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#field{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(120% 90% at 30% 45%,transparent 40%,rgba(5,10,26,.55) 75%,rgba(5,10,26,.92) 100%)}
+.stage{position:fixed;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;z-index:2}
+.slide{position:absolute;inset:0;padding:110px 150px 120px;display:flex;flex-direction:column;gap:40px;
+  visibility:hidden;opacity:0;transition:opacity .5s ease,visibility 0s linear .55s,filter .55s ease,transform .55s ease}
+.slide.is-active{visibility:visible;opacity:1;transition:opacity .5s ease}
+.slide.is-leaving{visibility:visible;opacity:0;filter:blur(18px);transform:scale(1.04)}
+
+/* type */
+.eyebrow{font:600 30px/1.5 var(--body);color:var(--saffron);display:flex;align-items:center;gap:18px;margin:0}
+.eyebrow::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--saffron);box-shadow:0 0 18px 4px rgba(255,182,39,.55)}
+.h-xl,.h-l,.h-m{font-family:var(--display);font-weight:900;margin:0;text-wrap:balance}
+.h-xl{font-size:136px;line-height:1.28}
+.h-l{font-size:104px;line-height:1.3}
+.h-m{font-size:80px;line-height:1.32}
+.lead{font:400 36px/1.6 var(--body);color:var(--mist);margin:0}
+em{font-style:normal}
+em .w,em.w{background:linear-gradient(100deg,#FFE08A 0%,var(--saffron) 45%,var(--ember) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.w{display:inline-block}
+.muted{color:var(--mist)}
+.head{display:flex;flex-direction:column;gap:14px}
+
+/* motion */
+@keyframes wIn{from{opacity:0;transform:translateY(.42em);filter:blur(14px)}}
+@keyframes rise{from{opacity:0;transform:translateY(70px);filter:blur(12px)}}
+@keyframes pop{from{opacity:0;transform:scale(.55);filter:blur(10px)}}
+@keyframes fromSide{from{opacity:0;transform:translateX(120px);filter:blur(12px)}}
+@keyframes fade{from{opacity:0}}
+@keyframes draw{from{stroke-dashoffset:var(--len,2000)}}
+@keyframes strike{from{transform:scaleX(0)}}
+@keyframes dim{to{color:rgba(140,154,192,.45)}}
+@keyframes glowOn{to{color:var(--saffron);filter:drop-shadow(0 0 18px rgba(255,182,39,.8))}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,182,39,.7)}70%{box-shadow:0 0 0 18px rgba(255,182,39,0)}100%{box-shadow:0 0 0 0 rgba(255,182,39,0)}}
+.is-active .w{animation:wIn 1.1s var(--ease) both;animation-delay:calc(var(--i,0) * 75ms + var(--d,0ms))}
+.is-active [data-a]{animation:var(--an,rise) 1.1s var(--ease) both;animation-delay:var(--d,0ms)}
+
+/* split layout: words on the right, particle form on the left */
+.split{flex:1;display:grid;grid-template-columns:1fr 700px;gap:90px;align-items:center;min-height:0}
+.split .col{display:flex;flex-direction:column;gap:36px}
+.form-box{height:760px;align-self:center}
+
+/* cover */
+.meta{font:500 30px/1.5 var(--body);color:var(--mist);margin:0}
+.meta b{color:var(--paper);font-weight:700}
+
+/* center statement */
+.center{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:right;gap:34px}
+
+/* three pillars */
+.trio{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:60px}
+.pillar{display:flex;flex-direction:column;align-items:flex-start;text-align:right;gap:12px}
+.pillar .ring{width:280px;height:280px;border-radius:50%;display:grid;place-items:center}
+.pillar .ring svg{width:96px;height:96px;color:var(--paper)}
+.pillar .word{font:900 104px/1.25 var(--display);margin:0}
+.pillar p{font:400 34px/1.5 var(--body);color:var(--mist);margin:0}
+
+/* chain (agenda, calendar, flow) */
+.chain{flex:1;display:grid;grid-template-columns:repeat(5,1fr);gap:24px;align-content:center}
+.node{display:flex;flex-direction:column;align-items:center;text-align:center;gap:40px}
+.dot{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 50% 40%,rgba(61,123,255,.28),rgba(11,21,51,.85) 70%);border:2px solid rgba(141,176,255,.55)}
+.dot .num{font:900 68px/1 var(--display);color:var(--paper)}
+.node .lbl{font:700 44px/1.35 var(--body);margin:0}
+.node .sub{font:500 28px/1.4 var(--body);color:var(--mist);margin:0}
+.node.gold .dot{border-color:var(--saffron);background:radial-gradient(circle at 50% 40%,rgba(255,182,39,.35),rgba(11,21,51,.85) 70%)}
+.node.gold .num,.node.gold .lbl{color:var(--saffron)}
+.dot svg{width:70px;height:70px;color:var(--paper)}
+.node.gold .dot svg{color:var(--saffron)}
+.cal .dot{width:96px;height:96px}
+.cal .when{font:600 30px/1.4 var(--body);color:var(--electric-soft);margin:0}
+.cal .node.gold .when{color:var(--saffron)}
+.layers{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;margin-top:-6px}
+.layer{border-top:2px solid rgba(141,176,255,.5);padding-top:18px;font:600 30px/1.4 var(--body);color:var(--electric-soft);text-align:right}
+.layer.company{grid-column:span 4}
+.layer.group{border-color:var(--saffron);color:var(--saffron)}
+
+/* channels */
+.chips{display:flex;flex-wrap:wrap;gap:18px}
+.chip{display:inline-flex;align-items:center;gap:16px;padding:18px 30px;border-radius:999px;border:1px solid var(--line);
+  background:rgba(14,26,62,.55);backdrop-filter:blur(10px);font:600 34px/1.3 var(--body)}
+.chip svg{width:38px;height:38px;color:var(--electric-soft);flex:none}
+.ambassador{display:flex;align-items:center;gap:30px;padding:34px 40px;border-radius:32px;
+  background:linear-gradient(120deg,rgba(255,182,39,.16),rgba(255,138,61,.05));border:1.5px solid rgba(255,182,39,.6)}
+.ambassador .badge{width:110px;height:110px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--saffron);animation:pulse 2.4s infinite}
+.ambassador .badge svg{width:58px;height:58px;color:var(--ink)}
+.ambassador h3{font:900 60px/1.25 var(--display);color:var(--saffron);margin:0}
+.ambassador p{font:400 32px/1.5 var(--body);color:var(--paper);margin:0}
+
+/* barriers */
+.rows{flex:1;display:flex;flex-direction:column;justify-content:center;gap:34px}
+.row{display:grid;grid-template-columns:620px 90px 1fr;align-items:center;gap:20px}
+.quote{font:500 44px/1.4 var(--body);color:var(--paper);justify-self:start;position:relative}
+.quote::after{content:"";position:absolute;right:-6px;left:-6px;top:55%;height:4px;border-radius:4px;background:var(--saffron);transform-origin:right center;transform:scaleX(1)}
+.answer{font:900 58px/1.3 var(--display)}
+.arrow{width:70px;height:70px;color:var(--saffron)}
+.is-active .quote{animation:dim .5s ease both;animation-delay:calc(var(--d) + 500ms)}
+.is-active .quote::after{animation:strike .5s var(--ease) both;animation-delay:calc(var(--d) + 400ms)}
+.is-active .row .arrow{animation:fade .4s ease both;animation-delay:calc(var(--d) + 750ms)}
+.is-active .row .answer{animation:fromSide .9s var(--ease) both;animation-delay:calc(var(--d) + 850ms)}
+.row:last-child .answer{color:var(--saffron)}
+
+/* incentives */
+.inc-grid{flex:1;display:grid;grid-template-columns:1fr 620px;gap:90px;align-items:center}
+.quad{display:grid;grid-template-columns:1fr 1fr;gap:56px 60px}
+.inc{display:flex;flex-direction:column;gap:10px}
+.inc svg{width:64px;height:64px;color:var(--electric-soft)}
+.inc h3{font:900 80px/1.25 var(--display);margin:0}
+.inc p{font:400 32px/1.5 var(--body);color:var(--mist);margin:0}
+.people{display:flex;flex-direction:column;align-items:flex-start;gap:26px;text-align:right}
+.crowd{display:grid;grid-template-columns:repeat(5,1fr);gap:18px 26px}
+.crowd svg{width:84px;height:84px;color:rgba(140,154,192,.55)}
+.is-active .crowd svg.one{animation:pop .8s var(--ease) both,glowOn .6s ease forwards;animation-delay:calc(var(--d) + 0ms),calc(var(--d) + 1400ms)}
+.people .big{font:900 120px/1.2 var(--display);margin:0}
+.people p{font:500 32px/1.5 var(--body);color:var(--mist);margin:0}
+.people .big em{color:var(--saffron)}
+
+/* role / club */
+.pills{display:flex;flex-wrap:wrap;gap:18px}
+.pill{display:inline-flex;align-items:center;gap:14px;padding:18px 32px;border-radius:999px;font:700 36px/1.3 var(--body);
+  border:1px solid var(--line);background:rgba(14,26,62,.55);backdrop-filter:blur(10px)}
+.pill svg{width:36px;height:36px;color:var(--saffron)}
+.pill.on{background:var(--saffron);color:var(--ink);border-color:transparent}
+
+/* perks */
+.cols{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-content:center}
+.col-h{display:inline-flex;align-self:flex-start;padding:16px 38px;border-radius:999px;font:700 42px/1.3 var(--body);margin:0}
+.col-h.co{background:var(--saffron);color:var(--ink)}
+.col-h.gv{background:var(--electric);color:var(--paper)}
+.list{display:flex;flex-direction:column;gap:30px;list-style:none;margin:0;padding:0}
+.list li{display:flex;align-items:center;gap:24px;font:600 50px/1.35 var(--body)}
+.list li::before{content:"";width:16px;height:16px;border-radius:50%;flex:none;background:var(--electric-soft);box-shadow:0 0 14px rgba(141,176,255,.8)}
+.list.co li::before{background:var(--saffron);box-shadow:0 0 14px rgba(255,182,39,.8)}
+.perk-col{display:flex;flex-direction:column;gap:44px}
+
+/* dashboard */
+.dash{flex:1;display:grid;grid-template-rows:auto 1fr;gap:28px;min-height:0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.kpi{padding:26px 34px;border-radius:28px;background:rgba(14,26,62,.6);border:1px solid var(--line);backdrop-filter:blur(12px)}
+.kpi .v{font:900 76px/1.15 var(--display);font-variant-numeric:tabular-nums}
+.kpi .l{font:500 28px/1.4 var(--body);color:var(--mist)}
+.kpi.hl{border-color:rgba(255,182,39,.6);background:linear-gradient(150deg,rgba(255,182,39,.16),rgba(14,26,62,.6))}
+.kpi.hl .v{color:var(--saffron)}
+.panels{display:grid;grid-template-columns:1.55fr 1fr;gap:24px;min-height:0}
+.panel{padding:28px 36px;border-radius:28px;background:rgba(14,26,62,.6);border:1px solid var(--line);backdrop-filter:blur(12px);display:flex;flex-direction:column;gap:14px}
+.panel h3{font:700 32px/1.4 var(--body);margin:0;display:flex;justify-content:space-between;align-items:center}
+.live{display:inline-flex;align-items:center;gap:12px;font:600 26px/1 var(--body);color:var(--saffron)}
+.live i{width:14px;height:14px;border-radius:50%;background:var(--saffron);animation:pulse 1.6s infinite}
+.bar{display:grid;grid-template-columns:150px 1fr 80px;align-items:center;gap:18px;height:46px}
+.bar span{font:500 27px/1 var(--body);color:#C9D4EA}
+.bar .t{height:20px;border-radius:10px;background:rgba(255,255,255,.07);overflow:hidden}
+.bar .f{height:100%;width:0;border-radius:10px;background:linear-gradient(to left,var(--electric),var(--electric-soft));transition:width 1.4s var(--ease)}
+.bar:first-of-type .f{background:linear-gradient(to left,var(--saffron),#FFE08A)}
+.bar b{font:700 28px/1 var(--body);text-align:left;font-variant-numeric:tabular-nums}
+.funnel{display:flex;flex-direction:column;align-items:center;gap:12px}
+.fs{height:54px;width:0;border-radius:14px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;white-space:nowrap;overflow:hidden;
+  font:600 27px/1 var(--body);background:rgba(61,123,255,.85);transition:width 1.4s var(--ease)}
+.fs:last-child{background:var(--saffron);color:var(--ink)}
+.sample{font:500 26px/1.4 var(--body);color:var(--mist);margin:0}
+
+/* ask */
+.ask-grid{flex:1;display:grid;grid-template-columns:1fr 600px;gap:90px;align-items:center}
+.asks{display:flex;flex-direction:column;gap:26px;list-style:none;margin:0;padding:0}
+.asks li{display:flex;align-items:center;gap:34px;font:700 54px/1.3 var(--body)}
+.asks .n{font:900 96px/1 var(--display);width:96px;text-align:center;color:transparent;-webkit-text-stroke:2px var(--electric-soft)}
+.asks li:first-child .n{-webkit-text-stroke-color:var(--saffron)}
+.asks li:first-child{color:var(--saffron)}
+.next{display:flex;flex-direction:column;gap:20px;padding:50px;border-radius:40px;border:2px solid var(--saffron);
+  background:linear-gradient(160deg,rgba(255,182,39,.18),rgba(11,21,51,.4));box-shadow:0 0 120px rgba(255,182,39,.18)}
+.next .k{font:600 30px/1.4 var(--body);color:var(--saffron);margin:0}
+.next h3{font:900 70px/1.3 var(--display);margin:0}
+.next p{font:500 34px/1.5 var(--body);color:var(--paper);margin:0}
+
+/* end */
+.qr{display:flex;align-items:center;gap:26px}
+.qr .box{width:150px;height:150px;border-radius:24px;background:var(--paper);display:grid;place-items:center;color:var(--ink)}
+.qr .box svg{width:96px;height:96px}
+.qr p{font:500 30px/1.5 var(--body);color:var(--mist);margin:0}
+
+/* HUD */
+.hud{position:fixed;left:0;right:0;bottom:0;z-index:5;padding-bottom:env(safe-area-inset-bottom,0px);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  opacity:.6;transition:opacity .3s}
+.hud:hover,.hud:focus-within{opacity:1}
+.hud-in{height:56px;display:flex;align-items:center;gap:14px;direction:rtl;font:500 15px/1 var(--body);color:var(--mist)}
+.hud-in .count{color:var(--paper);font-weight:700;font-variant-numeric:tabular-nums}
+.hud-in .sp{flex:1}
+.hud button{font:600 14px/1 var(--body);color:var(--paper);background:rgba(14,26,62,.7);border:1px solid var(--line);border-radius:999px;
+  height:38px;min-width:38px;padding:0 14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.hud button:hover{border-color:var(--electric-soft)}
+.hud button:focus-visible{outline:2px solid var(--saffron);outline-offset:2px}
+.hud button svg{width:18px;height:18px}
+.progress{position:absolute;left:0;right:0;bottom:calc(56px + env(safe-area-inset-bottom,0px));height:2px;background:rgba(150,175,255,.12)}
+.progress i{position:absolute;right:0;top:0;bottom:0;width:0;background:linear-gradient(to left,var(--saffron),var(--ember));box-shadow:0 0 12px rgba(255,182,39,.7);transition:width .6s var(--ease)}
+.notes{position:fixed;z-index:6;bottom:calc(72px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);
+  width:min(920px,calc(100% - 32px));max-height:40vh;overflow:auto;padding:22px 26px;border-radius:18px;direction:rtl;
+  background:rgba(11,21,51,.94);border:1px solid var(--line);backdrop-filter:blur(14px);font:400 17px/1.8 var(--body);color:var(--paper)}
+.notes b{color:var(--saffron)}
+.hint{font:500 13px/1 var(--body);color:var(--mist)}
+@media (max-width:700px){.hint,.hud .txt{display:none}}
+
+@media (prefers-reduced-motion:reduce){
+  .is-active .w,.is-active [data-a],.is-active .quote,.is-active .quote::after,.is-active .row .arrow,.is-active .row .answer{animation:none!important}
+  .slide,.slide.is-leaving{transition:none;filter:none;transform:none}
+  .ambassador .badge,.live i{animation:none}
+}
+</style>
+
+<canvas id="field" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+
+<main class="stage" id="stage" dir="rtl" lang="fa" aria-live="polite">
+
+  <!-- 1 cover -->
+  <section class="slide is-active" data-form="icon:bulb" data-title="شروع">
+    <div class="split">
+      <div class="col">
+        <p class="eyebrow" data-a style="--d:100ms">رویداد تراست · ویژه‌ی مدیران منابع انسانی</p>
+        <h1 class="h-xl" data-split style="--d:300ms">نوآوری را<br><em>منابع انسانی</em><br>زنده نگه می‌دارد</h1>
+        <p class="meta" data-a style="--d:1300ms"><b>[نام ارائه‌دهنده]</b> · گلرنگ ونچرز · آبان ۱۴۰۵</p>
+      </div>
+      <div class="form-box" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 2 statement -->
+  <section class="slide" data-form="stars" data-title="شروع">
+    <div class="center">
+      <h2 class="h-l" data-split style="--d:200ms">جایزه، ایده‌ها را پیدا می‌کند</h2>
+      <h2 class="h-l" data-split style="--d:900ms"><em>شما، آدم‌ها را به میدان می‌آورید</em></h2>
+      <p class="lead" data-a style="--d:1800ms">از خط تولید و انبار تا دفتر</p>
+    </div>
+  </section>
+
+  <!-- 3 why HR -->
+  <section class="slide" data-form="rings" data-title="شروع">
+    <div class="head">
+      <p class="eyebrow" data-a style="--d:0ms">چرا منابع انسانی</p>
+      <h2 class="h-m" data-split style="--d:150ms">سه چیزی که فقط شما دارید</h2>
+    </div>
+    <div class="trio">
+      <div class="pillar" data-a style="--an:pop;--d:700ms">
+        <div class="ring" data-node><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <p class="word">دسترسی</p>
+        <p>به تک‌تک همکاران</p>
+      </div>
+      <div class="pillar" data-a style="--an:pop;--d:950ms">
+        <div class="ring" data-node><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+        <p class="word">انگیزه</p>
+        <p>ابزار تشویق دست شماست</p>
+      </div>
+      <div class="pillar" data-a style="--an:pop;--d:1200ms">
+        <div class="ring" data-node><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg></div>
+        <p class="word">فرهنگ</p>
+        <p>نوآوری در روال کار</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 agenda -->
+  <section class="slide" data-form="chain" data-title="شروع">
+    <div class="head">
+      <p class="eyebrow" data-a>در این ۳۰ دقیقه</p>
+      <h2 class="h-m" data-split style="--d:150ms">پنج گام، <em>یک درخواست</em></h2>
+    </div>
+    <div class="chain">
+      <div class="node gold" data-a style="--an:pop;--d:600ms"><div class="dot" data-node><span class="num">۱</span></div><p class="lbl">اطلاع‌رسانی</p><p class="sub">۵ دقیقه</p></div>
+      <div class="node" data-a style="--an:pop;--d:800ms"><div class="dot" data-node><span class="num">۲</span></div><p class="lbl">مشارکت</p><p class="sub">۶ دقیقه</p></div>
+      <div class="node" data-a style="--an:pop;--d:1000ms"><div class="dot" data-node><span class="num">۳</span></div><p class="lbl">سامانه</p><p class="sub">۷ دقیقه</p></div>
+      <div class="node" data-a style="--an:pop;--d:1200ms"><div class="dot" data-node><span class="num">۴</span></div><p class="lbl">باشگاه</p><p class="sub">۴ دقیقه</p></div>
+      <div class="node" data-a style="--an:pop;--d:1400ms"><div class="dot" data-node><span class="num">۵</span></div><p class="lbl">داشبورد</p><p class="sub">۳ دقیقه</p></div>
+    </div>
+  </section>
+
+  <!-- 5 communication -->
+  <section class="slide" data-form="icon:megaphone" data-title="۱ · اطلاع‌رسانی">
+    <div class="split">
+      <div class="col">
+        <p class="eyebrow" data-a>۰۱ · اطلاع‌رسانی</p>
+        <h2 class="h-l" data-split style="--d:150ms">پیام، از زبان<br>خود <em>شرکت</em></h2>
+        <div class="chips">
+          <span class="chip" data-a style="--an:pop;--d:900ms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>پیام مدیرعامل</span>
+          <span class="chip" data-a style="--an:pop;--d:1050ms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>کانال‌های داخلی</span>
+          <span class="chip" data-a style="--an:pop;--d:1200ms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>جلسات صبحگاهی</span>
+          <span class="chip" data-a style="--an:pop;--d:1350ms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg>روایت همکاران</span>
+        </div>
+        <div class="ambassador" data-a style="--d:1700ms">
+          <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg></div>
+          <div><h3>سفیر نوآوری</h3><p>یک نفر از منابع انسانی هر شرکت</p></div>
+        </div>
+      </div>
+      <div class="form-box" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 6 calendar -->
+  <section class="slide" data-form="chain" data-title="۱ · اطلاع‌رسانی">
+    <div class="head">
+      <p class="eyebrow" data-a>۰۱ · اطلاع‌رسانی</p>
+      <h2 class="h-m" data-split style="--d:150ms">شش هفته، <em>پنج قدم</em></h2>
+    </div>
+    <div class="chain cal">
+      <div class="node" data-a style="--d:600ms"><p class="when">هفته‌ی ۱</p><div class="dot" data-node></div><p class="lbl">اعلام رسمی</p></div>
+      <div class="node" data-a style="--d:800ms"><p class="when">هفته‌ی ۲</p><div class="dot" data-node></div><p class="lbl">کارگاه ایده</p></div>
+      <div class="node" data-a style="--d:1000ms"><p class="when">هفته‌ی ۳ تا ۵</p><div class="dot" data-node></div><p class="lbl">روایت و یادآوری</p></div>
+      <div class="node" data-a style="--d:1200ms"><p class="when">هفته‌ی ۶</p><div class="dot" data-node></div><p class="lbl">کلینیک ایده</p></div>
+      <div class="node gold" data-a style="--d:1400ms"><p class="when">پس از مهلت</p><div class="dot" data-node></div><p class="lbl">تقدیر از همه</p></div>
+    </div>
+    <p class="lead" data-a style="--d:1800ms">کیت آماده‌ی پیام و پوستر را گلرنگ ونچرز به سفیران می‌دهد</p>
+  </section>
+
+  <!-- 7 barriers -->
+  <section class="slide" data-form="ambient" data-title="۲ · مشارکت">
+    <div class="head">
+      <p class="eyebrow" data-a>۰۲ · مشارکت</p>
+      <h2 class="h-m" data-split style="--d:150ms">چهار جمله‌ی آشنا، <em>چهار پاسخ</em></h2>
+    </div>
+    <div class="rows">
+      <div class="row" style="--d:600ms"><span class="quote" data-a style="--an:fade;--d:600ms">«وقت ندارم»</span><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg><span class="answer">ساعت آزاد نوآوری</span></div>
+      <div class="row" style="--d:1500ms"><span class="quote" data-a style="--an:fade;--d:1500ms">«ایده‌ی من کوچک است»</span><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg><span class="answer">هر ایده‌ی بهبود دیده می‌شود</span></div>
+      <div class="row" style="--d:2400ms"><span class="quote" data-a style="--an:fade;--d:2400ms">«مدیرم حمایت نمی‌کند»</span><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg><span class="answer">مشارکت تیم در ارزیابی مدیر</span></div>
+      <div class="row" style="--d:3300ms"><span class="quote" data-a style="--an:fade;--d:3300ms">«فایده‌ای ندارد»</span><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg><span class="answer">پاسخ به همه، در زمان مشخص</span></div>
+    </div>
+  </section>
+
+  <!-- 8 incentives -->
+  <section class="slide" data-form="ambient" data-title="۲ · مشارکت">
+    <div class="head">
+      <p class="eyebrow" data-a>۰۲ · مشارکت</p>
+      <h2 class="h-m" data-split style="--d:150ms">بسته‌ی تشویقی، <em>چهار حرکت</em></h2>
+    </div>
+    <div class="inc-grid">
+      <div class="quad">
+        <div class="inc" data-a style="--d:600ms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg><h3>دیده‌شدن</h3><p>تقدیر عمومی و گواهی</p></div>
+        <div class="inc" data-a style="--d:800ms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><h3>رشد</h3><p>امتیاز در ارزیابی عملکرد</p></div>
+        <div class="inc" data-a style="--d:1000ms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><h3>زمان</h3><p>ساعت آزاد نوآوری</p></div>
+        <div class="inc" data-a style="--d:1200ms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></svg><h3>پاداش</h3><p>هدیه و پاداش پایلوت</p></div>
+      </div>
+      <div class="people">
+        <div class="crowd" aria-hidden="true">
+          <svg class="one" style="--d:1500ms" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M4 22v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/></svg>
+          <svg data-a style="--an:pop;--d:1560ms" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M4 22v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/></svg>
+          <svg data-a style="--an:pop;--d:1620ms" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M4 22v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/></svg>
+          <svg data-a style="--an:pop;--d:1680ms" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M4 22v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/></svg>
+          <svg data-a style="--an:pop;--d:1740ms" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M4 22v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/></svg>
+          <svg data-a style="--an:pop;--d:1800ms" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M4 22v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/></svg>
+          <svg data-a style="--an:pop;--d:1860ms" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M4 22v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/></svg>
+          <svg data-a style="--an:pop;--d:1920ms" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M4 22v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/></svg>
+          <svg data-a style="--an:pop;--d:1980ms" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M4 22v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/></svg>
+          <svg data-a style="--an:pop;--d:2040ms" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M4 22v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/></svg>
+        </div>
+        <p class="big" data-a style="--d:2600ms"><em>۱ از ۱۰</em></p>
+        <p data-a style="--d:2800ms">هدف پیشنهادی: از هر ده همکار، یک ایده (قابل توافق با هر شرکت)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 platform statement -->
+  <section class="slide" data-form="icon:layers" data-title="۳ · سامانه">
+    <div class="split">
+      <div class="col">
+        <p class="eyebrow" data-a>۰۳ · سامانه‌ی جدید</p>
+        <h2 class="h-xl" data-split style="--d:150ms">جایزه، در لایه‌ی<br><em>هر شرکت</em></h2>
+        <p class="lead" data-a style="--d:1300ms">هر شرکت دور داخلی خودش را دارد؛ بهترین‌ها به سطح گروه می‌آیند</p>
+      </div>
+      <div class="form-box" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 10 flow -->
+  <section class="slide" data-form="chain" data-title="۳ · سامانه">
+    <div class="head">
+      <p class="eyebrow" data-a>۰۳ · سامانه‌ی جدید</p>
+      <h2 class="h-m" data-split style="--d:150ms">مسیر یک ایده</h2>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+      <div class="chain" style="flex:none">
+        <div class="node" data-a style="--an:pop;--d:600ms"><div class="dot" data-node><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></div><p class="lbl">ثبت ایده</p><p class="sub">همکار</p></div>
+        <div class="node" data-a style="--an:pop;--d:850ms"><div class="dot" data-node><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div><p class="lbl">بررسی اولیه</p><p class="sub">سفیر نوآوری</p></div>
+        <div class="node" data-a style="--an:pop;--d:1100ms"><div class="dot" data-node><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14.5 12.5-8 8a2.119 2.119 0 1 1-3-3l8-8"/><path d="m16 16 6-6"/><path d="m8 8 6-6"/><path d="m9 7 8 8"/><path d="m21 11-8-8"/></svg></div><p class="lbl">داوری داخلی</p><p class="sub">داوران شرکت</p></div>
+        <div class="node" data-a style="--an:pop;--d:1350ms"><div class="dot" data-node><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg></div><p class="lbl">برتر شرکت</p><p class="sub">معرفی به گروه</p></div>
+        <div class="node gold" data-a style="--an:pop;--d:1600ms"><div class="dot" data-node><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div><p class="lbl">رقابت و پایلوت</p><p class="sub">گلرنگ ونچرز</p></div>
+      </div>
+      <div class="layers" data-a style="--an:fade;--d:2000ms"><div class="layer company">لایه‌ی شرکت · با مدیریت منابع انسانی</div><div class="layer group">لایه‌ی گروه</div></div>
+    </div>
+  </section>
+
+  <!-- 11 role -->
+  <section class="slide" data-form="icon:usercheck" data-title="۳ · سامانه">
+    <div class="split">
+      <div class="col">
+        <p class="eyebrow" data-a>۰۳ · نقش شما در سامانه</p>
+        <h2 class="h-l" data-split style="--d:150ms">منابع انسانی،<br><em>صاحب فراخوان</em><br>در شرکت</h2>
+        <div class="pills">
+          <span class="pill" data-a style="--an:pop;--d:1300ms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>راه‌اندازی فراخوان</span>
+          <span class="pill" data-a style="--an:pop;--d:1450ms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>تعیین داوران داخلی</span>
+          <span class="pill" data-a style="--an:pop;--d:1600ms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>گزارش به مدیرعامل</span>
+        </div>
+      </div>
+      <div class="form-box" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 12 club -->
+  <section class="slide" data-form="icon:trophy" data-title="۴ · باشگاه نوآوری">
+    <div class="split">
+      <div class="col">
+        <p class="eyebrow" data-a>۰۴ · باشگاه نوآوری</p>
+        <h2 class="h-l" data-split style="--d:150ms">رابطه با ایده‌پرداز،<br>با اعلام نتایج<br><em>تمام نمی‌شود</em></h2>
+        <div class="pills">
+          <span class="pill" data-a style="--an:pop;--d:1400ms">دیده‌شدن</span>
+          <span class="pill" data-a style="--an:pop;--d:1550ms">پشتیبانی</span>
+          <span class="pill on" data-a style="--an:pop;--d:1700ms">رشد</span>
+        </div>
+      </div>
+      <div class="form-box" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 13 perks -->
+  <section class="slide" data-form="ambient" data-title="۴ · باشگاه نوآوری">
+    <div class="head">
+      <p class="eyebrow" data-a>۰۴ · باشگاه نوآوری</p>
+      <h2 class="h-m" data-split style="--d:150ms">مزایای اعضا، <em>سهم هر طرف</em></h2>
+    </div>
+    <div class="cols">
+      <div class="perk-col">
+        <p class="col-h co" data-a style="--an:pop;--d:500ms">سهم شرکت محل خدمت</p>
+        <ul class="list co">
+          <li data-a style="--an:fromSide;--d:700ms">فوق‌العاده‌ی نوآوری</li>
+          <li data-a style="--an:fromSide;--d:820ms">وام تا ۳٫۵ برابر پایه‌ی حقوق</li>
+          <li data-a style="--an:fromSide;--d:940ms">کارت اعتباری تارا</li>
+          <li data-a style="--an:fromSide;--d:1060ms">همه‌ی آموزش‌های گروه</li>
+          <li data-a style="--an:fromSide;--d:1180ms">یک روز کنار مدیر ارشد</li>
+        </ul>
+      </div>
+      <div class="perk-col">
+        <p class="col-h gv" data-a style="--an:pop;--d:1300ms">سهم گلرنگ ونچرز و گروه</p>
+        <ul class="list">
+          <li data-a style="--an:fromSide;--d:1500ms">لوح، بج و کارت عضویت</li>
+          <li data-a style="--an:fromSide;--d:1620ms">تگ نوآوری در «گلرنگ من»</li>
+          <li data-a style="--an:fromSide;--d:1740ms">تست محصول استارتاپ‌ها</li>
+          <li data-a style="--an:fromSide;--d:1860ms">روز خانوادگی در کوروش</li>
+          <li data-a style="--an:fromSide;--d:1980ms">سفر به رویداد بین‌المللی</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 dashboard -->
+  <section class="slide" data-form="ambient" data-title="۵ · داشبورد" id="dash-slide">
+    <div class="head">
+      <p class="eyebrow" data-a>۰۵ · داشبورد زنده</p>
+      <h2 class="h-m" data-split style="--d:150ms">همه‌ی شرکت‌ها، <em>در یک نگاه</em></h2>
+    </div>
+    <div class="dash">
+      <div class="kpis">
+        <div class="kpi hl" data-a style="--d:500ms"><div class="v" data-n="248">۲۴۸</div><div class="l">ایده‌ی ثبت‌شده</div></div>
+        <div class="kpi" data-a style="--d:620ms"><div class="v" data-n="18">۱۸</div><div class="l">شرکت فعال</div></div>
+        <div class="kpi" data-a style="--d:740ms"><div class="v" data-n="6.4" data-s="٪">۶٫۴٪</div><div class="l">نرخ مشارکت همکاران</div></div>
+        <div class="kpi" data-a style="--d:860ms"><div class="v" data-n="52">۵۲</div><div class="l">در حال داوری</div></div>
+      </div>
+      <div class="panels">
+        <div class="panel" data-a style="--d:1000ms"><h3>ایده‌ها به تفکیک شرکت <span class="live"><i></i>زنده</span></h3><div id="bars"></div></div>
+        <div class="panel" data-a style="--d:1150ms"><h3>قیف ایده‌ها</h3><div class="funnel" id="funnel"></div></div>
+      </div>
+    </div>
+    <p class="sample" data-a style="--an:fade;--d:1600ms">داده‌ها نمونه است · نسخه‌ی زنده در حال تکمیل</p>
+  </section>
+
+  <!-- 15 ask -->
+  <section class="slide" data-form="ambient" data-title="جمع‌بندی">
+    <div class="head">
+      <p class="eyebrow" data-a>جمع‌بندی</p>
+      <h2 class="h-m" data-split style="--d:150ms">از شما <em>چه می‌خواهیم</em></h2>
+    </div>
+    <div class="ask-grid">
+      <ol class="asks">
+        <li data-a style="--an:fromSide;--d:600ms"><span class="n">۱</span>معرفی سفیر نوآوری</li>
+        <li data-a style="--an:fromSide;--d:800ms"><span class="n">۲</span>اجرای تقویم اطلاع‌رسانی</li>
+        <li data-a style="--an:fromSide;--d:1000ms"><span class="n">۳</span>تصویب بسته‌ی تشویقی</li>
+        <li data-a style="--an:fromSide;--d:1200ms"><span class="n">۴</span>راه‌اندازی سامانه در شرکت</li>
+        <li data-a style="--an:fromSide;--d:1400ms"><span class="n">۵</span>تأمین مزایای باشگاه</li>
+      </ol>
+      <div class="next" data-a style="--an:pop;--d:1800ms">
+        <p class="k">گام بعدی</p>
+        <h3>جلسه‌ی سفیران نوآوری</h3>
+        <p>[تاریخ و محل]</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16 end -->
+  <section class="slide" data-form="text:سپاس" data-title="پایان">
+    <div class="split">
+      <div class="col">
+        <p class="eyebrow" data-a>رویداد تراست · گلرنگ ونچرز</p>
+        <h2 class="h-l" data-split style="--d:150ms">نوآوری از آدم‌ها<br>شروع می‌شود</h2>
+        <p class="h-m" data-split style="--d:1100ms"><em>و آدم‌ها، با شما</em></p>
+        <div class="qr" data-a style="--d:1700ms">
+          <div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></div>
+          <p>[QR سامانه]<br>[نام ارائه‌دهنده] · [ایمیل]</p>
+        </div>
+      </div>
+      <div class="form-box" aria-hidden="true"></div>
+    </div>
+  </section>
+</main>
+
+<div class="hud" id="hud">
+  <div class="progress"><i id="prog"></i></div>
+  <div class="hud-in">
+    <span class="count" id="count">۰۱ / ۱۶</span>
+    <span id="sec">شروع</span>
+    <span class="sp"></span>
+    <span class="hint">فاصله یا کلیک: بعدی · N: یادداشت · F: تمام‌صفحه</span>
+    <button type="button" id="btn-notes" aria-pressed="false"><span class="txt">یادداشت</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg></button>
+    <button type="button" id="btn-fs" aria-label="تمام‌صفحه"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg></button>
+    <button type="button" id="btn-prev" aria-label="اسلاید قبل"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+    <button type="button" id="btn-next" aria-label="اسلاید بعد"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+  </div>
+</div>
+<aside class="notes" id="notes" hidden></aside>
+
+<script>
+(() => {
+  const NOTES = [
+    "<b>۱ دقیقه.</b> خوشامد و معرفی کوتاه. پیام اصلی: جایزه نوآوری بدون همراهی منابع انسانی فقط یک رویداد سالانه است؛ با همراهی شما بخشی از فرهنگ کار در هر شرکت می‌شود. در ۳۰ دقیقه می‌گوییم دقیقاً چه کمکی می‌خواهیم و چه ابزارهایی در اختیارتان می‌گذاریم.",
+    "<b>۱ دقیقه.</b> ایده‌های خوب از دل کار روزمره‌ی همکاران بیرون می‌آیند. جایزه ایده‌ها را پیدا و داوری می‌کند؛ رساندن پیام به همکاران و ساختن انگیزه کار منابع انسانی است.",
+    "<b>۲ دقیقه.</b> دسترسی: منابع انسانی تنها واحدی است که با تک‌تک همکاران، از خط تولید تا دفتر، در ارتباط است. انگیزه: ارزیابی عملکرد، پاداش، آموزش و مسیر شغلی دست شماست. فرهنگ: نوآوری وقتی ماندگار می‌شود که بخشی از روال کار باشد، نه یک رویداد در سال.",
+    "<b>۱ دقیقه.</b> نقشه‌ی ارائه. چون همه با جایزه آشنا هستند، مستقیم سراغ نقش منابع انسانی می‌رویم و در پایان یک درخواست مشخص داریم (۳ دقیقه).",
+    "<b>۳ دقیقه.</b> پیام از زبان خود شرکت، نه فقط بخشنامه: پیام یا ویدئوی یک‌دقیقه‌ای مدیرعامل؛ پیام‌رسان سازمانی، اینترانت و «گلرنگ من»؛ پنج دقیقه معرفی در جلسات صبحگاهی توسط خود مدیر؛ روایت همکارانی که ایده‌شان اجرا شده. به‌علاوه پوستر و QR در محل کار و یک اسلاید ثابت در آموزش‌ها. پیشنهاد اصلی: هر شرکت یک «سفیر نوآوری» از منابع انسانی معرفی کند که مالک اطلاع‌رسانی است، به سؤال همکاران جواب می‌دهد و رابط با گلرنگ ونچرز است.",
+    "<b>۲ دقیقه.</b> ریتم شش‌هفته‌ای از تاریخ فراخوان، تنظیم‌شده با تقویم هر شرکت. هفته‌ی ۱ اعلام رسمی؛ هفته‌ی ۲ کارگاه یک‌ساعته‌ی «از مسئله تا ایده»؛ هفته‌ی ۳ تا ۵ هر هفته یک داستان یا مسئله‌ی باز؛ هفته‌ی ۶ کلینیک ایده برای تکمیل فرم؛ پس از مهلت پاسخ و تقدیر از همه، نه فقط برندگان.",
+    "<b>۳ دقیقه.</b> «وقت ندارم»: چند ساعت در ماه برای کار روی ایده، با هماهنگی مدیر. «ایده‌ی من کوچک است»: ایده‌های بهبود هم پذیرفته می‌شوند. «مدیرم حمایت نمی‌کند»: مشارکت تیم یکی از شاخص‌های ارزیابی مدیر شود. «فایده‌ای ندارد»: به هر ایده در زمان مشخص پاسخ داده شود. از حضار بپرسید: در شرکت شما کدام پررنگ‌تر است؟",
+    "<b>۳ دقیقه.</b> دیده‌شدن: تقدیر در جلسه‌ی عمومی، گواهی برای همه، معرفی در کانال‌ها. رشد: امتیاز در ارزیابی عملکرد و اولویت در آموزش. زمان: ساعت آزاد نوآوری. پاداش: هدیه برای هر ایده‌ی کامل و پاداش برای ایده‌های پایلوت‌شده. هدف پیشنهادی ۱۰٪ است و با هر شرکت توافق می‌شود.",
+    "<b>۱ دقیقه.</b> سامانه‌ی [نام سامانه]: جایزه به لایه‌ی شرکت‌ها می‌رود. ایده‌ها نزدیک به محل کار بررسی می‌شوند، همکاران سریع‌تر جواب می‌گیرند و هر شرکت مالک نوآوری خودش است.",
+    "<b>۲ دقیقه.</b> چهار مرحله داخل شرکت و با مدیریت منابع انسانی: ثبت ایده از موبایل یا رایانه، بررسی اولیه توسط سفیر، داوری داخلی با معیارهای یکسان، معرفی ایده‌های برتر به گروه. در لایه‌ی گروه، گلرنگ ونچرز داوری نهایی، حمایت و پایلوت را انجام می‌دهد.",
+    "<b>۲ دقیقه.</b> نقش منابع انسانی: صاحب فراخوان در شرکت. راه‌اندازی فراخوان، تعیین داوران داخلی، پیگیری مشارکت و گزارش به مدیرعامل. سامانه کار اجرایی را ساده می‌کند: فرم ساده، یادآوری خودکار، گزارش آماده. اگر نسخه‌ی آزمایشی آماده است، دموی کوتاه نشان بدهید.",
+    "<b>۲ دقیقه.</b> جایزه ایده‌پردازان را پیدا می‌کند و باشگاه این رابطه را ادامه می‌دهد: جایی که دیده شوند، پشتیبانی بگیرند، رشد کنند و ایده‌ی بعدی را با انگیزه‌ی بیشتر بیاورند.",
+    "<b>۲ دقیقه.</b> همه‌ی اعضا این مزایا را فقط با عضویت می‌گیرند. ستون راست سهم شرکت محل خدمت است؛ همان جایی که تصمیم منابع انسانی لازم است. جایزه‌ی سالانه: اعزام نفر اول جدول امتیاز به رویدادی مانند جیتکس، وب‌سامیت یا اسلاش.",
+    "<b>۳ دقیقه.</b> اعداد نمونه است. داشبورد سه کار می‌کند: جایگاه شرکت شما در مقایسه با بقیه، نشان دادن گلوگاه‌ها (ثبت، داوری یا پاسخ‌دهی)، و گزارش آماده برای مدیرعامل. دسترسی پیشنهادی: هر شرکت داده‌ی جزئی خودش را می‌بیند؛ نمای کلی گروه برای همه.",
+    "<b>۳ دقیقه.</b> پنج کار مشخص. اگر فقط یک چیز در ذهنتان بماند: معرفی سفیر نوآوری تا [تاریخ]. در جلسه‌ی سفیران، کیت اطلاع‌رسانی و دسترسی سامانه تحویل داده می‌شود.",
+    "پایان و پرسش و پاسخ. QR را به لینک سامانه یا فرم معرفی سفیر وصل کنید."
+  ];
+
+  const FA = "۰۱۲۳۴۵۶۷۸۹";
+  const fa = (v) => String(v).replace(/\d/g, (d) => FA[d]).replace(".", "٫");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const stage = document.getElementById("stage");
+  const slides = [...stage.querySelectorAll(".slide")];
+  const total = slides.length;
+
+  /* ---------- word split for kinetic headings ---------- */
+  slides.forEach((sl) => {
+    sl.querySelectorAll("[data-split]").forEach((el) => {
+      let i = 0;
+      const walk = (node) => {
+        [...node.childNodes].forEach((ch) => {
+          if (ch.nodeType === 3) {
+            const parts = ch.textContent.split(/(\s+)/);
+            const frag = document.createDocumentFragment();
+            parts.forEach((pt) => {
+              if (!pt) return;
+              if (/^\s+$/.test(pt)) { frag.appendChild(document.createTextNode(pt)); return; }
+              const s = document.createElement("span");
+              s.className = "w"; s.textContent = pt; s.style.setProperty("--i", i++);
+              frag.appendChild(s);
+            });
+            ch.replaceWith(frag);
+          } else if (ch.nodeType === 1 && ch.tagName !== "BR") walk(ch);
+        });
+      };
+      walk(el);
+    });
+  });
+
+  /* ---------- stage scaling ---------- */
+  const cv = document.getElementById("field");
+  const ctx = cv.getContext("2d");
+  let S = 1, OX = 0, OY = 0, DPR = 1, VW = 0, VH = 0;
+  function layout() {
+    VW = innerWidth; VH = innerHeight;
+    const hud = 60;
+    S = Math.min((VW - 32) / 1920, (VH - hud - 12) / 1080);
+    OX = (VW - 1920 * S) / 2;
+    OY = Math.max(6, (VH - hud - 1080 * S) / 2);
+    stage.style.transform = `translate(${OX}px,${OY}px) scale(${S})`;
+    DPR = Math.min(2, devicePixelRatio || 1);
+    cv.width = Math.round(VW * DPR); cv.height = Math.round(VH * DPR);
+    cache.clear();
+  }
+
+  /* ---------- particle field ---------- */
+  const ICONS = {
+    bulb: ["M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5", "M9 18h6", "M10 22h4"],
+    megaphone: ["m3 11 18-5v12L3 14v-3z", "M11.6 16.8a3 3 0 1 1-5.8-1.6"],
+    layers: ["m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z", "m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65", "m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"],
+    usercheck: ["M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", "M5 7a4 4 0 1 0 8 0a4 4 0 1 0-8 0", "M16 11l2 2l4-4"],
+    trophy: ["M6 9H4.5a2.5 2.5 0 0 1 0-5H6", "M18 9h1.5a2.5 2.5 0 0 0 0-5H18", "M4 22h16", "M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22", "M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22", "M18 2H6v7a6 6 0 0 0 12 0V2Z"]
+  };
+  const GOLDISH = { trophy: .55, "text": .5, bulb: .35 };
+
+  const N = Math.round(Math.max(700, Math.min(1700, innerWidth * innerHeight / 1000)));
+  const P = [];
+  for (let i = 0; i < N; i++) {
+    P.push({ x: Math.random() * 1920, y: Math.random() * 1080, vx: 0, vy: 0, tx: Math.random() * 1920, ty: Math.random() * 1080,
+      r: 2.2 + Math.random() * 3.2, c: Math.random() < .14 ? 2 : (Math.random() < .5 ? 1 : 0), a: 0, ta: .3, ph: Math.random() * 6.28,
+      seg: -1, u: 0, sp: 0, form: false });
+  }
+  function sprite(rgb) {
+    const s = document.createElement("canvas"); s.width = s.height = 64;
+    const g = s.getContext("2d"); const gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    gr.addColorStop(0, `rgba(${rgb},1)`); gr.addColorStop(.18, `rgba(${rgb},.85)`); gr.addColorStop(.45, `rgba(${rgb},.22)`); gr.addColorStop(1, `rgba(${rgb},0)`);
+    g.fillStyle = gr; g.fillRect(0, 0, 64, 64); return s;
+  }
+  const SPR = [sprite("110,150,255"), sprite("205,220,255"), sprite("255,182,39")];
+
+  const cache = new Map();
+  const rectOf = (el) => { let x = 0, y = 0, n = el; while (n && n !== stage) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; } return { x, y, w: el.offsetWidth, h: el.offsetHeight }; };
+  function samplePoints(draw, box, step) {
+    const c = document.createElement("canvas"); c.width = Math.ceil(box.w); c.height = Math.ceil(box.h);
+    const g = c.getContext("2d"); draw(g, c.width, c.height);
+    const d = g.getImageData(0, 0, c.width, c.height).data; const pts = [];
+    for (let y = 0; y < c.height; y += step) for (let x = 0; x < c.width; x += step) {
+      if (d[(y * c.width + x) * 4 + 3] > 120) pts.push({ x: box.x + x + (Math.random() - .5) * step * .6, y: box.y + y + (Math.random() - .5) * step * .6 });
+    }
+    return pts;
+  }
+  function buildForm(idx) {
+    if (cache.has(idx)) return cache.get(idx);
+    const sl = slides[idx]; const spec = sl.dataset.form || "ambient";
+    const [kind, arg] = spec.split(":");
+    const out = { pts: [], segs: [], gold: .14, alpha: .9 };
+    if (kind === "icon" || kind === "text") {
+      const box = rectOf(sl.querySelector(".form-box"));
+      let step = 6, pts = [];
+      const draw = (g, w, h) => {
+        g.strokeStyle = g.fillStyle = "#fff"; g.lineCap = g.lineJoin = "round";
+        if (kind === "icon") {
+          const sc = Math.min(w, h) / 24 * .86; g.translate((w - 24 * sc) / 2, (h - 24 * sc) / 2); g.scale(sc, sc); g.lineWidth = 1.45;
+          ICONS[arg].forEach((d) => g.stroke(new Path2D(d)));
+        } else {
+          g.direction = "rtl"; g.textAlign = "center"; g.textBaseline = "middle";
+          let fs = 340; g.font = `900 ${fs}px Vazirmatn, Tahoma, sans-serif`;
+          const m = g.measureText(arg).width; if (m > w * .92) { fs *= w * .92 / m; g.font = `900 ${fs}px Vazirmatn, Tahoma, sans-serif`; }
+          g.fillText(arg, w / 2, h / 2);
+        }
+      };
+      for (let k = 0; k < 4; k++) { pts = samplePoints(draw, box, step); if (pts.length <= N * 1.25) break; step += 2; }
+      out.pts = pts; out.gold = GOLDISH[kind === "text" ? "text" : arg] ?? .16;
+    } else if (kind === "rings" || kind === "chain") {
+      const nodes = [...sl.querySelectorAll("[data-node]")].map(rectOf).map((r) => ({ cx: r.x + r.w / 2, cy: r.y + r.h / 2, rad: Math.max(r.w, r.h) / 2 + (kind === "rings" ? 4 : 9) }));
+      const perRing = Math.floor(N * (kind === "rings" ? .78 : .42) / nodes.length);
+      nodes.forEach((n) => { for (let i = 0; i < perRing; i++) { const t = Math.random() * 6.283, rr = n.rad + (Math.random() - .5) * (kind === "rings" ? 26 : 10); out.pts.push({ x: n.cx + Math.cos(t) * rr, y: n.cy + Math.sin(t) * rr }); } });
+      if (kind === "chain") for (let i = 0; i < nodes.length - 1; i++) {
+        const a = nodes[i], b = nodes[i + 1]; const dx = b.cx - a.cx, dy = b.cy - a.cy, L = Math.hypot(dx, dy);
+        out.segs.push({ ax: a.cx + dx / L * a.rad, ay: a.cy + dy / L * a.rad, bx: b.cx - dx / L * b.rad, by: b.cy - dy / L * b.rad });
+      }
+      out.gold = kind === "rings" ? .18 : .22;
+    } else if (kind === "stars") {
+      for (let i = 0; i < N; i++) out.pts.push({ x: Math.random() * 1920, y: Math.random() * 1080 });
+      out.alpha = .42; out.gold = .2;
+    }
+    cache.set(idx, out); return out;
+  }
+  function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  let SEGS = [];
+  function applyForm(idx, burst) {
+    const f = buildForm(idx); SEGS = f.segs;
+    const pts = shuffle(f.pts.slice()); const order = shuffle(P.slice());
+    const segShare = f.segs.length ? Math.floor(N * .4) : 0;
+    let k = 0;
+    order.forEach((p, i) => {
+      p.seg = -1; p.form = false;
+      if (i < pts.length && i < N - segShare) {
+        const q = pts[i]; p.tx = q.x; p.ty = q.y; p.form = true; p.ta = f.alpha * (.55 + Math.random() * .45);
+        p.c = Math.random() < f.gold ? 2 : (Math.random() < .55 ? 1 : 0);
+      } else if (k < segShare) {
+        p.seg = k % f.segs.length; p.u = Math.random(); p.sp = .0022 + Math.random() * .0035; p.form = true; p.ta = .85;
+        p.c = Math.random() < .35 ? 2 : 1; k++;
+      } else {
+        p.tx = Math.random() * 1920; p.ty = Math.random() * 1080; p.ta = .16 + Math.random() * .2; p.c = Math.random() < .1 ? 2 : 0;
+      }
+      if (burst && !reduce) { const t = Math.random() * 6.283, v = 8 + Math.random() * 22; p.vx += Math.cos(t) * v; p.vy += Math.sin(t) * v; }
+    });
+  }
+
+  let mx = -9999, my = -9999;
+  addEventListener("pointermove", (e) => { mx = (e.clientX - OX) / S; my = (e.clientY - OY) / S; }, { passive: true });
+  addEventListener("pointerleave", () => { mx = my = -9999; });
+
+  let last = performance.now(), running = true;
+  function frame(now) {
+    if (!running) return;
+    const dt = Math.min(2.5, (now - last) / 16.67); last = now;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = "rgba(5,10,26,0.34)"; ctx.fillRect(0, 0, cv.width, cv.height);
+    ctx.globalCompositeOperation = "lighter";
+    const t = now * .001, R2 = 140 * 140;
+    for (const p of P) {
+      let tx, ty;
+      if (p.seg >= 0 && SEGS[p.seg]) {
+        const s = SEGS[p.seg]; p.u += p.sp * dt; if (p.u > 1) p.u -= 1;
+        tx = s.ax + (s.bx - s.ax) * p.u; ty = s.ay + (s.by - s.ay) * p.u + Math.sin(p.u * 18 + p.ph) * 5;
+      } else {
+        tx = p.tx; ty = p.ty;
+        if (!p.form) { tx += Math.sin(t * .23 + p.ph) * 60; ty += Math.cos(t * .19 + p.ph * 1.3) * 45; }
+        else if (!reduce) { tx += Math.sin(t * 1.3 + p.ph) * 2.2; ty += Math.cos(t * 1.1 + p.ph) * 2.2; }
+      }
+      const dx = p.x - mx, dy = p.y - my, d2 = dx * dx + dy * dy;
+      if (d2 < R2 && !reduce) { const d = Math.sqrt(d2) + .01, f = (1 - d2 / R2) * 3.2; p.vx += dx / d * f; p.vy += dy / d * f; }
+      const k = p.form ? .022 : .006;
+      p.vx = (p.vx + (tx - p.x) * k * dt) * Math.pow(.86, dt); p.vy = (p.vy + (ty - p.y) * k * dt) * Math.pow(.86, dt);
+      p.x += p.vx * dt; p.y += p.vy * dt;
+      p.a += (p.ta - p.a) * .05 * dt;
+      const tw = p.form ? 1 : (.6 + .4 * Math.sin(t * 2 + p.ph * 3));
+      const sz = p.r * S * DPR * (p.form ? 2.6 : 2.1);
+      ctx.globalAlpha = Math.max(0, p.a * tw);
+      ctx.drawImage(SPR[p.c], (OX + p.x * S) * DPR - sz, (OY + p.y * S) * DPR - sz, sz * 2, sz * 2);
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(frame);
+  }
+  document.addEventListener("visibilitychange", () => { if (document.hidden) running = false; else if (!running) { running = true; last = performance.now(); requestAnimationFrame(frame); } });
+
+  /* ---------- dashboard ---------- */
+  const CO = [["شرکت الف", 46], ["شرکت ب", 39], ["شرکت ج", 33], ["شرکت د", 27], ["شرکت ه", 21], ["شرکت و", 14]];
+  const FU = [["ثبت‌شده", 248], ["داوری داخلی", 120], ["برتر شرکت‌ها", 36], ["فینال گروه", 12], ["پایلوت", 4]];
+  const barsEl = document.getElementById("bars"), funEl = document.getElementById("funnel");
+  CO.forEach((c) => { const r = document.createElement("div"); r.className = "bar"; r.innerHTML = `<span>${c[0]}</span><div class="t"><div class="f"></div></div><b>${fa(c[1])}</b>`; barsEl.appendChild(r); });
+  FU.forEach((f) => { const r = document.createElement("div"); r.className = "fs"; r.innerHTML = `<span>${f[0]}</span><b>${fa(f[1])}</b>`; funEl.appendChild(r); });
+  function dashDraw() {
+    const mxv = Math.max(...CO.map((c) => c[1])) * 1.08;
+    [...barsEl.children].forEach((r, i) => { r.querySelector(".f").style.width = (CO[i][1] / mxv * 100) + "%"; r.querySelector("b").textContent = fa(CO[i][1]); });
+    [...funEl.children].forEach((r, i) => { r.style.width = (40 + 60 * Math.sqrt(FU[i][1] / FU[0][1])) + "%"; r.querySelector("b").textContent = fa(FU[i][1]); });
+  }
+  let dashTimer = null;
+  function dashStart() {
+    barsEl.querySelectorAll(".f").forEach((b) => (b.style.width = "0")); [...funEl.children].forEach((r) => (r.style.width = "0"));
+    document.querySelectorAll("#dash-slide .v").forEach((el) => {
+      const n = parseFloat(el.dataset.n), s = el.dataset.s || "", dec = el.dataset.n.includes("."); const t0 = performance.now(), D = reduce ? 1 : 1800;
+      const st = (now) => { const k = Math.min(1, (now - t0) / D), e = 1 - Math.pow(1 - k, 3), v = n * e; el.textContent = fa(dec ? v.toFixed(1) : Math.round(v)) + s; if (k < 1) requestAnimationFrame(st); };
+      setTimeout(() => requestAnimationFrame(st), 500);
+    });
+    setTimeout(dashDraw, 1100);
+    clearInterval(dashTimer);
+    dashTimer = setInterval(() => {
+      const i = (Math.random() * CO.length) | 0; CO[i][1]++; FU[0][1]++;
+      const v = document.querySelector("#dash-slide .kpi.hl .v"); v.dataset.n = String(FU[0][1]); v.textContent = fa(FU[0][1]);
+      v.parentElement.animate([{ transform: "scale(1.04)" }, { transform: "scale(1)" }], { duration: 500 });
+      dashDraw();
+    }, 3000);
+  }
+  dashDraw();
+
+  /* ---------- navigation ---------- */
+  const countEl = document.getElementById("count"), secEl = document.getElementById("sec"), progEl = document.getElementById("prog");
+  const notesEl = document.getElementById("notes"), notesBtn = document.getElementById("btn-notes");
+  let cur = 0;
+  function show(n, burst = true) {
+    n = Math.max(0, Math.min(total - 1, n));
+    if (n !== cur || !slides[n].classList.contains("is-active")) {
+      const old = slides[cur];
+      old.classList.remove("is-active"); old.classList.add("is-leaving");
+      setTimeout(() => old.classList.remove("is-leaving"), 600);
+      slides[n].classList.add("is-active");
+    }
+    cur = n;
+    applyForm(n, burst);
+    countEl.textContent = `${fa(String(n + 1).padStart(2, "0"))} / ${fa(total)}`;
+    secEl.textContent = slides[n].dataset.title || "";
+    progEl.style.width = ((n + 1) / total * 100) + "%";
+    notesEl.innerHTML = NOTES[n] || "";
+    if (slides[n].id === "dash-slide") dashStart(); else clearInterval(dashTimer);
+    try { history.replaceState(null, "", "#slide-" + (n + 1)); } catch (e) {}
+  }
+  const next = () => show(cur + 1), prev = () => show(cur - 1);
+  addEventListener("keydown", (e) => {
+    if (e.target.closest && e.target.closest("button") && (e.key === " " || e.key === "Enter")) return;
+    const k = e.key;
+    if (["ArrowRight", "ArrowDown", "PageDown", " ", "Enter"].includes(k)) { e.preventDefault(); next(); }
+    else if (["ArrowLeft", "ArrowUp", "PageUp", "Backspace"].includes(k)) { e.preventDefault(); prev(); }
+    else if (k === "Home") show(0); else if (k === "End") show(total - 1);
+    else if (k === "n" || k === "N" || k === "ی") toggleNotes();
+    else if (k === "f" || k === "F" || k === "ب") toggleFs();
+  });
+  document.getElementById("btn-next").addEventListener("click", next);
+  document.getElementById("btn-prev").addEventListener("click", prev);
+  function toggleNotes() { notesEl.hidden = !notesEl.hidden; notesBtn.setAttribute("aria-pressed", String(!notesEl.hidden)); }
+  notesBtn.addEventListener("click", toggleNotes);
+  function toggleFs() {
+    try { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(() => {}); } catch (e) {}
+  }
+  document.getElementById("btn-fs").addEventListener("click", toggleFs);
+  stage.addEventListener("click", (e) => { if (!e.target.closest("button,a")) next(); });
+  let sx = null;
+  addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; }, { passive: true });
+  addEventListener("touchend", (e) => { if (sx == null) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) (dx > 0 ? next : prev)(); sx = null; });
+  addEventListener("hashchange", () => { const m = location.hash.match(/slide-(\d+)/); if (m) show(+m[1] - 1); });
+  addEventListener("resize", () => { layout(); applyForm(cur, false); });
+
+  layout();
+  const m0 = location.hash.match(/slide-(\d+)/);
+  const start = m0 ? Math.max(0, Math.min(total - 1, +m0[1] - 1)) : 0;
+  if (start !== 0) { slides[0].classList.remove("is-active"); slides[start].classList.add("is-active"); cur = start; }
+  show(start, false);
+  requestAnimationFrame(frame);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { cache.clear(); applyForm(cur, false); });
+})();
+</script>
